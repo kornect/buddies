@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body  {
+  font-family: 'Rubik', sans-serif;
+}
+
+// Buttons
+.button {
+  @apply font-medium px-4 py-2 text-center rounded-md flex items-center justify-center text-gray-500 hover:text-gray-800 bg-gray-100 hover:bg-gray-300 focus:outline-none;
+}
+
+.button-flat {
+  @apply px-4 py-2 font-medium text-center rounded-md flex items-center justify-center focus:outline-none;
+}
+
+.button-cancel {
+  @apply px-4 py-2 font-medium text-center rounded-md flex items-center justify-center focus:outline-none hover:bg-gray-100;
+}
+
+.button-primary {
+  @apply px-4 py-2 text-gray-50 font-medium text-center rounded-md flex items-center justify-center focus:outline-none bg-gradient-to-r from-red-500 to-pink-400;
+}
+
+.button-group {
+  @apply flex;
+}
+.button-group > :first-child {
+  @apply px-4 py-2 text-gray-50 font-medium text-center rounded-l-lg focus:outline-none bg-gradient-to-r from-red-500 to-pink-400;
+}
+
+.button-group > :last-child {
+  @apply px-4 py-2 font-medium text-center rounded-r-lg flex bg-gray-200 hover:bg-gray-300 focus:outline-none;
+}
+
+.button-primary:disabled,
+.button:disabled {
+  @apply cursor-not-allowed;
+}
+
+// Input forms
+.form-field {
+  @apply relative z-0 w-full bg-gray-100 rounded-md;
+}
+
+.form-field > input,
+.form-field > textarea,
+.form-field > select {
+  @apply block w-full px-3 pt-2 pb-2 mt-0 bg-transparent rounded-md border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:ring-blue-100;
+}
+
+.form-field > label {
+  @apply absolute px-3 text-gray-500 duration-300 top-2 -z-1 origin-0;
+}
+
+.form-error {
+  @apply px-3 text-xs text-red-600;
+}
+
+.form-field > input:focus ~ label,
+.form-field > input:not(:placeholder-shown) ~ label,
+.form-field > textarea:focus ~ label,
+.form-field > textarea:not(:placeholder-shown) ~ label,
+.form-field > select:focus ~ label,
+.form-field > select:not([value='']):valid ~ label {
+  /* @apply transform; scale-75; -translate-y-6; */
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
+  skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  --tw-scale-x: 0.75;
+  --tw-scale-y: 0.75;
+  --tw-translate-y: -1.5rem;
+}
+
+.form-field > input:focus ~ label,
+.form-field > select:focus ~ label {
+  /* @apply text-gray-800; left-0; */
+  --tw-text-opacity: 1;
+  color: rgba(0, 0, 0, var(--tw-text-opacity));
+  left: 0px;
+}

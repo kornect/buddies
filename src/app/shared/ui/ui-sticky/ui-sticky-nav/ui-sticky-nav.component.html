@@ -1,0 +1,8 @@
+<app-ui-sticky (stickyChanged)='stickyChanged($event)'>
+  <div [ngClass]="{'items-center shadow': isSticky }"
+       class='w-full bg-white flex flex-col transition ease-in-out delay-150 border-b'>
+    <div [ngClass]="{'lg:w-8/12': isSticky }" class='px-4 py-2'>
+      <ng-content></ng-content>
+    </div>
+  </div>
+</app-ui-sticky>

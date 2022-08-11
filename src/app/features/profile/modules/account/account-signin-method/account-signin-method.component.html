@@ -1,0 +1,9 @@
+<ng-container *ngIf='{ user: user$ | async } as state'>
+  <div class='bg-white rounded-md'>
+    <div class='py-5 px-5 border-b'>
+      <h3 class='text-base font-medium'>Sign-in Method</h3>
+    </div>
+    <app-account-email [user]='state.user'></app-account-email>
+    <app-account-password [user]='state.user'></app-account-password>
+  </div>
+</ng-container>

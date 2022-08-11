@@ -1,0 +1,96 @@
+<ng-container *ngIf="{ user: user$ | async } as data">
+  <div class="h-full w-full flex flex-col">
+
+      <header class="w-full flex flex-col items-center flex-none bg-white dark:text-gray-300 dark:border-gray-800 dark:bg-gray-800">
+          <div class="flex items-center py-2 w-full lg:w-8/12">
+            <div class='flex-none w-64'>
+              <app-ui-logo></app-ui-logo>
+            </div>
+            <div class='grow px-2'>
+              <nav class='flex space-x-3'>
+                <a [routerLink]="'members'" [routerLinkActive]="'bg-gray-100 dark:bg-gray-700'" nz-dropdown [nzDropdownMenu]="members" [nzPlacement]="'bottomLeft'" class='px-3 py-3 dark:hover:bg-gray-700 hover:bg-gray-100 rounded-md'>Members</a>
+                <a [routerLink]="'messages'" [routerLinkActive]="'bg-gray-100 dark:bg-gray-700'" class='px-3 py-3 dark:hover:bg-gray-700 hover:bg-gray-100 rounded-md'>
+                  <nz-badge [nzCount]="5">
+                    <span class='text-gray-700 dark:text-gray-300'>Messages</span>
+                  </nz-badge>
+                </a>
+                <a [routerLink]="'profile'" [routerLinkActive]="'bg-gray-100 dark:bg-gray-700'" class='px-3 py-3 dark:hover:bg-gray-700 hover:bg-gray-100 rounded-md'>Profile</a>
+              </nav>
+            </div>
+            <div class='flex space-x-4 items-center'>
+              <a class='hover:bg-gray-100 dark:hover:bg-gray-700 px-3 py-3 rounded-md' nz-dropdown [nzDropdownMenu]="theme" [nzPlacement]="'bottomRight'">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                </svg>
+              </a>
+              <a class='hover:bg-gray-100 dark:hover:bg-gray-700 px-2 py-2 rounded-md' nz-dropdown [nzDropdownMenu]="menu" [nzPlacement]="'bottomRight'">
+                <app-current-user [user]="data.user"></app-current-user>
+              </a>
+            </div>
+          </div>
+      </header>
+
+
+    <main class="w-full h-screen flex flex-col items-center grow pb-4">
+      <div class="w-full lg:w-8/12 rounded-b-md">
+        <app-breadcrumbs></app-breadcrumbs>
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+
+
+  <!-- Drop Downs -->
+  <nz-dropdown-menu #members="nzDropdownMenu">
+    <div nz-menu class='rounded-md w-132 dark:bg-gray-900 text-gray-200'>
+      <div class='grid grid-cols-2 gap-2 px-3 py-3'>
+        <a class='px-4 py-4 hover:bg-gray-100 rounded-md'>
+          <h1 class='text-gray-900 font-medium'>Online</h1>
+          <p class='text-gray-600'>3333 members online</p>
+        </a>
+        <a class='px-4 py-4 hover:bg-gray-100 rounded-md'>
+          <h1 class='text-gray-900 font-medium'>Closest</h1>
+          <p class='text-gray-600'>3333 closest to you</p>
+        </a>
+        <a class='px-4 py-4 hover:bg-gray-100 rounded-md'>
+          <h1 class='text-gray-900 font-medium'>Latest</h1>
+          <p class='text-gray-600'>3333 latest joiners</p>
+        </a>
+        <a class='px-4 py-4 hover:bg-gray-100 rounded-md'>
+          <h1 class='text-gray-900 font-medium'>Favourites</h1>
+          <p class='text-gray-600'>2 added as your favourites</p>
+        </a>
+      </div>
+      <div class='flex items-center justify-between px-3 py-2 border-t'>
+        <div class='px-4'>
+          <h1 class='text-gray-900 font-medium'>Advanced search</h1>
+          <p class='text-gray-600'>Search through all members</p>
+        </div>
+        <div>
+          <a class='bg-blue-500 text-gray-50 px-2 py-2 hover:bg-gray-200 rounded-md'>Search</a>
+        </div>
+      </div>
+    </div>
+  </nz-dropdown-menu>
+  <nz-dropdown-menu #theme="nzDropdownMenu">
+    <div nz-menu class='rounded-md dark:bg-gray-900 text-gray-200 w-52'>
+      <div app-theme-switcher></div>
+    </div>
+  </nz-dropdown-menu>
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <div nz-menu class='rounded-md w-72 dark:bg-gray-900 text-gray-200'>
+      <div class='px-5 py-3'>
+        <div app-current-user [user]='data.user' [isReverse]='true'></div>
+      </div>
+      <div class='border-t dark:border-gray-700 px-4 flex flex-col space-y-2 py-2 pb-4'>
+        <a class='rounded-md dark:text-gray-400 dark:hover:bg-gray-800' nz-menu-item>My Profile</a>
+        <a class='rounded-md dark:text-gray-400 dark:hover:bg-gray-800' nz-menu-item>My Photos</a>
+        <a class='rounded-md dark:text-gray-400 dark:hover:bg-gray-800' nz-menu-item>My Subscription</a>
+        <a class='rounded-md dark:text-gray-400 dark:hover:bg-gray-800' nz-menu-item>Account Settings</a>
+        <a class='rounded-md dark:text-gray-400 dark:hover:bg-gray-800' nz-menu-item (click)="onLogout()">Log out</a>
+      </div>
+    </div>
+  </nz-dropdown-menu>
+
+</ng-container>
+

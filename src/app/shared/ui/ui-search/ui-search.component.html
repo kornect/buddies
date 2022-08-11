@@ -1,0 +1,4 @@
+<div class='relative form-field'>
+  <input [formControl]='searchControl' [placeholder]='placeholder' type='search' />
+  <p *ngIf='showHelperText' class='absolute bottom-0 px-3 text-gray-400 text-xxs line-clamp-1'>{{ helperText }}</p>
+</div>
