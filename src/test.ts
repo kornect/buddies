@@ -20,5 +20,5 @@ getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDyn
 
 // Then we find all the tests.
 const context = require.context('./', true, /\.spec\.ts$/);
-// And load the features.
+// And load the pages.
 context.keys().map(context);

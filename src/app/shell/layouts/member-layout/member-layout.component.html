@@ -1,8 +1,0 @@
-<ng-container *ngIf="{
-  user: user$ | async
-} as data">
-  {{ data.user | json }}
-
-  <button (click)='onLogout()'>Log out</button>
- <router-outlet></router-outlet>
-</ng-container>

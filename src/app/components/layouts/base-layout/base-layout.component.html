@@ -1,0 +1,10 @@
+<div class='h-full w-full'>
+  <div *ngIf='showMessage' class='text-center px-2 py-2 bg-yellow-100 relative'>
+    {{ messageText }}
+
+    <a (click)='close()' class='px-2 py-1 absolute right-1 top-1 rounded bg-black text-white'>Close</a>
+  </div>
+  <ng-content></ng-content>
+</div>
+
+

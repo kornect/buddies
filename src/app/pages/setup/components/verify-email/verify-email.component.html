@@ -1,0 +1,20 @@
+<div class='flex flex-col items-center text-gray-500'>
+  <div class='pt-10 text-center'>
+    <h2 class='text-2xl font-semibold'>Verify your email!</h2>
+    <p class='py-2'>Check your email <span *ngIf='user?.email' class='font-medium'>{{ user?.email }}</span> to verify
+      your account</p>
+  </div>
+  <div class='pt-10'>
+
+    <div class='grow flex flex-col items-center'>
+      <div class='pr-6'>
+        <img alt='verify email' class='h-40 w-40' src='../../../../../assets/imgs/please-verify-your-email.png'>
+      </div>
+
+    </div>
+  </div>
+  <div class='flex items-center justify-center py-4 space-x-2 pt-10'>
+    <p>Didn't receive an email?</p>
+    <a (click)='resendConfirmationEmail()' class='font-semibold'>Try again</a>
+  </div>
+</div>

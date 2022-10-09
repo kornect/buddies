@@ -1,0 +1,30 @@
+<app-auth-layout>
+  <div class='flex flex-col items-center text-gray-500'>
+    <div class='pt-10 text-center'>
+      <h2 class='text-2xl font-semibold'>Verify your Account!</h2>
+      <p class='py-2'>We've sent your verification to <span *ngIf='email' class='font-medium'>{{ email }}</span></p>
+      <p class='text-xs'>Please check your spam folder as well if you can't see our email</p>
+    </div>
+    <div class='pt-10'>
+
+      <div class='grow flex flex-col items-center'>
+        <div class='pr-6'>
+          <img class='h-40 w-40' src='../../../assets/imgs/please-verify-your-email.png'>
+        </div>
+
+      </div>
+    </div>
+    <div class='py-4 flex flex-col space-y-1 items-center'>
+      <div class='flex items-center justify-center space-x-2 pt-10'>
+        <p>Didn't receive an email?</p>
+        <a (click)='resendConfirmationEmail()' class='font-semibold'>Try again</a>
+
+      </div>
+    </div>
+
+    <div>
+      <a (click)='goToLogin()' class='font-semibold'>Go to login</a>
+    </div>
+
+  </div>
+</app-auth-layout>

@@ -1,0 +1,27 @@
+.nav-link {
+  @apply px-3 flex flex-col items-center lg:flex-row lg:space-x-2 py-3 dark:hover:bg-gray-700 hover:bg-gray-100 rounded-md relative
+}
+
+.nav-link > svg {
+  @apply w-6 h-6
+}
+
+.nav-link > span {
+  @apply text-gray-700 dark:text-gray-300 text-xxs lg:text-base
+}
+
+.nav-link .active {
+  @apply bg-gray-100 dark:bg-gray-700
+}
+
+.nav-link > nz-badge {
+  @apply absolute right-2 top-2 lg:static
+}
+
+.nav-link .notification-menu > nz-badge {
+  @apply absolute right-4 top-2
+}
+
+.nav-link .profile-menu {
+  @apply lg:hidden
+}

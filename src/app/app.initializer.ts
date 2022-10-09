@@ -1,11 +1,21 @@
-import { ThemeService } from 'core/services/theme';
-import { UserService } from 'data/user';
+import { Store } from '@ngxs/store';
+import { debounceTime, finalize, from, switchMap } from 'rxjs';
 
-export function appInitializer(userService: UserService, themeService: ThemeService): any {
+import { NHostService } from '@/app/common/nhost';
+import { InitThemeAction } from '@/app/store/state';
+
+export function appInitializer(hostService: NHostService, store: Store): any {
   return () => {
     return new Promise((resolve) => {
-      themeService.init();
-      userService.isAuthenticatedAsync().then(() => resolve({}));
+      from(hostService.auth.isAuthenticatedAsync())
+        .pipe(
+          switchMap((isAuthenticated) => {
+            return store.dispatch([new InitThemeAction()]);
+          }),
+          finalize(() => resolve({})),
+          debounceTime(500)
+        )
+        .subscribe();
     });
   };
 }

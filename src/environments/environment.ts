@@ -4,9 +4,25 @@
 
 export const environment = {
   production: false,
+  backendUrl: 'http://localhost:1337',
   subdomain: 'abnpsljmouldphuovgot',
   region: 'eu-west-2',
   appName: 'Lusty',
+  appVersion: '0.0.1',
+  appUrls: {
+    landing: '',
+    signIn: 'authorization/sign-in',
+    signUp: 'authorization/sign-up',
+    resetPasswordPath: 'authorization/reset-password',
+    forgotPasswordPath: 'authorization/forgot-password',
+    setup: 'setup',
+    profile: 'member/profile',
+    account: 'member/account',
+    search: 'member/search',
+    home: 'member/search',
+    messages: 'member/messages',
+  },
+  googleMapsApi: 'AIzaSyDmHQ92_uccNXydj7lvy50_eYLUYY5LyXc',
 };
 
 /*

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body  {
+html, body {
   font-family: 'Rubik', sans-serif;
 }
 
@@ -26,6 +26,7 @@ html, body  {
 .button-group {
   @apply flex;
 }
+
 .button-group > :first-child {
   @apply px-4 py-2 text-gray-50 font-medium text-center rounded-l-lg focus:outline-none bg-gradient-to-r from-red-500 to-pink-400;
 }
@@ -70,11 +71,10 @@ html, body  {
   --tw-rotate: 0;
   --tw-skew-x: 0;
   --tw-skew-y: 0;
-  transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
-  skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   --tw-scale-x: 0.75;
   --tw-scale-y: 0.75;
-  --tw-translate-y: -1.5rem;
+  --tw-translate-y: -1.6rem;
 }
 
 .form-field > input:focus ~ label,

@@ -1,0 +1,38 @@
+<app-auth-layout>
+  <div class='flex flex-col text-gray-500 space-y-3 h-full py-10'>
+    <div>
+      <h2 class='text-2xl font-semibold'>Sign in</h2>
+      <p>Enter your details to continue</p>
+    </div>
+    <form (ngSubmit)='Submit($event)' [formGroup]='form' class='flex flex-col space-y-8'>
+      <ui-input-validation *ngIf='hasErrors()' [errors]='submitErrors'></ui-input-validation>
+      <div>
+        <ui-input-email autocomplete='email' formControlName='email' label='Email'></ui-input-email>
+        <ui-input-error error='required' formControlName='email'>Enter your email address</ui-input-error>
+        <ui-input-error error='email' formControlName='email'>Enter a valid email address</ui-input-error>
+      </div>
+      <div>
+        <ui-input-password autocomplete='password' formControlName='password'
+                           label='Password'></ui-input-password>
+        <ui-input-error error='required' formControlName='password'>Password is required</ui-input-error>
+
+        <div class='text-right py-2'>
+          <a [routerLink]="['../forgot-password']" class='text-sm font-semibold text-gray-600'>Forgot password?</a>
+        </div>
+      </div>
+      <button
+        [disabled]='formSubmitting'
+        class='font-medium text-center rounded-lg text-gray-50 focus:outline-none bg-gradient-to-r from-red-500 to-pink-400'>
+          <span class='flex items-center justify-center px-4 py-4 bg-transparent rounded-lg hover:bg-gray-400'>
+            <span *ngIf='!formSubmitting'>Sign in</span>
+            <span *ngIf='formSubmitting'>Signing in...</span>
+          </span>
+      </button>
+    </form>
+    <div class='flex items-center justify-center py-4 space-x-2 pt-10'>
+      <p>Not a member yet?</p>
+      <a [routerLink]="['../sign-up']" class='font-semibold'>Sign up</a>
+    </div>
+  </div>
+</app-auth-layout>
+
