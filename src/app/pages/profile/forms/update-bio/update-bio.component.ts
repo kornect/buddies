@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BaseFormComponent } from '@/app/common/forms';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -13,8 +13,6 @@ import { Observable, tap } from 'rxjs';
   styleUrls: ['./update-bio.component.scss']
 })
 export class UpdateBioComponent extends BaseFormComponent implements OnInit {
-  @Output() onSaved = new EventEmitter();
-
   constructor(
     private formBuilder: UntypedFormBuilder,
     private message: NzMessageService,

@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   backendUrl: 'http://localhost:1337',
-  subdomain: 'xldmomveshvtwoqoklib',
+  subdomain: 'wbmiydopgwxkofkxgvgd',
   region: 'eu-west-2',
   appName: 'Lusty',
   appVersion: '0.0.1',

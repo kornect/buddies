@@ -51,7 +51,7 @@ export class AccountState extends BaseState {
       });
 
       if (error) {
-        throw new Error(error.message);
+        this.handleError(error, 'Sign up failed');
       }
     });
   }
@@ -81,7 +81,7 @@ export class AccountState extends BaseState {
       });
 
       if (error) {
-        throw new Error('Failure updating phone number');
+        this.handleError(error, 'Failure updating phone number');
       }
 
       dispatch(new ReloadUserSessionAction());
@@ -96,7 +96,7 @@ export class AccountState extends BaseState {
       });
 
       if (error) {
-        throw new Error(error.message || 'Failure changing email');
+        this.handleError(error, 'Failure changing email');
       }
 
       dispatch(new ReloadUserSessionAction());
@@ -111,7 +111,7 @@ export class AccountState extends BaseState {
       });
 
       if (error) {
-        throw new Error(error.message);
+        this.handleError(error, 'Failure to change password');
       }
     });
   }
@@ -127,7 +127,7 @@ export class AccountState extends BaseState {
       });
 
       if (error) {
-        throw new Error(error.message || 'Failure resetting password');
+        this.handleError(error, 'Failure resetting password');
       }
     });
   }
@@ -141,7 +141,7 @@ export class AccountState extends BaseState {
       });
 
       if (error) {
-        throw new Error('Failure updating avatar');
+        this.handleError(error, 'Failure updating avatar');
       }
 
       dispatch(new ReloadUserSessionAction());
@@ -156,7 +156,7 @@ export class AccountState extends BaseState {
       });
 
       if (error) {
-        throw new Error('Failure sending verification email');
+        this.handleError(error, 'Failure sending verification email\'');
       }
     });
   }
@@ -170,7 +170,7 @@ export class AccountState extends BaseState {
       });
 
       if (error) {
-        throw new Error(error.message || 'Failure confirming password');
+        this.handleError(error, 'Failure confirming password');
       }
     });
   }
@@ -184,19 +184,10 @@ export class AccountState extends BaseState {
         throw new Error('User not found');
       }
 
-      const { error } = await this.hostService.auth.signIn({
-        email: user?.email || '',
-        password: payload.password
-      });
+      const { error } = await this.hostService.graphql.request(DELETE_USER, { id: this.getUserId() });
 
       if (error) {
-        throw new Error(error.message || 'Failure confirming password');
-      }
-
-      const { error: deleteError } = await this.hostService.graphql.request(DELETE_USER, { id: this.getUserId() });
-
-      if (deleteError) {
-        throw new Error('Failure deleting account, please try again later');
+        this.handleError(error, 'Failure deleting account, please try again later');
       }
     });
   }

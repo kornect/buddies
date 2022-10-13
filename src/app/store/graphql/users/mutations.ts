@@ -25,9 +25,7 @@ mutation UpdatePhoneNumber($id: uuid!, $phoneNumber: String!) {
 `;
 
 export const DELETE_USER = `
-mutation {
-  deleteUser(id: $id) {
-    id
+  mutation deleteUser($id: uuid = "") {
+    deleteUser(id: $id)
   }
-}
 `;
