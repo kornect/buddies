@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
@@ -18,11 +18,11 @@ export class UiSearchComponent implements OnInit {
   @Input() debounce: number = 600;
   @Output() search = new EventEmitter<string>();
 
-  searchControl!: FormControl;
+  searchControl!: UntypedFormControl;
   showHelperText = false;
 
   constructor() {
-    this.searchControl = new FormControl('');
+    this.searchControl = new UntypedFormControl('');
   }
 
   ngOnInit(): void {

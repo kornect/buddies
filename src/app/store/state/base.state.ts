@@ -1,13 +1,14 @@
-import { BehaviorSubject, Observable, catchError, finalize, from, tap } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, from, Observable, tap } from 'rxjs';
 
 import { NHostService } from '@/app/common/nhost';
 import { SessionUser } from '@/app/store/models/session-user';
 
-export interface GraphQLError extends Error {}
+export interface GraphQLError extends Error {
+}
 
 export abstract class BaseState {
   protected constructor(private nHostService: NHostService) {
-    this.nHostService.auth.onAuthStateChanged((event, session) => {
+    this.nHostService.auth.onAuthStateChanged(() => {
       this._authStateChanged.next(this.getUser());
     });
 
@@ -27,7 +28,7 @@ export abstract class BaseState {
     }
     return {
       ...user,
-      photoUrl: '',
+      photoUrl: ''
     } as SessionUser;
   }
 
@@ -66,5 +67,10 @@ export abstract class BaseState {
     } else {
       return error as GraphQLError;
     }
+  }
+
+  handleError(error: Error | object | object[], message?: string) {
+    const graphQLError = this.getGraphQLError(error);
+    throw new Error(graphQLError?.message || message || 'Failure');
   }
 }

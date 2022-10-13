@@ -7,6 +7,7 @@ import { UiInputErrorModule } from '@/app/components/ui/ui-input-error';
 import { UiInputPasswordModule } from '@/app/components/ui/ui-input-password';
 import { UiInputTextModule } from '@/app/components/ui/ui-input-text';
 import { UiInputValidationModule } from '@/app/components/ui/ui-input-validation';
+import { UiInputTextAreaModule } from '@/app/components/ui/ui-input-text-area';
 
 export const NgImports = [CommonModule];
 
@@ -20,5 +21,16 @@ export const AuthImports = [
   UiInputEmailModule,
   UiInputTextModule,
   UiInputValidationModule,
-  AuthLayoutModule,
+  AuthLayoutModule
+];
+
+export const CommonImports = [
+  ...NgImports,
+  ...NgFormsImports,
+  UiInputPasswordModule,
+  UiInputErrorModule,
+  UiInputEmailModule,
+  UiInputTextModule,
+  UiInputTextAreaModule,
+  UiInputValidationModule
 ];

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
@@ -20,12 +20,12 @@ export class UiPaginationComponent implements OnInit {
   @Output() pageChanged = new EventEmitter<number>();
   @Output() sizeChanged = new EventEmitter<number>();
 
-  searchControl!: FormControl;
-  pageControl!: FormControl;
+  searchControl!: UntypedFormControl;
+  pageControl!: UntypedFormControl;
 
   constructor() {
-    this.searchControl = new FormControl('');
-    this.pageControl = new FormControl(10);
+    this.searchControl = new UntypedFormControl('');
+    this.pageControl = new UntypedFormControl(10);
   }
 
   ngOnInit(): void {

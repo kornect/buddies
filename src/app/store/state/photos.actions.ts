@@ -14,3 +14,9 @@ export class UploadPhotoAction {
 
   constructor(public payload: { file: File }) {}
 }
+
+export class UploadAvatarAction {
+  static readonly type = '[UploadAvatar] upload avatar';
+
+  constructor(public payload: { file: File }) {}
+}

@@ -9,6 +9,7 @@ import { AppTheme } from '@/app/common/theme';
   styleUrls: ['./ui-theme-switcher.component.scss'],
 })
 export class UiThemeSwitcherComponent implements OnInit {
+  @Input() iconOnly = false;
   @Input() theme: AppTheme | undefined | null = AppTheme.Light;
   @Output() onChanged = new EventEmitter<AppTheme>();
 

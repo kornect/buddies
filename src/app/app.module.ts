@@ -10,29 +10,40 @@ import { RouterModule } from '@angular/router';
 import { BreadcrumbsModule } from '@exalif/ngx-breadcrumbs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { NzMessageModule } from 'ng-zorro-antd/message';
+import { Observable, from, switchMap } from 'rxjs';
 
 import { NHostService } from '@/app/common/nhost';
-import { ThemeService } from '@/app/common/theme';
 import { DefaultLayoutModule } from '@/app/components/layouts/default-layout';
 import { APP_ROUTES } from '@/app/routes';
-import { APP_STATES } from '@/app/store/state';
+import { APP_STATES, InitThemeAction } from '@/app/store/state';
 import { environment } from '@/environments';
 
+import { AppLandingComponent } from './app-landing.component';
 import { AppComponent } from './app.component';
-import { appInitializer } from './app.initializer';
 
 registerLocaleData(en);
 
+function initializeAppFactory(hostService: NHostService, store: Store): () => Observable<any> {
+  return () =>
+    from(hostService.auth.isAuthenticatedAsync()).pipe(
+      switchMap(() => {
+        return store.dispatch([new InitThemeAction()]);
+      })
+    );
+}
+
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, AppLandingComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    RouterModule.forRoot(APP_ROUTES),
+    RouterModule.forRoot(APP_ROUTES, {
+      initialNavigation: 'enabledBlocking',
+    }),
     BreadcrumbsModule.forRoot({
       postProcess: null,
       applyDistinctOn: 'text',
@@ -49,8 +60,8 @@ registerLocaleData(en);
   providers: [
     {
       provide: APP_INITIALIZER,
-      useFactory: appInitializer,
-      deps: [NHostService, ThemeService],
+      useFactory: initializeAppFactory,
+      deps: [NHostService, Store],
       multi: true,
     },
     { provide: NZ_I18N, useValue: en_US },

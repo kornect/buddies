@@ -1,60 +1,59 @@
 import { Routes } from '@angular/router';
 
-import { PublicGuard } from '@/app/common/guards';
+import { AppLandingComponent } from '@/app/app-landing.component';
+import { AnonymousGuard, AuthorizeGuard, CompleteProfileGuard } from '@/app/common/guards';
+import { DefaultLayoutComponent } from '@/app/components/layouts/default-layout/default-layout.component';
 
 export const APP_ROUTES: Routes = [
   {
     path: '',
-    canActivate: [PublicGuard],
-    loadChildren: async () => (await import('./pages/home')).HomeModule,
+    canActivate: [AnonymousGuard],
+    component: AppLandingComponent,
   },
-  { path: 'sign-in', loadChildren: async () => (await import('./pages/sign-in')).SignInModule },
-  { path: 'sign-up', loadChildren: async () => (await import('./pages/sign-up')).SignUpModule },
+  {
+    path: 'sign-in',
+    canActivate: [AnonymousGuard],
+    loadChildren: async () => (await import('./pages/sign-in')).SignInModule,
+  },
+  {
+    path: 'sign-up',
+    canActivate: [AnonymousGuard],
+    loadChildren: async () => (await import('./pages/sign-up')).SignUpModule,
+  },
   {
     path: 'forgot-password',
+    canActivate: [AnonymousGuard],
     loadChildren: async () => (await import('./pages/forgot-password')).ForgotPasswordModule,
   },
   {
     path: 'reset-password',
+    canActivate: [AnonymousGuard],
     loadChildren: async () => (await import('./pages/reset-password')).ResetPasswordModule,
   },
   { path: 'verify-email', loadChildren: async () => (await import('./pages/verify-email')).VerifyEmailModule },
-  /*
   {
-    path: 'setup',
-    canActivate: [ProtectedGuard],
-    loadChildren: async () => (await import('./pages/setup')).SetupModule,
+    path: 'complete-profile',
+    canActivate: [AuthorizeGuard],
+    loadChildren: async () => (await import('./pages/complete-profile')).CompleteProfileModule,
   },
   {
-    path: 'member',
+    path: '',
     component: DefaultLayoutComponent,
-    canActivate: [ProtectedGuard],
+    canActivate: [AuthorizeGuard],
     children: [
-      { path: '', redirectTo: 'search', pathMatch: 'full' },
       {
-        path: 'search',
-        loadChildren: async () => (await import('./pages/members')).MembersModule,
+        path: 'home',
+        canActivate: [CompleteProfileGuard],
+        loadChildren: async () => (await import('./pages/home')).HomeModule,
       },
       {
         path: 'profile',
         loadChildren: async () => (await import('./pages/profile')).ProfileModule,
       },
-      {
-        path: 'account',
-        loadChildren: async () => (await import('./pages/account')).AccountModule,
-      },
     ],
-  }, */
-  {
-    path: 'sign-in',
-    redirectTo: 'auth/sign-in',
-  },
-  {
-    path: 'sign-up',
-    redirectTo: 'auth/sign-up',
   },
   {
     path: '**',
-    redirectTo: 'members',
+    redirectTo: '',
   },
 ];

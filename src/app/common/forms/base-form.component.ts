@@ -1,4 +1,4 @@
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { Observable, catchError, finalize, tap } from 'rxjs';
 
@@ -7,7 +7,7 @@ export interface ValidationMessage {
 }
 
 export abstract class BaseFormComponent {
-  public form!: FormGroup;
+  public form!: UntypedFormGroup;
   public submitErrors!: Array<ValidationMessage>;
   public formSubmitting!: boolean;
 
@@ -58,12 +58,12 @@ export abstract class BaseFormComponent {
     return !this.form.dirty;
   }
 
-  public validateAllFormFields(formGroup: FormGroup) {
+  public validateAllFormFields(formGroup: UntypedFormGroup) {
     Object.keys(formGroup.controls).forEach((field) => {
       const control = formGroup.get(field);
-      if (control instanceof FormControl) {
+      if (control instanceof UntypedFormControl) {
         control.markAsTouched({ onlySelf: true });
-      } else if (control instanceof FormGroup) {
+      } else if (control instanceof UntypedFormGroup) {
         this.validateAllFormFields(control);
       }
     });

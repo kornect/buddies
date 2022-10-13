@@ -3,7 +3,8 @@ import { SessionUser } from '@/app/store/models';
 export class SignInAction {
   static readonly type = '[SignIn] sign in user';
 
-  constructor(public payload: { email: string; password: string }) {}
+  constructor(public payload: { email: string; password: string }) {
+  }
 }
 
 export class SignOutAction {
@@ -13,10 +14,16 @@ export class SignOutAction {
 export class SetUserAction {
   static readonly type = '[SetUser] set user';
 
-  constructor(public payload: SessionUser | null) {}
+  constructor(public payload: SessionUser | null) {
+  }
 }
 
 // reload user session action
 export class ReloadUserSessionAction {
   static readonly type = '[ReloadUserSession] reload user session';
 }
+
+export class GetUserAction {
+  static readonly type = '[User] Get User account';
+}
+

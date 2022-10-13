@@ -6,14 +6,10 @@ export const GET_PROFILE = `
       bio
       city
       country
-      dateOfBirth
-      ethnicGroup
+      dateOfBirth: date_of_birth
       gender
-      interests
-      location
-      maritalStatus
+      seekingGender: seeking_gender
       province
-      seekingGender
       updatedAt: updated_at
     }
   }

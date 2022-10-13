@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Action, State, StateContext, Store } from '@ngxs/store';
+import { Action, State, StateContext } from '@ngxs/store';
+import gql from 'graphql-tag';
 
 import { NHostService } from '@/app/common/nhost';
 import { DELETE_USER, UPDATE_AVATAR, UPDATE_DISPLAY_NAME, UPDATE_PHONE_NUMBER } from '@/app/store/graphql';
@@ -17,20 +18,21 @@ import {
   SignUpAction,
   UpdateDisplayNameAction,
   UpdatePhoneNumberAction,
-  UpdatePhotoUrlAction,
+  UpdatePhotoUrlAction
 } from './account.actions';
 
-export class AccountStateModel {}
+export class AccountStateModel {
+}
 
 const defaults = {};
 
 @State<AccountStateModel>({
   name: 'account',
-  defaults,
+  defaults
 })
 @Injectable()
 export class AccountState extends BaseState {
-  constructor(private hostService: NHostService, private store: Store) {
+  constructor(private hostService: NHostService) {
     super(hostService);
   }
 
@@ -41,13 +43,11 @@ export class AccountState extends BaseState {
         email: payload.email,
         password: payload.password,
         options: {
-          displayName: payload.name,
           redirectTo: `${window.location.origin}/auth/verify-email`,
-          nickname: payload.name,
           metadata: {
-            acceptedTerms: payload.acceptedTerms,
-          },
-        },
+            acceptedTerms: payload.acceptedTerms
+          }
+        }
       });
 
       if (error) {
@@ -59,13 +59,13 @@ export class AccountState extends BaseState {
   @Action(UpdateDisplayNameAction)
   updateDisplayNameAction({ dispatch }: StateContext<AccountStateModel>, { payload }: UpdateDisplayNameAction) {
     return this.withObservable(async () => {
-      const { error } = await this.hostService.graphql.request(UPDATE_DISPLAY_NAME, {
+      const { error } = await this.hostService.graphql.request(gql(UPDATE_DISPLAY_NAME), {
         id: this.getUserId(),
-        ...payload,
+        ...payload
       });
 
       if (error) {
-        throw new Error('Failure updating display name');
+        this.handleError(error, 'Failure updating display name');
       }
 
       dispatch(new ReloadUserSessionAction());
@@ -77,7 +77,7 @@ export class AccountState extends BaseState {
     return this.withObservable(async () => {
       const { error } = await this.hostService.graphql.request(UPDATE_PHONE_NUMBER, {
         id: this.getUserId(),
-        ...payload,
+        ...payload
       });
 
       if (error) {
@@ -92,7 +92,7 @@ export class AccountState extends BaseState {
   changeEmailAction({ dispatch }: StateContext<AccountStateModel>, { payload }: ChangeEmailAction) {
     return this.withObservable(async () => {
       const { error } = await this.hostService.auth.changeEmail({
-        newEmail: payload.email,
+        newEmail: payload.email
       });
 
       if (error) {
@@ -107,7 +107,7 @@ export class AccountState extends BaseState {
   changePasswordAction({ dispatch }: StateContext<AccountStateModel>, { payload }: ChangePasswordAction) {
     return this.withObservable(async () => {
       const { error } = await this.hostService.auth.changePassword({
-        newPassword: payload.newPassword,
+        newPassword: payload.password
       });
 
       if (error) {
@@ -122,8 +122,8 @@ export class AccountState extends BaseState {
       const { error } = await this.hostService.auth.resetPassword({
         email: payload.email,
         options: {
-          redirectTo: `${window.location.origin}/auth/reset-password`,
-        },
+          redirectTo: `${window.location.origin}/auth/reset-password`
+        }
       });
 
       if (error) {
@@ -137,7 +137,7 @@ export class AccountState extends BaseState {
     return this.withObservable(async () => {
       const { error } = await this.hostService.graphql.request(UPDATE_AVATAR, {
         id: this.getUserId(),
-        avatarUrl: payload.photoUrl,
+        avatarUrl: payload.photoUrl
       });
 
       if (error) {
@@ -152,7 +152,7 @@ export class AccountState extends BaseState {
   sendVerificationLinkAction({ dispatch }: StateContext<AccountStateModel>, { payload }: SendVerificationLinkAction) {
     return this.withObservable(async () => {
       const { error } = await this.hostService.auth.sendVerificationEmail({
-        email: payload.email,
+        email: payload.email
       });
 
       if (error) {
@@ -166,7 +166,7 @@ export class AccountState extends BaseState {
     return this.withObservable(async () => {
       const { error } = await this.hostService.auth.changePassword({
         ticket: payload.token,
-        newPassword: payload.password,
+        newPassword: payload.password
       });
 
       if (error) {
@@ -186,7 +186,7 @@ export class AccountState extends BaseState {
 
       const { error } = await this.hostService.auth.signIn({
         email: user?.email || '',
-        password: payload.password,
+        password: payload.password
       });
 
       if (error) {

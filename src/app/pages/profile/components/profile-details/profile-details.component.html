@@ -1,0 +1,180 @@
+<ng-container *ngIf='{ user: user$ | async, profile: profile$ | async } as data'>
+  <div class='flex flex-col space-y-4'>
+    <h1 class='text-lg py-4'>My Profile</h1>
+    <app-complete-profile-message></app-complete-profile-message>
+
+    <div class='border rounded'>
+      <div class='flex justify-between items-center'>
+        <h1 class='px-5 py-5'>My photos</h1>
+        <div class='px-5'>
+          <a class='button-cancel'>Upload</a>
+        </div>
+      </div>
+      <div class='px-5 py-5'>
+        List of available photos
+      </div>
+    </div>
+
+    <div class='border rounded text-base flex flex-col'>
+      <a [routerLink]="'../edit/name'">
+        <div class='flex flex-row items-center px-5 py-5 w-full'>
+          <div class='flex flex-col flex-grow'>
+            <div class='font-semibold'>Display Name</div>
+            <div class='text-gray-600'>{{ data?.user?.displayName }}</div>
+          </div>
+          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
+               xmlns='http://www.w3.org/2000/svg'>
+            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
+          </svg>
+        </div>
+      </a>
+      <a [routerLink]="'../edit/bio'">
+        <div class='flex flex-row items-center px-5 py-5 border-t'>
+          <div class='flex flex-col flex-grow'>
+            <div class='font-semibold'>Bio</div>
+            <div class='text-gray-600'>{{ data?.profile?.bio || '...' }}</div>
+          </div>
+          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
+               xmlns='http://www.w3.org/2000/svg'>
+            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
+          </svg>
+        </div>
+      </a>
+      <a [routerLink]="'../edit/location'">
+        <div class='flex flex-row items-center px-5 py-5 border-t'>
+          <div class='flex flex-col flex-grow'>
+            <div class='font-semibold'>Location
+              <app-required-tag [data]='data?.profile?.location'></app-required-tag>
+            </div>
+            <div class='text-gray-600'>{{ getLocation(data?.profile) }}</div>
+          </div>
+          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
+               xmlns='http://www.w3.org/2000/svg'>
+            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
+          </svg>
+        </div>
+      </a>
+      <a [routerLink]="'../edit/details'">
+        <div class='flex flex-row items-center px-5 py-5 border-t'>
+          <div class='flex flex-col flex-grow'>
+            <div class='font-semibold'>Date Of Birth
+              <app-required-tag [data]='data?.profile?.dateOfBirth'></app-required-tag>
+            </div>
+            <div class='text-gray-600'>{{ getDateOfBirth(data?.profile?.dateOfBirth) }}</div>
+          </div>
+          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
+               xmlns='http://www.w3.org/2000/svg'>
+            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
+          </svg>
+        </div>
+      </a>
+      <a [routerLink]="'../edit/details'">
+        <div class='flex flex-row items-center px-5 py-5 border-t'>
+          <div class='flex flex-col flex-grow'>
+            <div class='font-semibold'>Gender
+              <app-required-tag [data]='data?.profile?.gender'></app-required-tag>
+            </div>
+            <div class='text-gray-600'>{{ data?.profile?.gender || '...' }}</div>
+          </div>
+          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
+               xmlns='http://www.w3.org/2000/svg'>
+            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
+          </svg>
+        </div>
+      </a>
+      <a [routerLink]="'../edit/details'">
+        <div class='flex flex-row items-center px-5 py-5 border-t'>
+          <div class='flex flex-col flex-grow'>
+            <div class='font-semibold'>Seeking
+              <app-required-tag [data]='data?.profile?.seekingGender'></app-required-tag>
+            </div>
+            <div class='text-gray-600'>{{ data?.profile?.seekingGender || '...' }}</div>
+          </div>
+          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
+               xmlns='http://www.w3.org/2000/svg'>
+            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
+          </svg>
+        </div>
+      </a>
+    </div>
+
+    <div class='grid grid-cols-2 gap-2'>
+
+      <div class='border rounded'>
+        <h1 class='px-5 py-5'>Subscription</h1>
+        <div class='flex flex-row items-center px-5 py-5'>
+          <div class='flex flex-col flex-grow'>
+            <div class='font-semibold'>Plan</div>
+            <div class='text-gray-600'>{{ 'Premium plan - R100pm' }}</div>
+          </div>
+          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
+               xmlns='http://www.w3.org/2000/svg'>
+            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
+          </svg>
+        </div>
+        <div class='flex flex-row items-center px-5 py-5 border-t'>
+          <div class='flex flex-col flex-grow'>
+            <div class='font-semibold'>Payment</div>
+            <div class='text-gray-600'>{{ 'Next payment on 01/11/2022 using Amex ****3456' }}</div>
+          </div>
+          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
+               xmlns='http://www.w3.org/2000/svg'>
+            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
+          </svg>
+        </div>
+        <div class='flex flex-row items-center px-5 py-5 border-t'>
+          <div class='flex flex-col flex-grow'>
+            <div class='font-semibold'>Invoices</div>
+            <div class='text-gray-600'>{{ 'R100 paid on 01/10/2022' }}</div>
+          </div>
+          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
+               xmlns='http://www.w3.org/2000/svg'>
+            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
+          </svg>
+        </div>
+      </div>
+
+
+      <div class='border rounded'>
+        <h1 class='px-5 py-5'>Account</h1>
+        <a [routerLink]="'../edit/account/email'" class='flex flex-row items-center px-5 py-5'>
+          <div class='flex flex-col flex-grow'>
+            <div class='font-semibold'>Email</div>
+            <div class='text-gray-600'>{{ data?.user?.email }}
+              - {{ data?.user?.emailVerified ? 'Verified' : 'Verification required'}}
+            </div>
+            <div class='text-gray-600'>
+              {{ data?.user?.newEmail ? 'New: ' + data?.user?.newEmail : '' }}
+            </div>
+          </div>
+          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
+               xmlns='http://www.w3.org/2000/svg'>
+            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
+          </svg>
+        </a>
+        <a [routerLink]="'../edit/account/password'" class='flex flex-row items-center px-5 py-5 border-t'>
+          <div class='flex flex-col flex-grow'>
+            <div class='font-semibold'>Password</div>
+            <div class='text-gray-600'>Change account password</div>
+          </div>
+          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
+               xmlns='http://www.w3.org/2000/svg'>
+            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
+          </svg>
+        </a>
+        <a [routerLink]="'../edit/account/delete'" class='flex flex-row items-center px-5 py-5 border-t'>
+          <div class='flex flex-col flex-grow'>
+            <div class='font-semibold'>Delete</div>
+            <div class='text-gray-600'>{{ 'Delete your profile' }}</div>
+          </div>
+          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
+               xmlns='http://www.w3.org/2000/svg'>
+            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
+          </svg>
+        </a>
+      </div>
+
+
+    </div>
+  </div>
+</ng-container>

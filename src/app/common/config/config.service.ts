@@ -17,7 +17,10 @@ export class ConfigService {
       clientStorageType: 'localStorage',
       refreshIntervalTime: 300, // 5 minutes
       devTools: !environment.production,
-      backendUrl: environment.backendUrl,
     };
+  }
+
+  getGoogleMapsApiKey(): string {
+    return environment.googleMapsApi;
   }
 }

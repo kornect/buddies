@@ -6,7 +6,7 @@ import { NHostService } from '@/app/common/nhost';
 import { GET_ATTRIBUTE } from '@/app/store/graphql/attributes/queries';
 import { AttributeLookup } from '@/app/store/models';
 import { BaseState } from '@/app/store/state/base.state';
-import { GetAvatarAction } from '@/app/store/state/photos.actions';
+import { GetLookupsAction } from '@/app/store/state/lookups.actions';
 
 export interface LookupsStateModel {
   genders: Array<AttributeLookup>;
@@ -59,8 +59,8 @@ export class LookupsState extends BaseState {
     return state.maritalStatuses;
   }
 
-  @Action(GetAvatarAction)
-  getAvatarAction({ setState, getState }: StateContext<LookupsStateModel>) {
+  @Action(GetLookupsAction)
+  getLookupsAction({ setState, getState }: StateContext<LookupsStateModel>) {
     return this.withObservable(async () => {
       const { data, error } = await this.hostService.graphql.request(GET_ATTRIBUTE);
       if (error) {

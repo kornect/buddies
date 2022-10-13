@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   backendUrl: 'http://localhost:1337',
-  subdomain: 'abnpsljmouldphuovgot',
+  subdomain: 'xldmomveshvtwoqoklib',
   region: 'eu-west-2',
   appName: 'Lusty',
   appVersion: '0.0.1',
@@ -20,9 +20,9 @@ export const environment = {
     account: 'member/account',
     search: 'member/search',
     home: 'member/search',
-    messages: 'member/messages',
+    messages: 'member/messages'
   },
-  googleMapsApi: 'AIzaSyDmHQ92_uccNXydj7lvy50_eYLUYY5LyXc',
+  googleMapsApi: 'AIzaSyDmHQ92_uccNXydj7lvy50_eYLUYY5LyXc'
 };
 
 /*

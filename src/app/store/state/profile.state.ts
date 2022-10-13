@@ -1,15 +1,28 @@
 import { Injectable } from '@angular/core';
 
-import { untilDestroyed } from '@ngneat/until-destroy';
-import { Action, State, StateContext, Store } from '@ngxs/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { of, switchMap } from 'rxjs';
 
 import { NHostService } from '@/app/common/nhost';
-import { GET_PROFILE, INSERT_PROFILE, UPDATE_PROFILE_LOCATION } from '@/app/store/graphql';
+import {
+  GET_PROFILE,
+  INSERT_PROFILE,
+  UPDATE_PROFILE,
+  UPDATE_PROFILE_BIO,
+  UPDATE_PROFILE_LOCATION
+} from '@/app/store/graphql';
 import { UserProfile } from '@/app/store/models';
 import { BaseState } from '@/app/store/state/base.state';
+import { isNullOrUndefined } from '@/app/utils';
 
-import { AddProfileAction, GetProfileAction, UpdateLocationAction, UpdateProfileAction } from './profile.actions';
+import {
+  GetProfileAction,
+  InsertProfileAction,
+  UpdateLocationAction,
+  UpdateProfileAction,
+  UpdateProfileBioAction
+} from './profile.actions';
 
 
 export interface ProfileStateModel {
@@ -17,13 +30,14 @@ export interface ProfileStateModel {
 }
 
 const defaults = {
-  profile: null,
+  profile: null
 };
 
 @State<ProfileStateModel>({
   name: 'profile',
-  defaults,
+  defaults
 })
+@UntilDestroy()
 @Injectable()
 export class ProfileState extends BaseState {
   constructor(private hostService: NHostService, private store: Store) {
@@ -43,30 +57,40 @@ export class ProfileState extends BaseState {
       .subscribe();
   }
 
+  @Selector()
+  static profile(state: ProfileStateModel) {
+    return state.profile;
+  }
+
+  @Selector()
+  static completedProfile(state: ProfileStateModel) {
+    return !isNullOrUndefined(state.profile);
+  }
+
   @Action(GetProfileAction)
   getProfileAction({ getState, setState }: StateContext<ProfileStateModel>) {
     return this.withObservable(async () => {
       const { data, error } = await this.hostService.graphql.request(GET_PROFILE, {
-        id: this.getUserId(),
+        id: this.getUserId()
       });
 
       if (error) {
-        throw new Error('Failure getting user profile');
+        this.handleError(error, 'Failure getting user profile');
       }
 
       setState({
         ...getState(),
-        profile: data.profile,
+        profile: data.profile
       });
     });
   }
 
-  @Action(AddProfileAction)
-  addProfileAction({ getState, setState }: StateContext<ProfileStateModel>, { payload }: AddProfileAction) {
+  @Action(InsertProfileAction)
+  insertProfileAction({ getState, setState }: StateContext<ProfileStateModel>, { payload }: InsertProfileAction) {
     return this.withObservable(async () => {
       const { data, error } = await this.hostService.graphql.request(INSERT_PROFILE, {
         ...payload,
-        id: this.getUserId(),
+        id: this.getUserId()
       });
 
       if (error) {
@@ -75,7 +99,32 @@ export class ProfileState extends BaseState {
 
       setState({
         ...getState(),
-        ...data,
+        profile: {
+          ...getState().profile,
+          ...data.profile
+        }
+      });
+    });
+  }
+
+  @Action(UpdateProfileBioAction)
+  updateProfileBioAction({ getState, setState }: StateContext<ProfileStateModel>, { payload }: UpdateProfileBioAction) {
+    return this.withObservable(async () => {
+      const { data, error } = await this.hostService.graphql.request(UPDATE_PROFILE_BIO, {
+        ...payload,
+        id: this.getUserId()
+      });
+
+      if (error) {
+        throw this.getGraphQLError(error);
+      }
+
+      setState({
+        ...getState(),
+        profile: {
+          ...getState().profile,
+          ...data.profile
+        }
       });
     });
   }
@@ -83,18 +132,21 @@ export class ProfileState extends BaseState {
   @Action(UpdateProfileAction)
   updateProfileAction({ getState, setState }: StateContext<ProfileStateModel>, { payload }: UpdateProfileAction) {
     return this.withObservable(async () => {
-      const { data, error } = await this.hostService.graphql.request(GET_PROFILE, {
+      const { data, error } = await this.hostService.graphql.request(UPDATE_PROFILE, {
         ...payload,
-        id: this.getUserId(),
+        id: this.getUserId()
       });
 
       if (error) {
-        throw new Error('Failure getting user profile');
+        throw this.getGraphQLError(error);
       }
 
       setState({
         ...getState(),
-        profile: data.profile,
+        profile: {
+          ...getState().profile,
+          ...data.profile
+        }
       });
     });
   }
@@ -106,11 +158,11 @@ export class ProfileState extends BaseState {
   ) {
     return this.withObservable(async () => {
       let formData = {
-        ...payload,
-        location: JSON.stringify({
-          type: 'Point',
-          coordinates: [payload.longitude, payload.latitude],
-        }),
+        ...payload
+        /*  location: JSON.stringify({
+            type: 'Point',
+            coordinates: [payload.longitude, payload.latitude]
+          }) */
       };
 
       delete formData.search;
@@ -119,7 +171,7 @@ export class ProfileState extends BaseState {
 
       const { data, error } = await this.hostService.graphql.request(UPDATE_PROFILE_LOCATION, {
         ...formData,
-        id: this.getUserId(),
+        id: this.getUserId()
       });
 
       if (error) {
@@ -131,8 +183,8 @@ export class ProfileState extends BaseState {
         profile: {
           ...getState().profile,
           ...data?.location,
-          ...formData,
-        },
+          ...formData
+        }
       });
     });
   }

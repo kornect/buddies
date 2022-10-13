@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Store } from '@ngxs/store';
@@ -17,7 +17,7 @@ import { SignUpAction } from '@/app/store/state';
 })
 export class SignUpPageComponent extends BaseFormComponent implements OnInit {
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private message: NzMessageService,
@@ -25,9 +25,8 @@ export class SignUpPageComponent extends BaseFormComponent implements OnInit {
   ) {
     super();
     this.form = this.formBuilder.group({
-      name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(60)]],
       email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required, Validators.minLength(6)]],
+      password: [null, [Validators.required, Validators.minLength(8), Validators.maxLength(30)]],
       acceptTerms: [false, Validators.requiredTrue],
     });
   }

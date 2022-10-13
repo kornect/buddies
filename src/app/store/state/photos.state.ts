@@ -1,15 +1,22 @@
 import { Injectable } from '@angular/core';
 
-import { untilDestroyed } from '@ngneat/until-destroy';
-import { Action, State, StateContext, Store } from '@ngxs/store';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { addMinutes } from 'date-fns';
 import { of, switchMap } from 'rxjs';
 
 import { NHostService } from '@/app/common/nhost';
 import { GET_FILES } from '@/app/store/graphql';
 import { UserPhoto } from '@/app/store/models';
+import { UpdatePhotoUrlAction } from '@/app/store/state/account.actions';
 import { BaseState } from '@/app/store/state/base.state';
-import { GetAvatarAction, GetPhotosAction, UploadPhotoAction } from '@/app/store/state/photos.actions';
+import {
+  GetAvatarAction,
+  GetPhotosAction,
+  UploadAvatarAction,
+  UploadPhotoAction,
+} from '@/app/store/state/photos.actions';
+import { defaultAvatar, isNullOrEmpty } from '@/app/utils';
 
 export interface PhotosStateModel {
   avatarUrl: string | null;
@@ -25,6 +32,7 @@ const defaults = {
   name: 'photos',
   defaults,
 })
+@UntilDestroy()
 @Injectable()
 export class PhotosState extends BaseState {
   constructor(private hostService: NHostService, private store: Store) {
@@ -44,11 +52,16 @@ export class PhotosState extends BaseState {
       .subscribe();
   }
 
+  @Selector()
+  static uploadedAvatar(state: PhotosStateModel) {
+    return !isNullOrEmpty(state.avatarUrl);
+  }
+
   @Action(GetAvatarAction)
   getAvatarAction({ setState, getState }: StateContext<PhotosStateModel>) {
     return this.withObservable(async () => {
       const user = this.getUser();
-      if (user?.avatarUrl) {
+      if (user?.avatarUrl && !defaultAvatar(user.avatarUrl)) {
         const photo = getState().photos.find((p) => p.id === user?.avatarUrl);
         if (photo) {
           setState({
@@ -63,6 +76,38 @@ export class PhotosState extends BaseState {
           });
         }
       }
+    });
+  }
+
+  @Action(UploadAvatarAction)
+  uploadAvatarAction(
+    { setState, getState, dispatch }: StateContext<PhotosStateModel>,
+    { payload }: UploadAvatarAction
+  ) {
+    return this.withObservable(async () => {
+      // upload file
+      const { file } = payload;
+      if (!file) {
+        throw new Error('No file provided');
+      }
+
+      const { fileMetadata, error } = await this.hostService.storage.upload({
+        file,
+      });
+
+      if (error) {
+        throw new Error('Failed to upload photo');
+      }
+
+      const photo = await this.getPhotoDetails(fileMetadata.id);
+
+      await dispatch(new UpdatePhotoUrlAction({ photoUrl: photo.id }));
+
+      setState({
+        ...getState(),
+        photos: [...getState().photos, photo],
+        avatarUrl: photo.url,
+      });
     });
   }
 
