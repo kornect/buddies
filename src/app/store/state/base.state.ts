@@ -1,35 +1,27 @@
-import { BehaviorSubject, catchError, finalize, from, Observable, tap } from 'rxjs';
+import { User as NhostUser } from '@nhost/core';
+import { BehaviorSubject, Observable, catchError, finalize, from, tap } from 'rxjs';
 
 import { NHostService } from '@/app/common/nhost';
-import { SessionUser } from '@/app/store/models/session-user';
 
-export interface GraphQLError extends Error {
-}
+export interface GraphQLError extends Error {}
 
 export abstract class BaseState {
   protected constructor(private nHostService: NHostService) {
-    this.nHostService.auth.onAuthStateChanged(() => {
-      this._authStateChanged.next(this.getUser());
+    this.nHostService.auth.onAuthStateChanged((_, session) => {
+      this._authStateChanged.next(session?.user ?? null);
     });
 
     this._authStateChanged.next(this.getUser());
   }
 
-  private _authStateChanged = new BehaviorSubject<SessionUser | null>(null);
+  private _authStateChanged = new BehaviorSubject<NhostUser | null>(null);
 
-  get authStateChanged(): Observable<SessionUser | null> {
+  get authStateChanged(): Observable<NhostUser | null> {
     return this._authStateChanged.asObservable();
   }
 
-  getUser(): SessionUser | null {
-    const user = this.nHostService.auth.getUser();
-    if (!user) {
-      return null;
-    }
-    return {
-      ...user,
-      photoUrl: ''
-    } as SessionUser;
+  getUser(): NhostUser | null {
+    return this.nHostService.auth.getUser();
   }
 
   getUserId() {

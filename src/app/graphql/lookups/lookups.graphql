@@ -1,0 +1,11 @@
+query GetLookups {
+  sexuality {
+    name
+  }
+  genders {
+    name
+  }
+  relationships {
+    name
+  }
+}

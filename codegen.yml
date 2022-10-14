@@ -1,0 +1,53 @@
+overwrite: true
+schema:
+  - ${HASURA_SCHEMA_URL}:
+      headers:
+        content-type: application/json
+        x-hasura-admin-secret: ${HASURA_ADMIN_SECRET}
+documents: src/**/*.graphql
+generates:
+  src/app/graphql/types.ts:
+    plugins:
+      - typescript
+    config:
+      flattenGeneratedTypes: true
+      exportFragmentSpreadSubTypes: true
+      avoidOptionals: true
+      skipTypename: true
+      skipTypeNameForRoot: true
+      immutableTypes: false
+      preResolveTypes: true
+      declarationKind:
+        type: 'interface'
+        input: 'interface'
+      onlyOperationTypes: true
+      addExplicitOverride: true
+      pureMagicComment: true
+    hooks:
+      afterOneFileWrite:
+        - prettier --write
+  src/app/graphql/:
+    preset: near-operation-file
+    presetConfig:
+      extension: .generated.ts
+      baseTypesPath: types.ts
+    plugins:
+      - typescript-operations
+      - typescript-apollo-angular
+    config:
+      flattenGeneratedTypes: true
+      exportFragmentSpreadSubTypes: true
+      avoidOptionals: true
+      skipTypename: true
+      skipTypeNameForRoot: true
+      immutableTypes: false
+      preResolveTypes: true
+      declarationKind:
+        type: 'interface'
+        input: 'interface'
+      onlyOperationTypes: true
+      addExplicitOverride: true
+      pureMagicComment: true
+    hooks:
+      afterOneFileWrite:
+        - prettier --write

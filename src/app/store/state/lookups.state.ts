@@ -1,27 +1,24 @@
 import { Injectable } from '@angular/core';
 
 import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { tap } from 'rxjs';
 
 import { NHostService } from '@/app/common/nhost';
-import { GET_ATTRIBUTE } from '@/app/store/graphql/attributes/queries';
-import { AttributeLookup } from '@/app/store/models';
+import { GetLookupsGQL } from '@/app/graphql/lookups/lookups.generated';
+import { Lookup } from '@/app/store/models';
 import { BaseState } from '@/app/store/state/base.state';
 import { GetLookupsAction } from '@/app/store/state/lookups.actions';
 
 export interface LookupsStateModel {
-  genders: Array<AttributeLookup>;
-  religions: Array<AttributeLookup>;
-  ethnicGroups: Array<AttributeLookup>;
-  maritalStatuses: Array<AttributeLookup>;
-  sexualities: Array<AttributeLookup>;
+  genders: Array<Lookup>;
+  relationships: Array<Lookup>;
+  sexuality: Array<Lookup>;
 }
 
 const defaults = {
   genders: [],
-  sexualities: [],
-  religions: [],
-  ethnicGroups: [],
-  maritalStatuses: [],
+  sexuality: [],
+  relationships: [],
 };
 
 @State<LookupsStateModel>({
@@ -30,7 +27,7 @@ const defaults = {
 })
 @Injectable()
 export class LookupsState extends BaseState {
-  constructor(private hostService: NHostService) {
+  constructor(private hostService: NHostService, private getLookupsGQL: GetLookupsGQL) {
     super(hostService);
   }
 
@@ -40,39 +37,35 @@ export class LookupsState extends BaseState {
   }
 
   @Selector()
-  static sexualities(state: LookupsStateModel) {
-    return state.sexualities;
+  static sexuality(state: LookupsStateModel) {
+    return state.sexuality;
   }
 
   @Selector()
-  static religions(state: LookupsStateModel) {
-    return state.religions;
-  }
-
-  @Selector()
-  static ethnicGroups(state: LookupsStateModel) {
-    return state.ethnicGroups;
-  }
-
-  @Selector()
-  static maritalStatuses(state: LookupsStateModel) {
-    return state.maritalStatuses;
+  static relationships(state: LookupsStateModel) {
+    return state.relationships;
   }
 
   @Action(GetLookupsAction)
-  getLookupsAction({ setState, getState }: StateContext<LookupsStateModel>) {
-    return this.withObservable(async () => {
-      const { data, error } = await this.hostService.graphql.request(GET_ATTRIBUTE);
-      if (error) {
-        throw new Error('Error getting lookups');
-      }
+  getLookupsAction({ setState }: StateContext<LookupsStateModel>) {
+    return this.getLookupsGQL.fetch().pipe(
+      tap(({ data, error }) => {
+        if (error) {
+          throw this.getGraphQLError(error);
+        }
 
-      Object.keys(data).forEach((key) => {
         setState({
-          ...getState(),
-          [key]: data[key],
+          genders: data.genders.map((value) => ({ value: value.name, text: value.name } as unknown as Lookup)),
+          sexuality: data.sexuality.map((value) => ({ value: value.name, text: value.name } as unknown as Lookup)),
+          relationships: data.relationships.map(
+            (value) =>
+              ({
+                value: value.name,
+                text: value.name,
+              } as unknown as Lookup)
+          ),
         });
-      });
-    });
+      })
+    );
   }
 }

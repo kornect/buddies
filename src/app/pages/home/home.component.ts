@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
-import { SessionUser } from '@/app/store/models';
-import { SessionState } from '@/app/store/state';
+import { User } from '@/app/store/models';
+import { UserState } from '@/app/store/state';
 
 
 @Component({
@@ -13,7 +13,7 @@ import { SessionState } from '@/app/store/state';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  @Select(SessionState.user) user$!: Observable<SessionUser>;
+  @Select(UserState.user) user$!: Observable<User>;
 
   constructor() {}
 

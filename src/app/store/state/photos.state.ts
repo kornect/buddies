@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { addMinutes } from 'date-fns';
-import { of, switchMap } from 'rxjs';
+import { map, of, switchMap } from 'rxjs';
 
 import { NHostService } from '@/app/common/nhost';
-import { GET_FILES } from '@/app/store/graphql';
+import { Uuid_Comparison_Exp } from '@/app/graphql';
+import { GetPhotosGQL } from '@/app/graphql/photos';
 import { UserPhoto } from '@/app/store/models';
-import { UpdatePhotoUrlAction } from '@/app/store/state/account.actions';
 import { BaseState } from '@/app/store/state/base.state';
 import {
   GetAvatarAction,
@@ -16,6 +16,7 @@ import {
   UploadAvatarAction,
   UploadPhotoAction,
 } from '@/app/store/state/photos.actions';
+import { UpdatePhotoUrlAction } from '@/app/store/state/user.actions';
 import { defaultAvatar, isNullOrEmpty } from '@/app/utils';
 
 export interface PhotosStateModel {
@@ -35,7 +36,7 @@ const defaults = {
 @UntilDestroy()
 @Injectable()
 export class PhotosState extends BaseState {
-  constructor(private hostService: NHostService, private store: Store) {
+  constructor(private getPhotosGQL: GetPhotosGQL, private hostService: NHostService, private store: Store) {
     super(hostService);
 
     this.authStateChanged
@@ -138,31 +139,36 @@ export class PhotosState extends BaseState {
   }
 
   @Action(GetPhotosAction)
-  getPhotosAction({ setState }: StateContext<PhotosStateModel>) {
-    return this.withObservable(async () => {
-      const { data, error } = await this.hostService.graphql.request(GET_FILES, {
-        userId: this.getUserId(),
-      });
+  getPhotosAction({ patchState }: StateContext<PhotosStateModel>) {
+    // @ts-ignore
+    return this.getPhotosGQL
+      .fetch({
+        userId: Object.assign({}, { _eq: this.getUser() }) as unknown as Uuid_Comparison_Exp,
+      })
+      .pipe(
+        map(({ data, error }) => {
+          if (error) {
+            throw this.getGraphQLError(error);
+          }
 
-      if (error) {
-        throw new Error('Failed to get photos');
-      }
+          const photos = new Array<UserPhoto>();
 
-      const photos = new Array<UserPhoto>();
-      for (const file of data.files) {
-        const photo = await this.getPhotoDetails(file.id);
+          /*
 
-        photos.push(photo);
-      }
+          for (const file of data.files) {
+            const photo = await this.getPhotoDetails(file.id);
 
-      // check avatar
-      const avatar = photos.find((p) => p.id === this.getUser()?.avatarUrl);
+            photos.push(photo);
+          }
 
-      setState({
-        avatarUrl: avatar?.url || null,
-        photos: photos,
-      });
-    });
+          // check avatar
+          const avatar = photos.find((p) => p.id === this.getUser()?.avatarUrl);
+*/
+          patchState({
+            photos: photos,
+          });
+        })
+      );
   }
 
   private async getPhotoDetails(fileId: string): Promise<UserPhoto> {

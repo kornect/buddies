@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { SessionUser } from '@/app/store/models';
+import { User } from '@/app/store/models';
 
 
 @Component({
@@ -12,6 +12,6 @@ import { SessionUser } from '@/app/store/models';
 export class UiCurrentUserComponent {
   @Input() showEmail = false;
   @Input() size: 'small' | 'medium' | 'large' = 'small';
-  @Input() user!: SessionUser | null | undefined;
+  @Input() user!: User | null | undefined;
   @Input() isReverse = false;
 }

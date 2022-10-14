@@ -4,25 +4,23 @@ import { Select } from '@ngxs/store';
 import { differenceInYears, format } from 'date-fns';
 import { Observable } from 'rxjs';
 
-import { SessionUser, UserProfile } from '@/app/store/models';
-import { ProfileState, SessionState } from '@/app/store/state';
+import { User, UserProfile } from '@/app/store/models';
+import { ProfileState, UserState } from '@/app/store/state';
 import { isNullOrUndefined } from '@/app/utils';
 
 
 @Component({
   selector: 'app-profile-details',
   templateUrl: './profile-details.component.html',
-  styleUrls: ['./profile-details.component.scss']
+  styleUrls: ['./profile-details.component.scss'],
 })
 export class ProfileDetailsComponent implements OnInit {
-  @Select(SessionState.user) user$!: Observable<SessionUser | null>;
+  @Select(UserState.user) user$!: Observable<User | null>;
   @Select(ProfileState.profile) profile$!: Observable<UserProfile | null>;
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   getAge(dateOfBirth: Date | undefined) {
     if (isNullOrUndefined(dateOfBirth)) {

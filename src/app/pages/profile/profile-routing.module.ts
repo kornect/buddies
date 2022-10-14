@@ -1,6 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { DeleteAccountComponent } from '@/app/pages/profile/forms/delete-account/delete-account.component';
+import { UpdateEmailComponent } from '@/app/pages/profile/forms/update-email/update-email.component';
+import { UpdatePasswordComponent } from '@/app/pages/profile/forms/update-password/update-password.component';
+import { UpdatePhoneNumberComponent } from '@/app/pages/profile/forms/update-phone-number/update-phone-number.component';
+import { UpdateRelationshipPreferenceComponent } from '@/app/pages/profile/forms/update-relationship-preference/update-relationship-preference.component';
 import { ProfileComponent } from '@/app/pages/profile/profile.component';
 
 import { ProfileDetailsComponent } from './components/profile-details/profile-details.component';
@@ -10,13 +15,6 @@ import { UpdateDisplayNameComponent } from './forms/update-display-name/update-d
 import { UpdateLocationComponent } from './forms/update-location/update-location.component';
 import { UpdatePhotosComponent } from './forms/update-photos/update-photos.component';
 import { UploadPhotoComponent } from './forms/upload-photo/upload-photo.component';
-import {
-  UpdatePhoneNumberComponent
-} from '@/app/pages/profile/forms/update-phone-number/update-phone-number.component';
-import { UpdatePasswordComponent } from '@/app/pages/profile/forms/update-password/update-password.component';
-import { UpdateEmailComponent } from '@/app/pages/profile/forms/update-email/update-email.component';
-import { DeleteAccountComponent } from '@/app/pages/profile/forms/delete-account/delete-account.component';
-
 
 const routes: Routes = [
   {
@@ -32,6 +30,7 @@ const routes: Routes = [
           { path: 'bio', component: UpdateBioComponent },
           { path: 'details', component: UpdateDetailsComponent },
           { path: 'location', component: UpdateLocationComponent },
+          { path: 'relationship-preference', component: UpdateRelationshipPreferenceComponent },
           { path: 'photos', component: UpdatePhotosComponent },
           { path: 'photos/upload', component: UploadPhotoComponent },
           {
@@ -40,18 +39,17 @@ const routes: Routes = [
               { path: 'password', component: UpdatePasswordComponent },
               { path: 'email', component: UpdateEmailComponent },
               { path: 'phone', component: UpdatePhoneNumberComponent },
-              { path: 'delete', component: DeleteAccountComponent }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+              { path: 'delete', component: DeleteAccountComponent },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ProfileRoutingModule {
-}
+export class ProfileRoutingModule {}

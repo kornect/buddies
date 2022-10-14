@@ -1,0 +1,17 @@
+{
+  "name": "Untitled GraphQL Schema",
+  "schemaPath": "schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "Default GraphQL Endpoint": {
+        "url": "${env:HASURA_SCHEMA_URL}",
+        "headers": {
+          "user-agent": "JS GraphQL",
+          "content-type": "application/json",
+          "x-hasura-admin-secret": "${env:HASURA_ADMIN_SECRET}"
+        },
+        "introspect": false
+      }
+    }
+  }
+}

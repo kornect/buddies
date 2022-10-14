@@ -7,7 +7,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable, tap } from 'rxjs';
 
 import { BaseFormComponent } from '@/app/common/forms';
-import { SessionState, UpdateDisplayNameAction } from '@/app/store/state';
+import { UpdateDisplayNameAction, UserState } from '@/app/store/state';
 
 
 @Component({
@@ -30,7 +30,7 @@ export class UpdateDisplayNameComponent extends BaseFormComponent implements OnI
 
   ngOnInit(): void {
     this.form.patchValue({
-      displayName: this.store.selectSnapshot(SessionState.user)?.displayName,
+      displayName: this.store.selectSnapshot(UserState.user)?.displayName,
     });
   }
 

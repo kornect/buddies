@@ -16,11 +16,14 @@
     </div>
 
     <div class='border rounded text-base flex flex-col'>
+      <h1 class='px-5 py-5'>Profile details</h1>
       <a [routerLink]="'../edit/name'">
         <div class='flex flex-row items-center px-5 py-5 w-full'>
           <div class='flex flex-col flex-grow'>
-            <div class='font-semibold'>Display Name</div>
-            <div class='text-gray-600'>{{ data?.user?.displayName }}</div>
+            <div class='font-semibold'>Display Name
+              <app-required-tag [data]='data?.user?.displayName'></app-required-tag>
+            </div>
+            <div class='text-gray-600'>{{ data?.user?.displayName || '...' }}</div>
           </div>
           <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
                xmlns='http://www.w3.org/2000/svg'>
@@ -28,7 +31,7 @@
           </svg>
         </div>
       </a>
-      <a [routerLink]="'../edit/bio'">
+      <a *ngIf='data?.profile?.date_of_birth' [routerLink]="'../edit/bio'">
         <div class='flex flex-row items-center px-5 py-5 border-t'>
           <div class='flex flex-col flex-grow'>
             <div class='font-semibold'>Bio</div>
@@ -40,7 +43,7 @@
           </svg>
         </div>
       </a>
-      <a [routerLink]="'../edit/location'">
+      <a *ngIf='data?.profile?.date_of_birth' [routerLink]="'../edit/location'">
         <div class='flex flex-row items-center px-5 py-5 border-t'>
           <div class='flex flex-col flex-grow'>
             <div class='font-semibold'>Location
@@ -58,9 +61,9 @@
         <div class='flex flex-row items-center px-5 py-5 border-t'>
           <div class='flex flex-col flex-grow'>
             <div class='font-semibold'>Date Of Birth
-              <app-required-tag [data]='data?.profile?.dateOfBirth'></app-required-tag>
+              <app-required-tag [data]='data?.profile?.date_of_birth'></app-required-tag>
             </div>
-            <div class='text-gray-600'>{{ getDateOfBirth(data?.profile?.dateOfBirth) }}</div>
+            <div class='text-gray-600'>{{ getDateOfBirth(data?.profile?.date_of_birth) }}</div>
           </div>
           <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
                xmlns='http://www.w3.org/2000/svg'>
@@ -85,10 +88,24 @@
       <a [routerLink]="'../edit/details'">
         <div class='flex flex-row items-center px-5 py-5 border-t'>
           <div class='flex flex-col flex-grow'>
-            <div class='font-semibold'>Seeking
-              <app-required-tag [data]='data?.profile?.seekingGender'></app-required-tag>
+            <div class='font-semibold'>Interested in
+              <app-required-tag [data]='data?.profile?.interested_in_gender'></app-required-tag>
             </div>
-            <div class='text-gray-600'>{{ data?.profile?.seekingGender || '...' }}</div>
+            <div class='text-gray-600'>{{ data?.profile?.interested_in_gender || '...' }}</div>
+          </div>
+          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
+               xmlns='http://www.w3.org/2000/svg'>
+            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
+          </svg>
+        </div>
+      </a>
+      <a [routerLink]="'../edit/relationship-preference'">
+        <div class='flex flex-row items-center px-5 py-5 border-t'>
+          <div class='flex flex-col flex-grow'>
+            <div class='font-semibold'>Seeking
+              <app-required-tag [data]='data?.profile?.seeking_relationship'></app-required-tag>
+            </div>
+            <div class='text-gray-600'>{{ data?.profile?.seeking_relationship || '...' }}</div>
           </div>
           <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
                xmlns='http://www.w3.org/2000/svg'>
@@ -97,6 +114,7 @@
         </div>
       </a>
     </div>
+
 
     <div class='grid grid-cols-2 gap-2'>
 

@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
-import { SessionUser } from '@/app/store/models';
-import { PhotosState, ProfileState, SessionState, SignOutAction } from '@/app/store/state';
+import { User } from '@/app/store/models';
+import { PhotosState, ProfileState, SignOutAction, UserState } from '@/app/store/state';
 
 
 @Component({
@@ -14,7 +14,7 @@ import { PhotosState, ProfileState, SessionState, SignOutAction } from '@/app/st
   styleUrls: ['./complete-profile.component.scss'],
 })
 export class CompleteProfileComponent implements OnInit {
-  @Select(SessionState.user) user$!: Observable<SessionUser>;
+  @Select(UserState.user) user$!: Observable<User>;
   steps = [
     { title: 'Verify Email', subtitle: 'Verify your account' },
     { title: 'Profile Details', subtitle: 'Add profile details' },
@@ -56,7 +56,7 @@ export class CompleteProfileComponent implements OnInit {
   }
 
   isVerified() {
-    return this.store.selectSnapshot(SessionState.isVerified);
+    return this.store.selectSnapshot(UserState.isComplete);
   }
 
   completedProfile() {

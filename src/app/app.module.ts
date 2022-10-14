@@ -7,10 +7,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
+import { ApolloLink, InMemoryCache } from '@apollo/client/core';
+import { setContext } from '@apollo/client/link/context';
 import { BreadcrumbsModule } from '@exalif/ngx-breadcrumbs';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsModule, Store } from '@ngxs/store';
+import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
 import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { Observable, from, switchMap } from 'rxjs';
@@ -35,6 +39,43 @@ function initializeAppFactory(hostService: NHostService, store: Store): () => Ob
     );
 }
 
+export function createApollo(httpLink: HttpLink, nhostService: NHostService) {
+  const basic = setContext((operation, context) => ({
+    headers: {
+      Accept: 'charset=utf-8',
+    },
+  }));
+
+  const auth = setContext((operation, context) => {
+    const isAuthenticated = nhostService.auth.isAuthenticated();
+
+    if (!isAuthenticated) {
+      return {};
+    } else {
+      const accessToken = nhostService.auth.getAccessToken();
+      return {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+    }
+  });
+
+  const link = ApolloLink.from([
+    basic,
+    auth,
+    httpLink.create({
+      uri: nhostService.graphql.getUrl(),
+    }),
+  ]);
+  const cache = new InMemoryCache();
+
+  return {
+    link,
+    cache,
+  };
+}
+
 @NgModule({
   declarations: [AppComponent, AppLandingComponent],
   imports: [
@@ -56,6 +97,7 @@ function initializeAppFactory(hostService: NHostService, store: Store): () => Ob
     }),
     environment.production ? [] : NgxsReduxDevtoolsPluginModule.forRoot(),
     DefaultLayoutModule,
+    ApolloModule,
   ],
   providers: [
     {
@@ -65,6 +107,11 @@ function initializeAppFactory(hostService: NHostService, store: Store): () => Ob
       multi: true,
     },
     { provide: NZ_I18N, useValue: en_US },
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory: createApollo,
+      deps: [HttpLink, NHostService],
+    },
   ],
   bootstrap: [AppComponent],
 })

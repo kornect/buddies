@@ -4,7 +4,7 @@ import { Store } from '@ngxs/store';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { tap } from 'rxjs';
 
-import { SessionUser } from '@/app/store/models';
+import { User } from '@/app/store/models';
 import { SendVerificationLinkAction } from '@/app/store/state';
 
 
@@ -14,7 +14,7 @@ import { SendVerificationLinkAction } from '@/app/store/state';
   styleUrls: ['./verify-email.component.scss'],
 })
 export class VerifyEmailComponent implements OnInit {
-  @Input() user!: SessionUser | null | undefined;
+  @Input() user!: User | null | undefined;
   resendConfirmationEmailCompleted: boolean = true;
 
   constructor(private store: Store, private message: NzMessageService) {}

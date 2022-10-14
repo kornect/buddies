@@ -6,8 +6,8 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, tap } from 'rxjs';
 
 import { AppTheme } from '@/app/common/theme';
-import { SessionUser } from '@/app/store/models';
-import { AppState, SessionState, SignOutAction, ToggleThemeAction } from '@/app/store/state';
+import { User } from '@/app/store/models';
+import { AppState, SignOutAction, ToggleThemeAction, UserState } from '@/app/store/state';
 
 
 @UntilDestroy()
@@ -17,19 +17,12 @@ import { AppState, SessionState, SignOutAction, ToggleThemeAction } from '@/app/
   styleUrls: ['./default-layout.component.scss'],
 })
 export class DefaultLayoutComponent implements OnInit {
-  @Select(SessionState.user) user$!: Observable<SessionUser | null>;
+  @Select(UserState.user) user$!: Observable<User | null>;
   @Select(AppState.theme) theme$!: Observable<AppTheme>;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private store: Store
-  ) {
-  }
+  constructor(private router: Router, private route: ActivatedRoute, private store: Store) {}
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   changeTheme() {
     this.store.dispatch(new ToggleThemeAction());

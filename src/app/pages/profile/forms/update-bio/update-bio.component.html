@@ -14,10 +14,10 @@
     <div class='grow'>
       <ui-input-text-area
         [cols]='50'
-        [formControlName]="'bio'"
         [placeholder]="'Tell us about yourself'"
-        [rows]='5'></ui-input-text-area>
-      <ui-input-error error='required' formControlName='dateOfBirth'>A little summary is required</ui-input-error>
+        [rows]='5'
+        formControlName='bio'></ui-input-text-area>
+      <ui-input-error error='required' formControlName='bio'>A little summary is required</ui-input-error>
     </div>
   </div>
 

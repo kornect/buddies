@@ -8,18 +8,19 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable, tap } from 'rxjs';
 
 import { BaseFormComponent, mustBeYearsOld } from '@/app/common/forms';
+import { Genders_Enum } from '@/app/graphql';
 import { InsertProfileAction, ProfileState } from '@/app/store/state';
 
 
 @Component({
   selector: 'app-update-details',
   templateUrl: './update-details.component.html',
-  styleUrls: ['./update-details.component.scss']
+  styleUrls: ['./update-details.component.scss'],
 })
 export class UpdateDetailsComponent extends BaseFormComponent implements OnInit {
   genders = [
-    { label: 'Man', value: 'male' },
-    { label: 'Woman', value: 'female' }
+    { label: 'Man', value: Genders_Enum.Man },
+    { label: 'Woman', value: Genders_Enum.Woman },
   ];
 
   @Output() onSaved = new EventEmitter();
@@ -32,22 +33,18 @@ export class UpdateDetailsComponent extends BaseFormComponent implements OnInit 
   ) {
     super();
     this.form = this.formBuilder.group({
-      dateOfBirth: [addYears(new Date(), -18), [Validators.required, mustBeYearsOld<Date>(18)]],
+      date_of_birth: [addYears(new Date(), -18), [Validators.required, mustBeYearsOld<Date>(18)]],
       gender: [null, [Validators.required]],
-      seekingGender: [null, [Validators.required]]
+      interested_in_gender: [null, [Validators.required]],
     });
   }
 
   ngOnInit(): void {
     const profile = this.store.selectSnapshot(ProfileState.profile);
 
-    this.form.patchValue({
-      gender: profile?.gender,
-      seekingGender: profile?.seekingGender,
-      dateOfBirth: profile?.dateOfBirth
-    });
+    this.form.patchValue(Object.assign({}, profile));
 
-    if (profile?.dateOfBirth && profile.gender && profile.seekingGender) {
+    if (profile?.date_of_birth && profile.gender && profile.interested_in_gender) {
       this.form.disable();
     }
   }

@@ -26,6 +26,7 @@ import { UpdateEmailComponent } from './forms/update-email/update-email.componen
 import { UpdatePasswordComponent } from './forms/update-password/update-password.component';
 import { UpdatePhoneNumberComponent } from './forms/update-phone-number/update-phone-number.component';
 import { DeleteAccountComponent } from './forms/delete-account/delete-account.component';
+import { UpdateRelationshipPreferenceComponent } from './forms/update-relationship-preference/update-relationship-preference.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { DeleteAccountComponent } from './forms/delete-account/delete-account.co
     UpdatePasswordComponent,
     UpdatePhoneNumberComponent,
     DeleteAccountComponent,
+    UpdateRelationshipPreferenceComponent,
   ],
   imports: [CommonModule, ProfileRoutingModule, ...CommonImports,
     GoogleMapsModule,

@@ -12,10 +12,13 @@
       <p class='text-gray-600 text-sm'>Update your location to allow us to show you nearby members</p>
     </div>
     <div class='grow'>
-      <div class='form-field w-full'>
-        <input #search (keydown.enter)='$event.preventDefault()' formControlName='search' placeholder=' ' type='text' />
+      <div class='mb-5'>
+        <div class='form-field w-full'>
+          <input #search (keydown.enter)='$event.preventDefault()' formControlName='search' placeholder=' '
+                 type='text' />
+        </div>
+        <ui-input-error error='required' formControlName='search'>Search location is required</ui-input-error>
       </div>
-      <ui-input-error error='required' formControlName='search'>Search location is required</ui-input-error>
       <div *ngIf='mapsApiLoaded | async'>
         <google-map
           #myGoogleMap

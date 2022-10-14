@@ -1,0 +1,35 @@
+<form (ngSubmit)='Submit($event)' [formGroup]='form' class='flex flex-col px-4 py-4 border'>
+  <div class='py-5 border-b flex items-center justify-between'>
+    <div class='flex flex-col'>
+      <span class='text-gray-800 font-medium'>Update your preference</span>
+      <span class='text-xs text-gray-400'>Update your profile details</span>
+    </div>
+  </div>
+  <ui-input-validation *ngIf='hasErrors()' [errors]='submitErrors'></ui-input-validation>
+  <div class='flex items-center py-4'>
+    <div class='w-2/5'>
+      <h1 class='text-gray-900 font-medium'>Seeking relationship</h1>
+      <p class='text-gray-600 text-sm'>You will be shown members with the same preference</p>
+    </div>
+    <div class='grow'>
+      <nz-select class='w-full bg-gray-100 rounded-lg' formControlName='seeking_relationship'
+                 nzMode='multiple'
+                 nzPlaceHolder='Select relationship'
+                 nzSize='large'>
+        <nz-option *ngFor='let item of relationships$ | async' [nzLabel]='item.text' [nzValue]='item.value'></nz-option>
+      </nz-select>
+      <ui-input-error error='required' formControlName='seeking_relationship'>Relationship is required</ui-input-error>
+    </div>
+  </div>
+
+  <div class='py-4 flex justify-end'>
+    <button [disabled]='formSubmitting' class='button-primary'>
+      <span *ngIf='!formSubmitting'>Save Changes</span>
+      <span *ngIf='formSubmitting'>Updating...</span>
+    </button>
+    <a (click)='Cancel()' class='button-cancel'>
+      <span>Cancel</span>
+    </a>
+  </div>
+</form>
+
