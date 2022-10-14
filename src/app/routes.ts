@@ -32,11 +32,6 @@ export const APP_ROUTES: Routes = [
   },
   { path: 'verify-email', loadChildren: async () => (await import('./pages/verify-email')).VerifyEmailModule },
   {
-    path: 'complete-profile',
-    canActivate: [AuthorizeGuard],
-    loadChildren: async () => (await import('./pages/complete-profile')).CompleteProfileModule,
-  },
-  {
     path: '',
     component: DefaultLayoutComponent,
     canActivate: [AuthorizeGuard],
