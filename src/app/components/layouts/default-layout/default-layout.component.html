@@ -1,111 +1,72 @@
-<ng-container *ngIf='{ user: user$ | async, theme: theme$ | async } as data'>
-  <div class='flex w-full h-full'>
-    <div class='w-full flex bg-white flex-col-reverse lg:flex-col'>
-      <header
-        class='w-full flex items-center justify-center border lg:py-5 rounded-t-md flex-none bg-white dark:text-gray-300 dark:border-gray-800 dark:bg-gray-800'>
-        <div class='w-2/3 flex items-center'>
-          <div class='flex-none w-2/12 hidden lg:block'>
-            <app-ui-logo class='hover:transition hover:animate-bounce'></app-ui-logo>
-          </div>
-          <nav class='flex flex-grow justify-evenly lg:justify-start lg:space-x-5'>
-            <a [routerLinkActive]="'active'" [routerLink]="'home'" class='nav-link'>
-              <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5'
-                   viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
-                <path
-                  d='M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25'
-                  stroke-linecap='round'
-                  stroke-linejoin='round' />
-              </svg>
-              <span>Home</span>
-            </a>
-            <a [nzDropdownMenu]='membersSearchDropDown' [nzPlacement]="'bottomLeft'"
-               [routerLinkActive]="'bg-gray-100 dark:bg-gray-700'"
-               [routerLink]="'members'"
-               class='nav-link'
-               nz-dropdown>
-              <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5'
-                   viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
-                <path
-                  d='M15.75 15.75l-2.489-2.489m0 0a3.375 3.375 0 10-4.773-4.773 3.375 3.375 0 004.774 4.774zM21 12a9 9 0 11-18 0 9 9 0 0118 0z'
-                  stroke-linecap='round'
-                  stroke-linejoin='round' />
-              </svg>
-
-              <span>Search</span>
-            </a>
-            <a [routerLinkActive]="'bg-gray-100 dark:bg-gray-700'" [routerLink]="'messages'"
-               class='nav-link'>
-              <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5'
-                   viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
-                <path
-                  d='M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z'
-                  stroke-linecap='round'
-                  stroke-linejoin='round' />
-              </svg>
-              <span>Messages</span>
-              <nz-badge [nzCount]='5'></nz-badge>
-            </a>
-            <a [routerLinkActive]="'active'" [routerLink]="'profile'" class='nav-link'>
-              <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5'
-                   viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
-                <path
-                  d='M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z'
-                  stroke-linecap='round'
-                  stroke-linejoin='round' />
-              </svg>
-              <span>Profile</span>
-            </a>
-          </nav>
-          <div class='flex w-2/12 space-x-2 items-center justify-end'>
-            <a (onChanged)='changeTheme()' [iconOnly]='true' [theme]='data?.theme' app-ui-theme-switcher></a>
-            <a (click)='onLogout()' class='button'>Logout</a>
-          </div>
-        </div>
-      </header>
-      <main class='w-full flex-grow flex flex-col items-center pb-4'>
-        <div class='w-2/3 flex-grow'>
-          <router-outlet></router-outlet>
-        </div>
-        <div class='flex-none flex justify-center py-2'>
-          <p class='text-gray-400'>By using this site you agree to our <a class='text-gray-500'>terms</a> and
-            <a
-              class='text-gray-500'>privacy policy</a></p>
-        </div>
-      </main>
-
-      <!-- Drop Downs -->
-      <nz-dropdown-menu #membersSearchDropDown='nzDropdownMenu'>
-        <div class='rounded-md w-132 dark:bg-gray-900 text-gray-200' nz-menu>
-          <div class='grid grid-cols-2 gap-2 px-3 py-3'>
-            <a class='px-4 py-4 hover:bg-gray-100 rounded-md'>
-              <h1 class='text-gray-900 font-medium'>Nearby</h1>
-              <p class='text-gray-600'>3333 closest to you</p>
-            </a>
-            <a class='px-4 py-4 hover:bg-gray-100 rounded-md'>
-              <h1 class='text-gray-900 font-medium'>Online</h1>
-              <p class='text-gray-600'>3333 members online</p>
-            </a>
-            <a class='px-4 py-4 hover:bg-gray-100 rounded-md'>
-              <h1 class='text-gray-900 font-medium'>Latest</h1>
-              <p class='text-gray-600'>3333 latest joiners</p>
-            </a>
-            <a class='px-4 py-4 hover:bg-gray-100 rounded-md'>
-              <h1 class='text-gray-900 font-medium'>Favourites</h1>
-              <p class='text-gray-600'>2 added as your favourites</p>
-            </a>
-          </div>
-          <div class='flex items-center justify-between px-3 py-2 border-t'>
-            <div class='px-4'>
-              <h1 class='text-gray-900 font-medium'>Advanced search</h1>
-              <p class='text-gray-600'>Search through all members</p>
-            </div>
-            <div>
-              <a class='bg-blue-500 text-gray-50 px-2 py-2 hover:bg-gray-200 rounded-md'>Search</a>
-            </div>
-          </div>
-        </div>
-      </nz-dropdown-menu>
+<div class='w-full h-full flex flex-col-reverse lg:flex-col'>
+  <header
+    class='w-full bg-gray-800 flex items-center justify-center lg:py-5 flex-none'>
+    <div class='w-2/3 flex items-center'>
+      <div class='flex-none w-2/12 hidden lg:block'>
+        <app-ui-logo class='hover:transition hover:animate-bounce'></app-ui-logo>
+      </div>
+      <nav class='flex flex-grow justify-evenly lg:justify-start lg:space-x-5'>
+        <a [routerLinkActive]="'active'" [routerLink]="'home'" class='nav-link'>
+          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5'
+               viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
+            <path
+              d='M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25'
+              stroke-linecap='round'
+              stroke-linejoin='round' />
+          </svg>
+          <span>Home</span>
+        </a>
+        <a
+          [routerLinkActive]="'bg-gray-100 dark:bg-gray-700'"
+          [routerLink]="'members'"
+          class='nav-link'>
+          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5'
+               viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
+            <path
+              d='M15.75 15.75l-2.489-2.489m0 0a3.375 3.375 0 10-4.773-4.773 3.375 3.375 0 004.774 4.774zM21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+              stroke-linecap='round'
+              stroke-linejoin='round' />
+          </svg>
+          <span>Search</span>
+        </a>
+        <a [routerLinkActive]="'bg-gray-100 dark:bg-gray-700'" [routerLink]="'messages'"
+           class='nav-link'>
+          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5'
+               viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
+            <path
+              d='M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z'
+              stroke-linecap='round'
+              stroke-linejoin='round' />
+          </svg>
+          <span>Messages</span>
+        </a>
+        <a [routerLinkActive]="'active'" [routerLink]="'profile'" class='nav-link'>
+          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5'
+               viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
+            <path
+              d='M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z'
+              stroke-linecap='round'
+              stroke-linejoin='round' />
+          </svg>
+          <span>Profile</span>
+        </a>
+      </nav>
+      <div class='flex w-2/12 space-x-2 items-center justify-end'>
+        <a (onChanged)='changeTheme()' [iconOnly]='true' [theme]='theme' app-ui-theme-switcher></a>
+        <a (click)='onLogout()' class='button'>Logout</a>
+      </div>
     </div>
-  </div>
-</ng-container>
+  </header>
+  <main class='w-full flex flex-col items-center bg-gray-100'>
+    <div class='w-2/3 flex-grow'>
+      <router-outlet></router-outlet>
+    </div>
+    <div class='flex-none flex justify-center py-5'>
+      <p class='text-gray-400 text-sm'>By using this site you agree to our <a class='text-gray-500'>terms</a> and
+        <a
+          class='text-gray-500'>privacy policy</a></p>
+    </div>
+  </main>
+</div>
+
 

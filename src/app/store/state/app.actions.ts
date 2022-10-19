@@ -1,15 +1,18 @@
 import { AppTheme } from '@/app/common/theme';
+import { Breadcrumb } from '@exalif/ngx-breadcrumbs';
 
 export class AppAction {
   static readonly type = '[App] Add item';
 
-  constructor(public payload: string) {}
+  constructor(public payload: string) {
+  }
 }
 
 export class SetThemeAction {
   static readonly type = '[App] Set theme';
 
-  constructor(public payload: { theme: AppTheme }) {}
+  constructor(public payload: { theme: AppTheme }) {
+  }
 }
 
 export class InitThemeAction {
@@ -18,4 +21,11 @@ export class InitThemeAction {
 
 export class ToggleThemeAction {
   static readonly type = '[App] Toggle theme';
+}
+
+export class SetBreadcrumbsAction {
+  static readonly type = '[App] Set breadcrumbs';
+
+  constructor(public payload: { breadcrumbs: Breadcrumb[] }) {
+  }
 }

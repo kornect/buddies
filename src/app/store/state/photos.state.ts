@@ -5,6 +5,7 @@ import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { addMinutes } from 'date-fns';
 import { map, of, switchMap } from 'rxjs';
 
+
 import { NHostService } from '@/app/common/nhost';
 import { Uuid_Comparison_Exp } from '@/app/graphql';
 import { GetPhotosGQL } from '@/app/graphql/photos';
@@ -14,7 +15,7 @@ import {
   GetAvatarAction,
   GetPhotosAction,
   UploadAvatarAction,
-  UploadPhotoAction,
+  UploadPhotoAction
 } from '@/app/store/state/photos.actions';
 import { UpdatePhotoUrlAction } from '@/app/store/state/user.actions';
 import { defaultAvatar, isNullOrEmpty } from '@/app/utils';
@@ -26,12 +27,12 @@ export interface PhotosStateModel {
 
 const defaults = {
   avatarUrl: null,
-  photos: [],
+  photos: []
 };
 
 @State<PhotosStateModel>({
   name: 'photos',
-  defaults,
+  defaults
 })
 @UntilDestroy()
 @Injectable()
@@ -67,13 +68,13 @@ export class PhotosState extends BaseState {
         if (photo) {
           setState({
             ...getState(),
-            avatarUrl: photo.url,
+            avatarUrl: photo.url
           });
         } else {
           const url = await this.getPhotoDetails(user.avatarUrl);
           setState({
             ...getState(),
-            avatarUrl: url.url,
+            avatarUrl: url.url
           });
         }
       }
@@ -93,7 +94,7 @@ export class PhotosState extends BaseState {
       }
 
       const { fileMetadata, error } = await this.hostService.storage.upload({
-        file,
+        file
       });
 
       if (error) {
@@ -107,7 +108,7 @@ export class PhotosState extends BaseState {
       setState({
         ...getState(),
         photos: [...getState().photos, photo],
-        avatarUrl: photo.url,
+        avatarUrl: photo.url
       });
     });
   }
@@ -122,7 +123,7 @@ export class PhotosState extends BaseState {
       }
 
       const { fileMetadata, error } = await this.hostService.storage.upload({
-        file,
+        file
       });
 
       if (error) {
@@ -133,7 +134,7 @@ export class PhotosState extends BaseState {
 
       setState({
         ...getState(),
-        photos: [...getState().photos, photo],
+        photos: [...getState().photos, photo]
       });
     });
   }
@@ -143,7 +144,7 @@ export class PhotosState extends BaseState {
     // @ts-ignore
     return this.getPhotosGQL
       .fetch({
-        userId: Object.assign({}, { _eq: this.getUser() }) as unknown as Uuid_Comparison_Exp,
+        userId: Object.assign({}, { _eq: this.getUser() }) as unknown as Uuid_Comparison_Exp
       })
       .pipe(
         map(({ data, error }) => {
@@ -165,7 +166,7 @@ export class PhotosState extends BaseState {
           const avatar = photos.find((p) => p.id === this.getUser()?.avatarUrl);
 */
           patchState({
-            photos: photos,
+            photos: photos
           });
         })
       );
@@ -173,7 +174,7 @@ export class PhotosState extends BaseState {
 
   private async getPhotoDetails(fileId: string): Promise<UserPhoto> {
     const { presignedUrl, error: urlError } = await this.hostService.storage.getPresignedUrl({
-      fileId: fileId,
+      fileId: fileId
     });
 
     if (urlError) {
@@ -183,7 +184,7 @@ export class PhotosState extends BaseState {
     return {
       id: fileId,
       url: presignedUrl.url,
-      expiresAt: addMinutes(new Date(), presignedUrl.expiration),
+      expiresAt: addMinutes(new Date(), presignedUrl.expiration)
     } as UserPhoto;
   }
 }

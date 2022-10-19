@@ -1,34 +1,49 @@
-<form (ngSubmit)='Submit($event)' [formGroup]='form' class='flex flex-col px-4 py-4 border'>
-  <div class='py-5 border-b flex items-center justify-between'>
-    <div class='flex flex-col'>
-      <span class='text-gray-800 font-medium'>Update your bio</span>
-      <span class='text-xs text-gray-400'>Update your profile details</span>
-    </div>
+<div class='section'>
+  <div class='section-header'>
+    <h1 class='px-5 py-5'>Delete Account</h1>
   </div>
-  <ui-input-validation *ngIf='hasErrors()' [errors]='submitErrors'></ui-input-validation>
-  <div class='py-4'>
-    <h1>Confirm account deletion</h1>
-    <p>
-      We're sorry to see you go. Once you delete your account, all your data will be permanently deleted. Including your
-      profile, photos, messages, posts, comments, and likes.
-      This action is irreversible. Please type your 'DELETE' to confirm.
-    </p>
-  </div>
+  <div class='section-body'>
+    <form (ngSubmit)='Submit($event)' [formGroup]='form' class='flex flex-col px-4 py-4'>
+      <ui-input-validation *ngIf='hasErrors()' [errors]='submitErrors'></ui-input-validation>
+      <div class='py-4 flex flex-col space-y-2'>
+        <p>
+          All your data, your profile, photos, messages, posts, comments, likes and
+          credits will be permanently deleted.
+          <span class='font-semibold'>This action is irreversible.</span>
+        </p>
+        <p> If you only want a break from using the app, you can <a class='text-blue-400'>deactivate your account</a>
+          instead. Your account will
+          be hidden from other users, but you can reactivate it at any time. Any credits you have will be saved.</p>
+      </div>
+      <div class='flex flex-col space-y-2 py-4'>
+        <div>
+          <p class='text-sm'>Why do you want to delete your account? (Optional)</p>
+        </div>
+        <div>
+          <ui-input-text-area
+            [cols]='50'
+            [placeholder]="'This is optional but may help us improve our service.'"
+            [rows]='5'
+            formControlName='feedback'></ui-input-text-area>
+        </div>
+      </div>
+      <div class='flex flex-col space-y-2 py-4'>
+        <h1>If you're sure you want to delete your account, please enter your password below.</h1>
+        <div>
+          <p class='text-sm'>Password confirmation</p>
+        </div>
+        <div>
+          <ui-input-password formControlName='confirm'
+                             label='type your password to confirm'></ui-input-password>
+          <ui-input-error error='required' formControlName='password'>Please confirm your action</ui-input-error>
+        </div>
+      </div>
 
-  <div class='py-4'>
-    <ui-input-text formControlName='confirm'
-                   label='type delete to confirm'></ui-input-text>
-    <ui-input-error error='required' formControlName='password'>Please confirm your action</ui-input-error>
+      <div class='py-4 flex space-x-2'>
+        <button [ngClass]="{'loading': formSubmitting}" class='btn'>Delete Account</button>
+        <button (click)='Cancel()' class='btn btn-ghost' type='reset'>Cancel</button>
+      </div>
+    </form>
   </div>
-
-  <div class='py-4 flex space-x-2'>
-    <button [disabled]='formSubmitting' class='button-primary'>
-      <span *ngIf='!formSubmitting'>Delete my account</span>
-      <span *ngIf='formSubmitting'>Deleting...</span>
-    </button>
-    <a (click)='Cancel()' class='button-cancel'>
-      <span>Cancel</span>
-    </a>
-  </div>
-</form>
+</div>
 

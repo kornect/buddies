@@ -97,7 +97,7 @@ export interface AuthProviderRequests_Bool_Exp {
 /** unique or primary key constraints on table "auth.provider_requests" */
 export enum AuthProviderRequests_Constraint {
   /** unique or primary key constraint on columns "id" */
-  ProviderRequestsPkey = 'provider_requests_pkey',
+  ProviderRequestsPkey = 'provider_requests_pkey'
 }
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
@@ -149,7 +149,7 @@ export enum AuthProviderRequests_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Options = 'options',
+  Options = 'options'
 }
 
 /** input type for updating data in table "auth.provider_requests" */
@@ -163,7 +163,7 @@ export enum AuthProviderRequests_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Options = 'options',
+  Options = 'options'
 }
 
 export interface AuthProviderRequests_Updates {
@@ -194,7 +194,7 @@ export interface AuthProviders_Bool_Exp {
 /** unique or primary key constraints on table "auth.providers" */
 export enum AuthProviders_Constraint {
   /** unique or primary key constraint on columns "id" */
-  ProvidersPkey = 'providers_pkey',
+  ProvidersPkey = 'providers_pkey'
 }
 
 /** input type for inserting data into table "auth.providers" */
@@ -231,7 +231,7 @@ export interface AuthProviders_Pk_Columns_Input {
 /** select columns of table "auth.providers" */
 export enum AuthProviders_Select_Column {
   /** column name */
-  Id = 'id',
+  Id = 'id'
 }
 
 /** input type for updating data in table "auth.providers" */
@@ -242,7 +242,7 @@ export interface AuthProviders_Set_Input {
 /** update columns of table "auth.providers" */
 export enum AuthProviders_Update_Column {
   /** column name */
-  Id = 'id',
+  Id = 'id'
 }
 
 export interface AuthProviders_Updates {
@@ -280,7 +280,7 @@ export interface AuthRefreshTokens_Bool_Exp {
 /** unique or primary key constraints on table "auth.refresh_tokens" */
 export enum AuthRefreshTokens_Constraint {
   /** unique or primary key constraint on columns "refresh_token" */
-  RefreshTokensPkey = 'refresh_tokens_pkey',
+  RefreshTokensPkey = 'refresh_tokens_pkey'
 }
 
 /** input type for inserting data into table "auth.refresh_tokens" */
@@ -338,7 +338,7 @@ export enum AuthRefreshTokens_Select_Column {
   /** column name */
   RefreshToken = 'refreshToken',
   /** column name */
-  UserId = 'userId',
+  UserId = 'userId'
 }
 
 /** input type for updating data in table "auth.refresh_tokens" */
@@ -358,7 +358,7 @@ export enum AuthRefreshTokens_Update_Column {
   /** column name */
   RefreshToken = 'refreshToken',
   /** column name */
-  UserId = 'userId',
+  UserId = 'userId'
 }
 
 export interface AuthRefreshTokens_Updates {
@@ -380,7 +380,7 @@ export interface AuthRoles_Bool_Exp {
 /** unique or primary key constraints on table "auth.roles" */
 export enum AuthRoles_Constraint {
   /** unique or primary key constraint on columns "role" */
-  RolesPkey = 'roles_pkey',
+  RolesPkey = 'roles_pkey'
 }
 
 /** input type for inserting data into table "auth.roles" */
@@ -419,7 +419,7 @@ export interface AuthRoles_Pk_Columns_Input {
 /** select columns of table "auth.roles" */
 export enum AuthRoles_Select_Column {
   /** column name */
-  Role = 'role',
+  Role = 'role'
 }
 
 /** input type for updating data in table "auth.roles" */
@@ -430,7 +430,7 @@ export interface AuthRoles_Set_Input {
 /** update columns of table "auth.roles" */
 export enum AuthRoles_Update_Column {
   /** column name */
-  Role = 'role',
+  Role = 'role'
 }
 
 export interface AuthRoles_Updates {
@@ -477,7 +477,7 @@ export enum AuthUserProviders_Constraint {
   /** unique or primary key constraint on columns "provider_id", "provider_user_id" */
   UserProvidersProviderIdProviderUserIdKey = 'user_providers_provider_id_provider_user_id_key',
   /** unique or primary key constraint on columns "provider_id", "user_id" */
-  UserProvidersUserIdProviderIdKey = 'user_providers_user_id_provider_id_key',
+  UserProvidersUserIdProviderIdKey = 'user_providers_user_id_provider_id_key'
 }
 
 /** input type for inserting data into table "auth.user_providers" */
@@ -561,7 +561,7 @@ export enum AuthUserProviders_Select_Column {
   /** column name */
   UpdatedAt = 'updatedAt',
   /** column name */
-  UserId = 'userId',
+  UserId = 'userId'
 }
 
 /** input type for updating data in table "auth.user_providers" */
@@ -593,7 +593,7 @@ export enum AuthUserProviders_Update_Column {
   /** column name */
   UpdatedAt = 'updatedAt',
   /** column name */
-  UserId = 'userId',
+  UserId = 'userId'
 }
 
 export interface AuthUserProviders_Updates {
@@ -634,7 +634,7 @@ export enum AuthUserRoles_Constraint {
   /** unique or primary key constraint on columns "id" */
   UserRolesPkey = 'user_roles_pkey',
   /** unique or primary key constraint on columns "user_id", "role" */
-  UserRolesUserIdRoleKey = 'user_roles_user_id_role_key',
+  UserRolesUserIdRoleKey = 'user_roles_user_id_role_key'
 }
 
 /** input type for inserting data into table "auth.user_roles" */
@@ -694,7 +694,7 @@ export enum AuthUserRoles_Select_Column {
   /** column name */
   Role = 'role',
   /** column name */
-  UserId = 'userId',
+  UserId = 'userId'
 }
 
 /** input type for updating data in table "auth.user_roles" */
@@ -714,7 +714,7 @@ export enum AuthUserRoles_Update_Column {
   /** column name */
   Role = 'role',
   /** column name */
-  UserId = 'userId',
+  UserId = 'userId'
 }
 
 export interface AuthUserRoles_Updates {
@@ -770,7 +770,7 @@ export enum AuthUserSecurityKeys_Constraint {
   /** unique or primary key constraint on columns "credential_id" */
   UserSecurityKeyCredentialIdKey = 'user_security_key_credential_id_key',
   /** unique or primary key constraint on columns "id" */
-  UserSecurityKeysPkey = 'user_security_keys_pkey',
+  UserSecurityKeysPkey = 'user_security_keys_pkey'
 }
 
 /** input type for incrementing numeric columns in table "auth.user_security_keys" */
@@ -849,7 +849,7 @@ export enum AuthUserSecurityKeys_Select_Column {
   /** column name */
   Transports = 'transports',
   /** column name */
-  UserId = 'userId',
+  UserId = 'userId'
 }
 
 /** input type for updating data in table "auth.user_security_keys" */
@@ -898,7 +898,7 @@ export enum AuthUserSecurityKeys_Update_Column {
   /** column name */
   Transports = 'transports',
   /** column name */
-  UserId = 'userId',
+  UserId = 'userId'
 }
 
 export interface AuthUserSecurityKeys_Updates {
@@ -956,7 +956,7 @@ export interface Buckets_Bool_Exp {
 /** unique or primary key constraints on table "storage.buckets" */
 export enum Buckets_Constraint {
   /** unique or primary key constraint on columns "id" */
-  BucketsPkey = 'buckets_pkey',
+  BucketsPkey = 'buckets_pkey'
 }
 
 /** input type for incrementing numeric columns in table "storage.buckets" */
@@ -1028,7 +1028,7 @@ export enum Buckets_Select_Column {
   /** column name */
   PresignedUrlsEnabled = 'presignedUrlsEnabled',
   /** column name */
-  UpdatedAt = 'updatedAt',
+  UpdatedAt = 'updatedAt'
 }
 
 /** input type for updating data in table "storage.buckets" */
@@ -1060,7 +1060,7 @@ export enum Buckets_Update_Column {
   /** column name */
   PresignedUrlsEnabled = 'presignedUrlsEnabled',
   /** column name */
-  UpdatedAt = 'updatedAt',
+  UpdatedAt = 'updatedAt'
 }
 
 export interface Buckets_Updates {
@@ -1178,7 +1178,7 @@ export interface Files_Bool_Exp {
 /** unique or primary key constraints on table "storage.files" */
 export enum Files_Constraint {
   /** unique or primary key constraint on columns "id" */
-  FilesPkey = 'files_pkey',
+  FilesPkey = 'files_pkey'
 }
 
 /** input type for incrementing numeric columns in table "storage.files" */
@@ -1275,7 +1275,7 @@ export enum Files_Select_Column {
   /** column name */
   UpdatedAt = 'updatedAt',
   /** column name */
-  UploadedByUserId = 'uploadedByUserId',
+  UploadedByUserId = 'uploadedByUserId'
 }
 
 /** input type for updating data in table "storage.files" */
@@ -1333,7 +1333,7 @@ export enum Files_Update_Column {
   /** column name */
   UpdatedAt = 'updatedAt',
   /** column name */
-  UploadedByUserId = 'uploadedByUserId',
+  UploadedByUserId = 'uploadedByUserId'
 }
 
 export interface Files_Updates {
@@ -1370,12 +1370,12 @@ export interface Genders_Bool_Exp {
 /** unique or primary key constraints on table "genders" */
 export enum Genders_Constraint {
   /** unique or primary key constraint on columns "name" */
-  GendersPkey = 'genders_pkey',
+  GendersPkey = 'genders_pkey'
 }
 
 export enum Genders_Enum {
   Man = 'man',
-  Woman = 'woman',
+  Woman = 'woman'
 }
 
 /** Boolean expression to compare columns of type "genders_enum". All fields are combined with logical 'AND'. */
@@ -1412,7 +1412,7 @@ export interface Genders_Pk_Columns_Input {
 /** select columns of table "genders" */
 export enum Genders_Select_Column {
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 /** input type for updating data in table "genders" */
@@ -1423,7 +1423,7 @@ export interface Genders_Set_Input {
 /** update columns of table "genders" */
 export enum Genders_Update_Column {
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 export interface Genders_Updates {
@@ -1533,7 +1533,7 @@ export enum Order_By {
   /** in descending order, nulls first */
   DescNullsFirst = 'desc_nulls_first',
   /** in descending order, nulls last */
-  DescNullsLast = 'desc_nulls_last',
+  DescNullsLast = 'desc_nulls_last'
 }
 
 /** Boolean expression to filter rows from the table "profiles". All fields are combined with a logical 'AND'. */
@@ -1560,7 +1560,7 @@ export interface Profiles_Bool_Exp {
 /** unique or primary key constraints on table "profiles" */
 export enum Profiles_Constraint {
   /** unique or primary key constraint on columns "id" */
-  ProfilesPkey = 'profiles_pkey',
+  ProfilesPkey = 'profiles_pkey'
 }
 
 /** input type for inserting data into table "profiles" */
@@ -1640,7 +1640,7 @@ export enum Profiles_Select_Column {
   /** column name */
   Sexuality = 'sexuality',
   /** column name */
-  UpdatedAt = 'updated_at',
+  UpdatedAt = 'updated_at'
 }
 
 /** input type for updating data in table "profiles" */
@@ -1690,7 +1690,7 @@ export enum Profiles_Update_Column {
   /** column name */
   Sexuality = 'sexuality',
   /** column name */
-  UpdatedAt = 'updated_at',
+  UpdatedAt = 'updated_at'
 }
 
 export interface Profiles_Updates {
@@ -1710,7 +1710,7 @@ export interface Relationships_Bool_Exp {
 /** unique or primary key constraints on table "relationships" */
 export enum Relationships_Constraint {
   /** unique or primary key constraint on columns "name" */
-  RelationshipsPkey = 'relationships_pkey',
+  RelationshipsPkey = 'relationships_pkey'
 }
 
 /** input type for inserting data into table "relationships" */
@@ -1738,7 +1738,7 @@ export interface Relationships_Pk_Columns_Input {
 /** select columns of table "relationships" */
 export enum Relationships_Select_Column {
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 /** input type for updating data in table "relationships" */
@@ -1749,7 +1749,7 @@ export interface Relationships_Set_Input {
 /** update columns of table "relationships" */
 export enum Relationships_Update_Column {
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 export interface Relationships_Updates {
@@ -1769,13 +1769,13 @@ export interface Sexuality_Bool_Exp {
 /** unique or primary key constraints on table "sexuality" */
 export enum Sexuality_Constraint {
   /** unique or primary key constraint on columns "name" */
-  SexualityPkey = 'sexuality_pkey',
+  SexualityPkey = 'sexuality_pkey'
 }
 
 export enum Sexuality_Enum {
   Bisexual = 'Bisexual',
   Homosexual = 'Homosexual',
-  Straight = 'Straight',
+  Straight = 'Straight'
 }
 
 /** Boolean expression to compare columns of type "sexuality_enum". All fields are combined with logical 'AND'. */
@@ -1812,7 +1812,7 @@ export interface Sexuality_Pk_Columns_Input {
 /** select columns of table "sexuality" */
 export enum Sexuality_Select_Column {
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 /** input type for updating data in table "sexuality" */
@@ -1823,7 +1823,7 @@ export interface Sexuality_Set_Input {
 /** update columns of table "sexuality" */
 export enum Sexuality_Update_Column {
   /** column name */
-  Name = 'name',
+  Name = 'name'
 }
 
 export interface Sexuality_Updates {
@@ -1919,7 +1919,7 @@ export enum Users_Constraint {
   /** unique or primary key constraint on columns "phone_number" */
   UsersPhoneNumberKey = 'users_phone_number_key',
   /** unique or primary key constraint on columns "id" */
-  UsersPkey = 'users_pkey',
+  UsersPkey = 'users_pkey'
 }
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
@@ -2128,7 +2128,7 @@ export enum Users_Select_Column {
   /** column name */
   TotpSecret = 'totpSecret',
   /** column name */
-  UpdatedAt = 'updatedAt',
+  UpdatedAt = 'updatedAt'
 }
 
 /** input type for updating data in table "auth.users" */
@@ -2211,7 +2211,7 @@ export enum Users_Update_Column {
   /** column name */
   TotpSecret = 'totpSecret',
   /** column name */
-  UpdatedAt = 'updatedAt',
+  UpdatedAt = 'updatedAt'
 }
 
 export interface Users_Updates {

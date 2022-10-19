@@ -4,10 +4,8 @@ import { NhostClient } from '@nhost/nhost-js';
 
 import { ConfigService } from '@/app/common/config';
 
-export { User } from '@nhost/hasura-auth-js';
-
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class NHostService extends NhostClient {
   constructor(private configService: ConfigService) {

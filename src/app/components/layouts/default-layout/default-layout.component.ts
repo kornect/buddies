@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { UntilDestroy } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Select, Store } from '@ngxs/store';
-import { Observable, tap } from 'rxjs';
+import { combineLatest, Observable, tap } from 'rxjs';
 
 import { AppTheme } from '@/app/common/theme';
 import { User } from '@/app/store/models';
@@ -17,12 +17,21 @@ import { AppState, SignOutAction, ToggleThemeAction, UserState } from '@/app/sto
   styleUrls: ['./default-layout.component.scss'],
 })
 export class DefaultLayoutComponent implements OnInit {
+  user: User | null = null;
+  theme: AppTheme | null = null;
+
   @Select(UserState.user) user$!: Observable<User | null>;
   @Select(AppState.theme) theme$!: Observable<AppTheme>;
 
-  constructor(private router: Router, private route: ActivatedRoute, private store: Store) {}
+  constructor(private router: Router, private route: ActivatedRoute, private store: Store) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    combineLatest([this.user$, this.theme$]).pipe(untilDestroyed(this)).subscribe(([user, theme]) => {
+      this.user = user;
+      this.theme = theme;
+    })
+  }
 
   changeTheme() {
     this.store.dispatch(new ToggleThemeAction());

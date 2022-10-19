@@ -6,7 +6,7 @@ import { GoogleMap } from '@angular/google-maps';
 
 import { Store } from '@ngxs/store';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Observable, catchError, finalize, map, of, tap } from 'rxjs';
+import { catchError, finalize, map, Observable, of, tap } from 'rxjs';
 
 import { ConfigService } from '@/app/common/config';
 import { BaseFormComponent } from '@/app/common/forms';
@@ -16,7 +16,7 @@ import { UpdateLocationAction } from '@/app/store/state';
 @Component({
   selector: 'app-update-location',
   templateUrl: './update-location.component.html',
-  styleUrls: ['./update-location.component.scss'],
+  styleUrls: ['./update-location.component.scss']
 })
 export class UpdateLocationComponent extends BaseFormComponent implements OnInit, AfterViewInit {
   mapsApiLoaded!: Observable<boolean>;
@@ -32,9 +32,9 @@ export class UpdateLocationComponent extends BaseFormComponent implements OnInit
     zoomControl: true,
     scrollwheel: false,
     disableDefaultUI: true,
-    fullscreenControl: true,
+    fullscreenControl: false,
     disableDoubleClickZoom: true,
-    mapTypeId: 'roadmap',
+    mapTypeId: 'roadmap'
     // maxZoom:this.maxZoom,
     // minZoom:this.minZoom,
   };
@@ -58,7 +58,7 @@ export class UpdateLocationComponent extends BaseFormComponent implements OnInit
       province: [null, [Validators.required]],
       country: [null, [Validators.required]],
       latitude: [null, [Validators.required]],
-      longitude: [null, [Validators.required]],
+      longitude: [null, [Validators.required]]
     });
   }
 
@@ -66,7 +66,7 @@ export class UpdateLocationComponent extends BaseFormComponent implements OnInit
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
         lat: position.coords.latitude,
-        lng: position.coords.longitude,
+        lng: position.coords.longitude
       };
     });
   }
@@ -97,9 +97,9 @@ export class UpdateLocationComponent extends BaseFormComponent implements OnInit
     // Binding autocomplete to search input control
     let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
       componentRestrictions: {
-        country: ['za'],
+        country: ['za']
       },
-      fields: ['address_components', 'geometry', 'formatted_address'],
+      fields: ['address_components', 'geometry', 'formatted_address']
     });
 
     autocomplete.addListener('place_changed', () => {
@@ -117,7 +117,7 @@ export class UpdateLocationComponent extends BaseFormComponent implements OnInit
         this.longitude = place.geometry.location?.lng();
         this.center = {
           lat: this.latitude,
-          lng: this.longitude,
+          lng: this.longitude
         };
 
         this.setFormValues(place);

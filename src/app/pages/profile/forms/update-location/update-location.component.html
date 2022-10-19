@@ -1,46 +1,50 @@
-<form (ngSubmit)='Submit($event)' [formGroup]='form' class='flex flex-col px-4 py-4 border'>
-  <div class='py-5 border-b flex items-center justify-between'>
-    <div class='flex flex-col'>
-      <span class='text-gray-800 font-medium'>Update your location</span>
-      <span class='text-xs text-gray-400'>Update your profile details</span>
-    </div>
+<div class='section'>
+  <div class='section-header'>
+    <h1 class='px-5 py-5'>Location</h1>
   </div>
-  <ui-input-validation *ngIf='hasErrors()' [errors]='submitErrors'></ui-input-validation>
-  <div class='flex py-4'>
-    <div class='w-2/5'>
-      <h1 class='text-gray-900 font-medium'>Location</h1>
-      <p class='text-gray-600 text-sm'>Update your location to allow us to show you nearby members</p>
-    </div>
-    <div class='grow'>
-      <div class='mb-5'>
-        <div class='form-field w-full'>
-          <input #search (keydown.enter)='$event.preventDefault()' formControlName='search' placeholder=' '
-                 type='text' />
+  <div class='section-body'>
+    <form (ngSubmit)='Submit($event)' [formGroup]='form' class='flex flex-col px-4 py-4'>
+      <ui-input-validation *ngIf='hasErrors()' [errors]='submitErrors'></ui-input-validation>
+      <div class='flex flex-col space-y-2 py-4'>
+        <div>
+          <p class='text-sm'>Enter your area by name</p>
         </div>
-        <ui-input-error error='required' formControlName='search'>Search location is required</ui-input-error>
+        <div>
+          <div class='mb-5'>
+            <div class='form-field w-full'>
+              <input #search (keydown.enter)='$event.preventDefault()' formControlName='search'
+                     placeholder='Enter your area'
+                     type='text' />
+            </div>
+            <ui-input-error error='required' formControlName='search'>Search location is required</ui-input-error>
+          </div>
+          <div *ngIf='mapsApiLoaded | async'>
+            <google-map
+              #myGoogleMap
+              [center]='center'
+              [options]='options'
+              [zoom]='zoom'
+              class='rounded-md h-full'
+              width='100%'
+            ></google-map>
+          </div>
+        </div>
       </div>
-      <div *ngIf='mapsApiLoaded | async'>
-        <google-map
-          #myGoogleMap
-          [center]='center'
-          [options]='options'
-          [zoom]='zoom'
-          class='rounded-md h-full'
-          width='100%'
-        ></google-map>
-      </div>
-    </div>
-  </div>
 
-  <div class='py-4 flex justify-end'>
-    <button [disabled]='formSubmitting' class='button-primary'>
-      <span *ngIf='!formSubmitting'>Save Changes</span>
-      <span *ngIf='formSubmitting'>Updating...</span>
-    </button>
-    <a (click)='Cancel()' class='button-cancel'>
-      <span>Cancel</span>
-    </a>
+      <div class='py-4 flex space-x-2'>
+        <button [ngClass]="{'loading': formSubmitting}" class='btn'>Save Changes</button>
+        <button (click)='Cancel()' class='btn btn-ghost' type='reset'>Cancel</button>
+      </div>
+    </form>
   </div>
-</form>
+</div>
+
+
+
+
+
+
+
+
 
 

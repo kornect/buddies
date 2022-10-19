@@ -9,7 +9,7 @@ import { NHostService } from '@/app/common/nhost';
 import {
   GetUserGQL,
   UpdateUserAvatarUrlGQL,
-  UpdateUserDisplayNameGQL,
+  UpdateUserDisplayNameGQL
 } from '@/app/graphql/accounts/accounts.generated';
 import { User } from '@/app/store/models/user';
 import { BaseState } from '@/app/store/state/base.state';
@@ -29,7 +29,7 @@ import {
   SignOutAction,
   SignUpAction,
   UpdateDisplayNameAction,
-  UpdatePhotoUrlAction,
+  UpdatePhotoUrlAction
 } from './user.actions';
 
 export interface UserStateModel {
@@ -37,13 +37,13 @@ export interface UserStateModel {
 }
 
 const defaults = {
-  user: null,
+  user: null
 };
 
 @State<UserStateModel>({
   name: 'user',
   defaults,
-  children: [PhotosState, ProfileState],
+  children: [PhotosState, ProfileState]
 })
 @UntilDestroy()
 @Injectable()
@@ -93,13 +93,12 @@ export class UserState extends BaseState {
   @Action(SetUserAction)
   setUserAction({ getState, patchState, dispatch }: StateContext<UserStateModel>, { payload }: SetUserAction) {
     if (payload) {
-      console.log('setUserAction', payload);
       const user = Object.assign({}, this.getUser(), payload);
       patchState({
         user: Object.assign({}, user, {
           displayName: user?.displayName === user?.email ? null : user?.displayName || null,
-          avatar: '',
-        }),
+          avatar: ''
+        })
       });
     } else {
       patchState({ user: null });
@@ -147,9 +146,9 @@ export class UserState extends BaseState {
         options: {
           redirectTo: `${window.location.origin}/auth/verify-email`,
           metadata: {
-            acceptedTerms: payload.acceptedTerms,
-          },
-        },
+            acceptedTerms: payload.acceptedTerms
+          }
+        }
       });
 
       if (error) {
@@ -158,6 +157,7 @@ export class UserState extends BaseState {
     });
   }
 
+  
   @Action(UpdateDisplayNameAction)
   updateDisplayNameAction(
     { dispatch, patchState, getState }: StateContext<UserStateModel>,
@@ -166,14 +166,14 @@ export class UserState extends BaseState {
     return this.updateUserDisplayNameGQL
       .mutate({
         id: this.getUserId(),
-        displayName: payload.displayName,
+        displayName: payload.displayName
       })
       .pipe(
         tap(({ data }) => {
           patchState({
             user: Object.assign({}, getState().user, {
-              displayName: data?.updateUser?.displayName,
-            }),
+              displayName: data?.updateUser?.displayName
+            })
           });
         }),
         switchMap(() => dispatch(new ReloadUserSessionAction()))
@@ -184,7 +184,7 @@ export class UserState extends BaseState {
   changeEmailAction({ dispatch }: StateContext<UserStateModel>, { payload }: ChangeEmailAction) {
     return this.withObservable(async () => {
       const { error } = await this.hostService.auth.changeEmail({
-        newEmail: payload.email,
+        newEmail: payload.email
       });
 
       if (error) {
@@ -199,7 +199,7 @@ export class UserState extends BaseState {
   changePasswordAction({ dispatch }: StateContext<UserStateModel>, { payload }: ChangePasswordAction) {
     return this.withObservable(async () => {
       const { error } = await this.hostService.auth.changePassword({
-        newPassword: payload.password,
+        newPassword: payload.password
       });
 
       if (error) {
@@ -214,8 +214,8 @@ export class UserState extends BaseState {
       const { error } = await this.hostService.auth.resetPassword({
         email: payload.email,
         options: {
-          redirectTo: `${window.location.origin}/auth/reset-password`,
-        },
+          redirectTo: `${window.location.origin}/auth/reset-password`
+        }
       });
 
       if (error) {
@@ -229,7 +229,7 @@ export class UserState extends BaseState {
     return this.updateUserAvatarUrlGQL
       .mutate({
         id: this.getUserId(),
-        avatarUrl: payload.photoUrl,
+        avatarUrl: payload.photoUrl
       })
       .pipe(switchMap(() => dispatch(new ReloadUserSessionAction())));
   }
@@ -238,11 +238,11 @@ export class UserState extends BaseState {
   sendVerificationLinkAction({ dispatch }: StateContext<UserStateModel>, { payload }: SendVerificationLinkAction) {
     return this.withObservable(async () => {
       const { error } = await this.hostService.auth.sendVerificationEmail({
-        email: payload.email,
+        email: payload.email
       });
 
       if (error) {
-        this.handleError(error, "Failure sending verification email'");
+        this.handleError(error, 'Failure sending verification email\'');
       }
     });
   }
@@ -252,7 +252,7 @@ export class UserState extends BaseState {
     return this.withObservable(async () => {
       const { error } = await this.hostService.auth.changePassword({
         ticket: payload.token,
-        newPassword: payload.password,
+        newPassword: payload.password
       });
 
       if (error) {

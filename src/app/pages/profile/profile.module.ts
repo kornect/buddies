@@ -26,7 +26,12 @@ import { UpdateEmailComponent } from './forms/update-email/update-email.componen
 import { UpdatePasswordComponent } from './forms/update-password/update-password.component';
 import { UpdatePhoneNumberComponent } from './forms/update-phone-number/update-phone-number.component';
 import { DeleteAccountComponent } from './forms/delete-account/delete-account.component';
-import { UpdateRelationshipPreferenceComponent } from './forms/update-relationship-preference/update-relationship-preference.component';
+import {
+  UpdateRelationshipPreferenceComponent
+} from './forms/update-relationship-preference/update-relationship-preference.component';
+import { BlockLinkComponent } from './components/block-link/block-link.component';
+import { UiPageTitleModule } from '@/app/components/ui/ui-page-title';
+import { UpdateSexualityComponent } from './forms/update-sexuality/update-sexuality.component';
 
 
 @NgModule({
@@ -47,13 +52,17 @@ import { UpdateRelationshipPreferenceComponent } from './forms/update-relationsh
     UpdatePhoneNumberComponent,
     DeleteAccountComponent,
     UpdateRelationshipPreferenceComponent,
+    BlockLinkComponent,
+    UpdateSexualityComponent
   ],
   imports: [CommonModule, ProfileRoutingModule, ...CommonImports,
     GoogleMapsModule,
     HttpClientModule,
     HttpClientJsonpModule,
     NzSelectModule,
-    NzDatePickerModule],
+    NzDatePickerModule,
+    UiPageTitleModule
+  ]
 })
 export class ProfileModule {
 }

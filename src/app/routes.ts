@@ -4,31 +4,32 @@ import { AppLandingComponent } from '@/app/app-landing.component';
 import { AnonymousGuard, AuthorizeGuard, CompleteProfileGuard } from '@/app/common/guards';
 import { DefaultLayoutComponent } from '@/app/components/layouts/default-layout/default-layout.component';
 
+
 export const APP_ROUTES: Routes = [
   {
     path: '',
     canActivate: [AnonymousGuard],
-    component: AppLandingComponent,
+    component: AppLandingComponent
   },
   {
     path: 'sign-in',
     canActivate: [AnonymousGuard],
-    loadChildren: async () => (await import('./pages/sign-in')).SignInModule,
+    loadChildren: async () => (await import('./pages/sign-in')).SignInModule
   },
   {
     path: 'sign-up',
     canActivate: [AnonymousGuard],
-    loadChildren: async () => (await import('./pages/sign-up')).SignUpModule,
+    loadChildren: async () => (await import('./pages/sign-up')).SignUpModule
   },
   {
     path: 'forgot-password',
     canActivate: [AnonymousGuard],
-    loadChildren: async () => (await import('./pages/forgot-password')).ForgotPasswordModule,
+    loadChildren: async () => (await import('./pages/forgot-password')).ForgotPasswordModule
   },
   {
     path: 'reset-password',
     canActivate: [AnonymousGuard],
-    loadChildren: async () => (await import('./pages/reset-password')).ResetPasswordModule,
+    loadChildren: async () => (await import('./pages/reset-password')).ResetPasswordModule
   },
   { path: 'verify-email', loadChildren: async () => (await import('./pages/verify-email')).VerifyEmailModule },
   {
@@ -38,17 +39,18 @@ export const APP_ROUTES: Routes = [
     children: [
       {
         path: 'home',
+        data: { breadcrumbs: 'Home' },
         canActivate: [CompleteProfileGuard],
-        loadChildren: async () => (await import('./pages/home')).HomeModule,
+        loadChildren: async () => (await import('./pages/home')).HomeModule
       },
       {
         path: 'profile',
-        loadChildren: async () => (await import('./pages/profile')).ProfileModule,
-      },
-    ],
+        loadChildren: async () => (await import('./pages/profile')).ProfileModule
+      }
+    ]
   },
   {
     path: '**',
-    redirectTo: '',
-  },
+    redirectTo: ''
+  }
 ];

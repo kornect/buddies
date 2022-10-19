@@ -11,7 +11,11 @@ import { GetLookupsAction } from '@/app/store/state';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-  constructor(private store: Store) {}
+  pageTitle = 'Profile';
+  breadcrumbs = [];
+
+  constructor(private store: Store) {
+  }
 
   ngOnInit(): void {
     this.store.dispatch(new GetLookupsAction());

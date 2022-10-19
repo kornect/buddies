@@ -67,6 +67,11 @@ mutation UpdateProfileRelationPreference($id: uuid!, $seeking_relationship: Stri
   }
 }
 
+mutation UpdateSexuality($id: uuid!, $sexuality: sexuality_enum!) {
+  update_profiles_by_pk(pk_columns: {id: $id}, _set: {sexuality: $sexuality}) {
+    sexuality
+  }
+}
 
 
 

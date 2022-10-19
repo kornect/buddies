@@ -11,6 +11,7 @@ import {
   UpdateProfileBioGQL,
   UpdateProfileLocationGQL,
   UpdateProfileRelationPreferenceGQL,
+  UpdateSexualityGQL
 } from '@/app/graphql/profiles';
 import { UserProfile } from '@/app/store/models';
 import { BaseState } from '@/app/store/state/base.state';
@@ -21,6 +22,7 @@ import {
   UpdateLocationAction,
   UpdateProfileBioAction,
   UpdateProfileRelationshipAction,
+  UpdateProfileSexualityAction
 } from './profile.actions';
 
 export interface ProfileStateModel {
@@ -28,12 +30,12 @@ export interface ProfileStateModel {
 }
 
 const defaults = {
-  profile: null,
+  profile: null
 };
 
 @State<ProfileStateModel>({
   name: 'profile',
-  defaults,
+  defaults
 })
 @UntilDestroy()
 @Injectable()
@@ -44,6 +46,7 @@ export class ProfileState extends BaseState {
     private updateProfileBioGQL: UpdateProfileBioGQL,
     private updateProfileLocationGQL: UpdateProfileLocationGQL,
     private updateProfileRelationPreferenceGQL: UpdateProfileRelationPreferenceGQL,
+    private updateSexualityGQL: UpdateSexualityGQL,
     private hostService: NHostService,
     private store: Store
   ) {
@@ -82,7 +85,7 @@ export class ProfileState extends BaseState {
         }
 
         patchState({
-          profile: data.profiles_by_pk,
+          profile: data.profiles_by_pk
         });
       })
     );
@@ -93,7 +96,7 @@ export class ProfileState extends BaseState {
     return this.insertProfileGQL.mutate({ ...payload }).pipe(
       map(({ data }) => {
         patchState({
-          profile: Object.assign({}, getState().profile, data?.insert_profiles_one),
+          profile: Object.assign({}, getState().profile, data?.insert_profiles_one)
         });
       })
     );
@@ -107,15 +110,30 @@ export class ProfileState extends BaseState {
     return this.updateProfileRelationPreferenceGQL
       .mutate({
         id: this.getUserId(),
-        seeking_relationship: payload.seeking_relationship,
+        seeking_relationship: payload.seeking_relationship
       })
       .pipe(
         map(({ data }) => {
           patchState({
-            profile: Object.assign({}, getState().profile, data?.update_profiles_by_pk),
+            profile: Object.assign({}, getState().profile, data?.update_profiles_by_pk)
           });
         })
       );
+  }
+
+  @Action(UpdateProfileSexualityAction)
+  updateProfileSexualityAction({ getState, patchState }: StateContext<ProfileStateModel>,
+                               { payload }: UpdateProfileSexualityAction) {
+    return this.updateSexualityGQL.mutate({ id: this.getUserId(), ...payload }).pipe(
+      map(({ data }) => {
+        patchState({
+          profile: Object.assign({}, getState().profile, data?.update_profiles_by_pk)
+        });
+      }),
+      catchError((error) => {
+        throw this.getGraphQLError(error);
+      })
+    );
   }
 
   @Action(UpdateProfileBioAction)
@@ -126,7 +144,7 @@ export class ProfileState extends BaseState {
     return this.updateProfileBioGQL.mutate({ id: this.getUserId(), ...payload }).pipe(
       map(({ data }) => {
         patchState({
-          profile: Object.assign({}, getState().profile, data?.update_profiles_by_pk?.bio),
+          profile: Object.assign({}, getState().profile, data?.update_profiles_by_pk?.bio)
         });
       }),
       catchError((error) => {
@@ -144,8 +162,8 @@ export class ProfileState extends BaseState {
       ...payload,
       location: JSON.stringify({
         type: 'Point',
-        coordinates: [payload.longitude, payload.latitude],
-      }),
+        coordinates: [payload.longitude, payload.latitude]
+      })
     };
 
     delete formData.search;
@@ -161,13 +179,13 @@ export class ProfileState extends BaseState {
         province: payload.province,
         location: JSON.stringify({
           type: 'Point',
-          coordinates: [payload.longitude, payload.latitude],
-        }),
+          coordinates: [payload.longitude, payload.latitude]
+        })
       })
       .pipe(
         map(({ data }) => {
           patchState({
-            profile: Object.assign({}, getState().profile, data?.update_profiles_by_pk),
+            profile: Object.assign({}, getState().profile, data?.update_profiles_by_pk)
           });
         }),
         catchError((error) => {

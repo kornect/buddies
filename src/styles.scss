@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html, body {
-  font-family: 'Rubik', sans-serif;
+  @apply h-full;
 }
 
 // Buttons
@@ -42,13 +42,13 @@ html, body {
 
 // Input forms
 .form-field {
-  @apply relative z-0 w-full bg-gray-100 rounded-md;
+  @apply relative z-0 bg-gray-200 rounded-md w-full;
 }
 
 .form-field > input,
 .form-field > textarea,
 .form-field > select {
-  @apply block w-full px-3 pt-2 pb-2 mt-0 bg-transparent rounded-md border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:ring-blue-100;
+  @apply block px-3 py-3 w-full mt-0 bg-transparent rounded-md border-0 appearance-none focus:outline-none focus:ring-0 focus:ring-blue-100;
 }
 
 .form-field > label {
@@ -84,3 +84,36 @@ html, body {
   color: rgba(0, 0, 0, var(--tw-text-opacity));
   left: 0px;
 }
+
+.section {
+  @apply bg-white rounded-lg shadow-lg py-4;
+}
+
+.section-header {
+  @apply flex items-center justify-between mb-4;
+}
+
+.section-header > h1 {
+  @apply px-5 py-5 text-lg font-semibold;
+}
+
+.section-body {
+
+}
+
+.block-links {
+  @apply flex flex-col;
+}
+
+.block-links > app-block-link {
+  @apply border-b border-gray-200;
+}
+
+.block-links > app-block-link:last-child {
+  @apply border-b-0;
+}
+
+.block-link {
+  @apply flex items-center px-4 py-4 hover:text-gray-800 hover:bg-gray-100;
+}
+

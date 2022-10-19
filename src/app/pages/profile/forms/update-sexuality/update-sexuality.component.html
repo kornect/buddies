@@ -1,20 +1,22 @@
 <div class='section'>
   <div class='section-header'>
-    <h1 class='px-5 py-5'>Display name</h1>
+    <h1 class='px-5 py-5'>Sexuality</h1>
   </div>
   <div class='section-body'>
     <form (ngSubmit)='Submit($event)' [formGroup]='form' class='flex flex-col px-4 py-4'>
       <ui-input-validation *ngIf='hasErrors()' [errors]='submitErrors'></ui-input-validation>
       <div class='flex flex-col space-y-2 py-4'>
         <div>
-          <p class='text-sm'>This is how other site members will know you</p>
+          <p class='text-sm'>You will be shown members with the same sexual preference</p>
         </div>
         <div>
-          <ui-input-text formControlName='displayName' placeholder='Display name '></ui-input-text>
-          <ui-input-error error='required' formControlName='displayName'>Name is required</ui-input-error>
-          <ui-input-error error='minlength' formControlName='displayName'>Minimum of 3 characters required
-          </ui-input-error>
-          <ui-input-error error='maxlength' formControlName='displayName'>Maximum of 60 characters required
+          <nz-select class='w-full bg-gray-100 rounded-lg' formControlName='sexuality'
+                     nzPlaceHolder='Select relationship'
+                     nzSize='large'>
+            <nz-option *ngFor='let item of sexuality$ | async' [nzLabel]='item.text'
+                       [nzValue]='item.value'></nz-option>
+          </nz-select>
+          <ui-input-error error='required' formControlName='seeking_relationship'>Sexuality is required
           </ui-input-error>
         </div>
       </div>
@@ -26,8 +28,4 @@
     </form>
   </div>
 </div>
-
-
-
-
 

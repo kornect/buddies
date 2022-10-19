@@ -1,198 +1,115 @@
 <ng-container *ngIf='{ user: user$ | async, profile: profile$ | async } as data'>
   <div class='flex flex-col space-y-4'>
-    <h1 class='text-lg py-4'>My Profile</h1>
     <app-complete-profile-message></app-complete-profile-message>
 
-    <div class='border rounded'>
-      <div class='flex justify-between items-center'>
-        <h1 class='px-5 py-5'>My photos</h1>
+    <div class='section'>
+      <div class='section-header'>
+        <h1 class='px-5 py-5'>Profile details</h1>
+      </div>
+      <div class='section-body'>
+        <div class='block-links'>
+          <app-block-link [link]="'./'">
+            <div class='italic text-xs'>These values cannot be changed</div>
+            <div>{{ getGender(data?.profile) }}{{', '}} {{ getAge(data?.profile?.date_of_birth) + ' years' }}</div>
+          </app-block-link>
+
+          <app-block-link [link]="'/profile/edit/name'" [title]="'Display Name'">
+            {{ data?.user?.displayName || '...' }}
+          </app-block-link>
+
+          <app-block-link [link]="'/profile/edit/bio'" [title]="'Bio'">
+            {{ data?.profile?.bio || '...' }}
+          </app-block-link>
+
+          <app-block-link [link]="'/profile/edit/location'" [title]="'Location'">
+            {{ getLocation(data?.profile) }}
+          </app-block-link>
+
+          <app-block-link [link]="'/profile/edit/sexuality'" [title]="'Sexuality'">
+            <div>{{ data?.profile?.sexuality || '...' }}</div>
+          </app-block-link>
+
+          <app-block-link [link]="'/profile/edit/preferences'" [title]="'Seeking'">
+            <div class='flex space-x-2 flex-wrap'>
+              <span *ngFor="let preference of data?.profile?.seeking_relationship?.split(',')"
+                    class='badge'>
+              {{ preference }}
+            </span>
+            </div>
+          </app-block-link>
+        </div>
+      </div>
+    </div>
+
+    <div class='section'>
+      <div class='section-header'>
+        <h1 class='px-5 py-5'>My Photos</h1>
         <div class='px-5'>
           <a class='button-cancel'>Upload</a>
         </div>
       </div>
-      <div class='px-5 py-5'>
-        List of available photos
+      <div class='section-body'>
+        <div class='grid grid-cols-4 gap-2 px-4 mb-4'>
+          <div *ngFor='let i of [1,2,3,4]'><img class='rounded-box' src='https://placeimg.com/250/180/arch' /></div>
+        </div>
+        <div class='block-links'>
+          <app-block-link [link]="'../edit/account/email'" [title]="'All photos'">
+            <p>Click here to view all uploaded photos</p>
+          </app-block-link>
+        </div>
       </div>
     </div>
 
-    <div class='border rounded text-base flex flex-col'>
-      <h1 class='px-5 py-5'>Profile details</h1>
-      <a [routerLink]="'../edit/name'">
-        <div class='flex flex-row items-center px-5 py-5 w-full'>
-          <div class='flex flex-col flex-grow'>
-            <div class='font-semibold'>Display Name
-              <app-required-tag [data]='data?.user?.displayName'></app-required-tag>
-            </div>
-            <div class='text-gray-600'>{{ data?.user?.displayName || '...' }}</div>
-          </div>
-          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
-               xmlns='http://www.w3.org/2000/svg'>
-            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
-          </svg>
-        </div>
-      </a>
-      <a *ngIf='data?.profile?.date_of_birth' [routerLink]="'../edit/bio'">
-        <div class='flex flex-row items-center px-5 py-5 border-t'>
-          <div class='flex flex-col flex-grow'>
-            <div class='font-semibold'>Bio</div>
-            <div class='text-gray-600'>{{ data?.profile?.bio || '...' }}</div>
-          </div>
-          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
-               xmlns='http://www.w3.org/2000/svg'>
-            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
-          </svg>
-        </div>
-      </a>
-      <a *ngIf='data?.profile?.date_of_birth' [routerLink]="'../edit/location'">
-        <div class='flex flex-row items-center px-5 py-5 border-t'>
-          <div class='flex flex-col flex-grow'>
-            <div class='font-semibold'>Location
-              <app-required-tag [data]='data?.profile?.location'></app-required-tag>
-            </div>
-            <div class='text-gray-600'>{{ getLocation(data?.profile) }}</div>
-          </div>
-          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
-               xmlns='http://www.w3.org/2000/svg'>
-            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
-          </svg>
-        </div>
-      </a>
-      <a [routerLink]="'../edit/details'">
-        <div class='flex flex-row items-center px-5 py-5 border-t'>
-          <div class='flex flex-col flex-grow'>
-            <div class='font-semibold'>Date Of Birth
-              <app-required-tag [data]='data?.profile?.date_of_birth'></app-required-tag>
-            </div>
-            <div class='text-gray-600'>{{ getDateOfBirth(data?.profile?.date_of_birth) }}</div>
-          </div>
-          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
-               xmlns='http://www.w3.org/2000/svg'>
-            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
-          </svg>
-        </div>
-      </a>
-      <a [routerLink]="'../edit/details'">
-        <div class='flex flex-row items-center px-5 py-5 border-t'>
-          <div class='flex flex-col flex-grow'>
-            <div class='font-semibold'>Gender
-              <app-required-tag [data]='data?.profile?.gender'></app-required-tag>
-            </div>
-            <div class='text-gray-600'>{{ data?.profile?.gender || '...' }}</div>
-          </div>
-          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
-               xmlns='http://www.w3.org/2000/svg'>
-            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
-          </svg>
-        </div>
-      </a>
-      <a [routerLink]="'../edit/details'">
-        <div class='flex flex-row items-center px-5 py-5 border-t'>
-          <div class='flex flex-col flex-grow'>
-            <div class='font-semibold'>Interested in
-              <app-required-tag [data]='data?.profile?.interested_in_gender'></app-required-tag>
-            </div>
-            <div class='text-gray-600'>{{ data?.profile?.interested_in_gender || '...' }}</div>
-          </div>
-          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
-               xmlns='http://www.w3.org/2000/svg'>
-            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
-          </svg>
-        </div>
-      </a>
-      <a [routerLink]="'../edit/relationship-preference'">
-        <div class='flex flex-row items-center px-5 py-5 border-t'>
-          <div class='flex flex-col flex-grow'>
-            <div class='font-semibold'>Seeking
-              <app-required-tag [data]='data?.profile?.seeking_relationship'></app-required-tag>
-            </div>
-            <div class='text-gray-600'>{{ data?.profile?.seeking_relationship || '...' }}</div>
-          </div>
-          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
-               xmlns='http://www.w3.org/2000/svg'>
-            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
-          </svg>
-        </div>
-      </a>
-    </div>
+    <div class='section'>
+      <div class='section-header'>
+        <h1 class='px-5 py-5'>Credits</h1>
+      </div>
+      <div class='section-body'>
+        <div class='block-links'>
 
+          <app-block-link [link]="'/profile/edit/relationship-preference'" [title]="'Available'">
+            <div class='text-gray-600'>{{ 'You have 560 credits' }}</div>
+          </app-block-link>
 
-    <div class='grid grid-cols-2 gap-2'>
-
-      <div class='border rounded'>
-        <h1 class='px-5 py-5'>Subscription</h1>
-        <div class='flex flex-row items-center px-5 py-5'>
-          <div class='flex flex-col flex-grow'>
-            <div class='font-semibold'>Plan</div>
-            <div class='text-gray-600'>{{ 'Premium plan - R100pm' }}</div>
-          </div>
-          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
-               xmlns='http://www.w3.org/2000/svg'>
-            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
-          </svg>
-        </div>
-        <div class='flex flex-row items-center px-5 py-5 border-t'>
-          <div class='flex flex-col flex-grow'>
-            <div class='font-semibold'>Payment</div>
-            <div class='text-gray-600'>{{ 'Next payment on 01/11/2022 using Amex ****3456' }}</div>
-          </div>
-          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
-               xmlns='http://www.w3.org/2000/svg'>
-            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
-          </svg>
-        </div>
-        <div class='flex flex-row items-center px-5 py-5 border-t'>
-          <div class='flex flex-col flex-grow'>
-            <div class='font-semibold'>Invoices</div>
-            <div class='text-gray-600'>{{ 'R100 paid on 01/10/2022' }}</div>
-          </div>
-          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
-               xmlns='http://www.w3.org/2000/svg'>
-            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
-          </svg>
+          <app-block-link [link]="'/profile/edit/relationship-preference'" [title]="'Purchases'">
+            <div class='text-gray-600'>{{ '2K for R200 paid on 01/10/2022' }}</div>
+          </app-block-link>
         </div>
       </div>
+    </div>
 
+    <div class='section'>
+      <div class='section-header'>
+        <h1 class='px-5 py-5'>Settings</h1>
+      </div>
+      <div class='section-body'>
+        <div class='block-links'>
 
-      <div class='border rounded'>
-        <h1 class='px-5 py-5'>Account</h1>
-        <a [routerLink]="'../edit/account/email'" class='flex flex-row items-center px-5 py-5'>
-          <div class='flex flex-col flex-grow'>
-            <div class='font-semibold'>Email</div>
+          <app-block-link [link]="'../edit/account/email'" [title]="'Email'">
             <div class='text-gray-600'>{{ data?.user?.email }}
-              - {{ data?.user?.emailVerified ? 'Verified' : 'Verification required'}}
+              - <span
+                class='badge badge-success'>{{ data?.user?.emailVerified ? 'Verified' : 'Verification required'}}</span>
             </div>
             <div class='text-gray-600'>
               {{ data?.user?.newEmail ? 'New: ' + data?.user?.newEmail : '' }}
             </div>
-          </div>
-          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
-               xmlns='http://www.w3.org/2000/svg'>
-            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
-          </svg>
-        </a>
-        <a [routerLink]="'../edit/account/password'" class='flex flex-row items-center px-5 py-5 border-t'>
-          <div class='flex flex-col flex-grow'>
-            <div class='font-semibold'>Password</div>
-            <div class='text-gray-600'>Change account password</div>
-          </div>
-          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
-               xmlns='http://www.w3.org/2000/svg'>
-            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
-          </svg>
-        </a>
-        <a [routerLink]="'../edit/account/delete'" class='flex flex-row items-center px-5 py-5 border-t'>
-          <div class='flex flex-col flex-grow'>
-            <div class='font-semibold'>Delete</div>
+          </app-block-link>
+
+          <app-block-link [link]="'../edit/account/password'" [title]="'Password'">
+            <div class='text-gray-600'>{{ '********' }}</div>
+          </app-block-link>
+
+          <app-block-link [link]="'../edit/account/hide'" [title]="'Hide profile'">
+            <div class='text-gray-600'>Your profile will not be visible to other members</div>
+          </app-block-link>
+
+          <app-block-link [link]="'../edit/account/delete'" [title]="'Delete profile'">
             <div class='text-gray-600'>{{ 'Delete your profile' }}</div>
-          </div>
-          <svg class='w-6 h-6' fill='none' stroke='currentColor' stroke-width='1.5' viewBox='0 0 24 24'
-               xmlns='http://www.w3.org/2000/svg'>
-            <path d='M8.25 4.5l7.5 7.5-7.5 7.5' stroke-linecap='round' stroke-linejoin='round' />
-          </svg>
-        </a>
+          </app-block-link>
+
+        </div>
       </div>
-
-
     </div>
   </div>
+
 </ng-container>

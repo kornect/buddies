@@ -23,7 +23,8 @@ export class DeleteAccountComponent extends BaseFormComponent implements OnInit 
   ) {
     super();
     this.form = this.formBuilder.group({
-      confirm: [null, [Validators.required]]
+      password: [null, [Validators.required]],
+      feedback: [null]
     });
   }
 

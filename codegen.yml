@@ -23,9 +23,6 @@ generates:
       onlyOperationTypes: true
       addExplicitOverride: true
       pureMagicComment: true
-    hooks:
-      afterOneFileWrite:
-        - prettier --write
   src/app/graphql/:
     preset: near-operation-file
     presetConfig:
@@ -48,6 +45,3 @@ generates:
       onlyOperationTypes: true
       addExplicitOverride: true
       pureMagicComment: true
-    hooks:
-      afterOneFileWrite:
-        - prettier --write

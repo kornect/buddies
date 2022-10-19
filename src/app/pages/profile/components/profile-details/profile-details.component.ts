@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { User, UserProfile } from '@/app/store/models';
 import { ProfileState, UserState } from '@/app/store/state';
 import { isNullOrUndefined } from '@/app/utils';
+import { Genders_Enum } from '@/app/graphql';
 
 
 @Component({
@@ -18,9 +19,11 @@ export class ProfileDetailsComponent implements OnInit {
   @Select(UserState.user) user$!: Observable<User | null>;
   @Select(ProfileState.profile) profile$!: Observable<UserProfile | null>;
 
-  constructor() {}
+  constructor() {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   getAge(dateOfBirth: Date | undefined) {
     if (isNullOrUndefined(dateOfBirth)) {
@@ -29,6 +32,10 @@ export class ProfileDetailsComponent implements OnInit {
 
     // @ts-ignore
     return differenceInYears(new Date(), new Date(dateOfBirth));
+  }
+
+  getGender(profile: UserProfile | undefined | null) {
+    return profile?.gender === Genders_Enum.Man ? 'Male' : 'Female';
   }
 
   getDateOfBirth(dateOfBirth: Date | undefined) {
