@@ -25,7 +25,7 @@ const routes: Routes = [
     path: '',
     component: ProfileComponent,
     data: {
-      breadcrumbs: 'My Profile'
+      breadcrumbs: 'Profile'
     },
     children: [
       { path: '', redirectTo: 'details', pathMatch: 'full' },

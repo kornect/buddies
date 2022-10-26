@@ -50,7 +50,8 @@
       </div>
       <div class='section-body'>
         <div class='grid grid-cols-4 gap-2 px-4 mb-4'>
-          <div *ngFor='let i of [1,2,3,4]'><img class='rounded-box' src='https://placeimg.com/250/180/arch' /></div>
+          <div *ngFor='let i of [1,2,3,4]'><img alt='arrow' class='rounded-box'
+                                                src='https://placeimg.com/250/180/arch' /></div>
         </div>
         <div class='block-links'>
           <app-block-link [link]="'../edit/account/email'" [title]="'All photos'">
@@ -70,8 +71,10 @@
           <app-block-link [link]="'/profile/edit/relationship-preference'" [title]="'Available'">
             <div class='text-gray-600'>{{ 'You have 560 credits' }}</div>
           </app-block-link>
-
-          <app-block-link [link]="'/profile/edit/relationship-preference'" [title]="'Purchases'">
+          <app-block-link [link]="'/profile/edit/relationship-preference'" [title]="'Cards'">
+            <div class='text-gray-600'>{{ 'You don\'t have any cards saved' }}</div>
+          </app-block-link>
+          <app-block-link [link]="'/profile/edit/relationship-preference'" [title]="'Invoices'">
             <div class='text-gray-600'>{{ '2K for R200 paid on 01/10/2022' }}</div>
           </app-block-link>
         </div>
