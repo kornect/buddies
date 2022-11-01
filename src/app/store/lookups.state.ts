@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { tap } from 'rxjs';
 
-import { NHostService } from '@/app/common/nhost';
+import { NhostService } from '@/app/common/nhost';
 import { GetLookupsGQL } from '@/app/graphql/lookups/lookups.generated';
 import { Lookup } from '@/app/store/models';
-import { BaseState } from '@/app/store/state/base.state';
-import { GetLookupsAction } from '@/app/store/state/lookups.actions';
+import { BaseState } from '@/app/store/base.state';
+import { GetLookupsAction } from '@/app/store/lookups.actions';
 
 export interface LookupsStateModel {
   genders: Array<Lookup>;
@@ -18,16 +18,16 @@ export interface LookupsStateModel {
 const defaults = {
   genders: [],
   sexuality: [],
-  relationships: [],
+  relationships: []
 };
 
 @State<LookupsStateModel>({
   name: 'lookups',
-  defaults,
+  defaults
 })
 @Injectable()
 export class LookupsState extends BaseState {
-  constructor(private hostService: NHostService, private getLookupsGQL: GetLookupsGQL) {
+  constructor(private hostService: NhostService, private getLookupsGQL: GetLookupsGQL) {
     super(hostService);
   }
 
@@ -61,9 +61,9 @@ export class LookupsState extends BaseState {
             (value) =>
               ({
                 value: value.name,
-                text: value.name,
+                text: value.name
               } as unknown as Lookup)
-          ),
+          )
         });
       })
     );

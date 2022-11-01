@@ -8,13 +8,13 @@ import { Observable, tap } from 'rxjs';
 
 import { BaseFormComponent } from '@/app/common/forms';
 import { User } from '@/app/store/models';
-import { ChangeEmailAction, GetUserAction, UserState } from '@/app/store/state';
+import { ChangeEmailAction, GetUserAction, UserState } from '@/app/store';
 
 
 @Component({
   selector: 'app-update-email',
   templateUrl: './update-email.component.html',
-  styleUrls: ['./update-email.component.scss'],
+  styleUrls: ['./update-email.component.scss']
 })
 export class UpdateEmailComponent extends BaseFormComponent implements OnInit {
   @Output() onSaved = new EventEmitter();
@@ -29,7 +29,7 @@ export class UpdateEmailComponent extends BaseFormComponent implements OnInit {
   ) {
     super();
     this.form = this.formBuilder.group({
-      email: [null, [Validators.required, Validators.email]],
+      email: [null, [Validators.required, Validators.email]]
     });
   }
 

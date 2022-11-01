@@ -9,18 +9,18 @@ import { Observable, tap } from 'rxjs';
 
 import { BaseFormComponent, mustBeYearsOld } from '@/app/common/forms';
 import { Genders_Enum } from '@/app/graphql';
-import { InsertProfileAction, ProfileState } from '@/app/store/state';
+import { InsertProfileAction, ProfileState } from '@/app/store';
 
 
 @Component({
   selector: 'app-update-details',
   templateUrl: './update-details.component.html',
-  styleUrls: ['./update-details.component.scss'],
+  styleUrls: ['./update-details.component.scss']
 })
 export class UpdateDetailsComponent extends BaseFormComponent implements OnInit {
   genders = [
     { label: 'Man', value: Genders_Enum.Man },
-    { label: 'Woman', value: Genders_Enum.Woman },
+    { label: 'Woman', value: Genders_Enum.Woman }
   ];
 
   @Output() onSaved = new EventEmitter();
@@ -35,7 +35,7 @@ export class UpdateDetailsComponent extends BaseFormComponent implements OnInit 
     this.form = this.formBuilder.group({
       date_of_birth: [addYears(new Date(), -18), [Validators.required, mustBeYearsOld<Date>(18)]],
       gender: [null, [Validators.required]],
-      interested_in_gender: [null, [Validators.required]],
+      interested_in_gender: [null, [Validators.required]]
     });
   }
 

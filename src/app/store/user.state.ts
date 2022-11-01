@@ -5,20 +5,21 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { from, switchMap, tap } from 'rxjs';
 
-import { NHostService } from '@/app/common/nhost';
+import { NhostService } from '@/app/common/nhost';
 import {
   GetUserGQL,
   UpdateUserAvatarUrlGQL,
   UpdateUserDisplayNameGQL
 } from '@/app/graphql/accounts/accounts.generated';
 import { User } from '@/app/store/models/user';
-import { BaseState } from '@/app/store/state/base.state';
-import { PhotosState } from '@/app/store/state/photos.state';
-import { ProfileState } from '@/app/store/state/profile.state';
+import { BaseState } from '@/app/store/base.state';
+import { PhotosState } from '@/app/store/photos.state';
+import { ProfileState } from '@/app/store/profile.state';
 
 import {
   ChangeEmailAction,
   ChangePasswordAction,
+  DeleteAccountAction,
   GetUserAction,
   ReloadUserSessionAction,
   ResetPasswordAction,
@@ -52,7 +53,7 @@ export class UserState extends BaseState {
     private updateUserDisplayNameGQL: UpdateUserDisplayNameGQL,
     private updateUserAvatarUrlGQL: UpdateUserAvatarUrlGQL,
     private getUserGQL: GetUserGQL,
-    private hostService: NHostService,
+    private hostService: NhostService,
     private store: Store,
     private router: Router
   ) {
@@ -157,7 +158,7 @@ export class UserState extends BaseState {
     });
   }
 
-  
+
   @Action(UpdateDisplayNameAction)
   updateDisplayNameAction(
     { dispatch, patchState, getState }: StateContext<UserStateModel>,
@@ -259,5 +260,11 @@ export class UserState extends BaseState {
         this.handleError(error, 'Failure confirming password');
       }
     });
+  }
+
+  @Action(DeleteAccountAction)
+  deleteAccountAction({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteAccountAction) {
+    return this.hostService.func.post('delete-user', payload).pipe(
+      switchMap(() => dispatch(new SignOutAction())));
   }
 }

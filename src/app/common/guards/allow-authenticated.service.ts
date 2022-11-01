@@ -3,14 +3,14 @@ import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Router, RouterStat
 
 import { from, of, switchMap } from 'rxjs';
 
-import { NHostService } from '@/app/common/nhost';
+import { NhostService } from '@/app/common/nhost';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizeGuard implements CanActivate {
-  constructor(private nhostService: NHostService, private router: Router, private route: ActivatedRoute) {
+  constructor(private nhostService: NhostService, private router: Router, private route: ActivatedRoute) {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {

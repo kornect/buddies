@@ -4,7 +4,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { catchError, map, of, switchMap } from 'rxjs';
 
-import { NHostService } from '@/app/common/nhost';
+import { NhostService } from '@/app/common/nhost';
 import {
   GetProfileGQL,
   InsertProfileGQL,
@@ -14,7 +14,7 @@ import {
   UpdateSexualityGQL
 } from '@/app/graphql/profiles';
 import { UserProfile } from '@/app/store/models';
-import { BaseState } from '@/app/store/state/base.state';
+import { BaseState } from '@/app/store/base.state';
 
 import {
   GetProfileAction,
@@ -47,7 +47,7 @@ export class ProfileState extends BaseState {
     private updateProfileLocationGQL: UpdateProfileLocationGQL,
     private updateProfileRelationPreferenceGQL: UpdateProfileRelationPreferenceGQL,
     private updateSexualityGQL: UpdateSexualityGQL,
-    private hostService: NHostService,
+    private hostService: NhostService,
     private store: Store
   ) {
     super(hostService);

@@ -4,7 +4,7 @@ import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Store } from '@ngxs/store';
 import { Location } from '@angular/common';
-import { ChangePasswordAction } from '@/app/store/state';
+import { ChangePasswordAction } from '@/app/store';
 import { Observable, tap } from 'rxjs';
 
 @Component({

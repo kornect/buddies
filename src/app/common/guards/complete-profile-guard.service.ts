@@ -5,25 +5,26 @@ import {
   CanActivate,
   CanActivateChild,
   Router,
-  RouterStateSnapshot,
+  RouterStateSnapshot
 } from '@angular/router';
 
 import { Store } from '@ngxs/store';
 import { from, of, switchMap } from 'rxjs';
 
-import { NHostService } from '@/app/common/nhost';
-import { PhotosState, ProfileState, UserState } from '@/app/store/state';
+import { NhostService } from '@/app/common/nhost';
+import { PhotosState, ProfileState, UserState } from '@/app/store';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CompleteProfileGuard implements CanActivate, CanActivateChild {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private nhostService: NHostService,
+    private nhostService: NhostService,
     private store: Store
-  ) {}
+  ) {
+  }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.redirectIfLoggedIn(next, state);

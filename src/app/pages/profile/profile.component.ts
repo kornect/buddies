@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngxs/store';
 
-import { GetLookupsAction } from '@/app/store/state';
+import { GetLookupsAction } from '@/app/store';
 
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
+  styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
   pageTitle = 'Profile';

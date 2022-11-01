@@ -1,8 +1,8 @@
-import { AppState } from '@/app/store/state/app.state';
-import { LookupsState } from '@/app/store/state/lookups.state';
-import { PhotosState } from '@/app/store/state/photos.state';
-import { ProfileState } from '@/app/store/state/profile.state';
-import { UserState } from '@/app/store/state/user.state';
+import { AppState } from '@/app/store/app.state';
+import { LookupsState } from '@/app/store/lookups.state';
+import { PhotosState } from '@/app/store/photos.state';
+import { ProfileState } from '@/app/store/profile.state';
+import { UserState } from '@/app/store/user.state';
 
 export * from './base.state';
 export * from './lookups.actions';

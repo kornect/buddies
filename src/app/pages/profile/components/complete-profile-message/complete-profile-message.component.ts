@@ -2,18 +2,20 @@ import { Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngxs/store';
 
-import { PhotosState, ProfileState, UserState } from '@/app/store/state';
+import { PhotosState, ProfileState, UserState } from '@/app/store';
 
 
 @Component({
   selector: 'app-complete-profile-message',
   templateUrl: './complete-profile-message.component.html',
-  styleUrls: ['./complete-profile-message.component.scss'],
+  styleUrls: ['./complete-profile-message.component.scss']
 })
 export class CompleteProfileMessageComponent implements OnInit {
-  constructor(private store: Store) {}
+  constructor(private store: Store) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   isVerified() {
     return this.store.selectSnapshot(UserState.isComplete);

@@ -15,14 +15,14 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsModule, Store } from '@ngxs/store';
 import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
-import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
+import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { NzMessageModule } from 'ng-zorro-antd/message';
-import { Observable, from, switchMap } from 'rxjs';
+import { from, Observable, switchMap } from 'rxjs';
 
-import { NHostService } from '@/app/common/nhost';
+import { NhostService } from '@/app/common/nhost';
 import { DefaultLayoutModule } from '@/app/components/layouts/default-layout';
 import { APP_ROUTES } from '@/app/routes';
-import { APP_STATES, InitThemeAction } from '@/app/store/state';
+import { APP_STATES, InitThemeAction } from '@/app/store';
 import { environment } from '@/environments';
 
 import { AppLandingComponent } from './app-landing.component';
@@ -30,7 +30,7 @@ import { AppComponent } from './app.component';
 
 registerLocaleData(en);
 
-function initializeAppFactory(hostService: NHostService, store: Store): () => Observable<any> {
+function initializeAppFactory(hostService: NhostService, store: Store): () => Observable<any> {
   return () =>
     from(hostService.auth.isAuthenticatedAsync()).pipe(
       switchMap(() => {
@@ -39,11 +39,11 @@ function initializeAppFactory(hostService: NHostService, store: Store): () => Ob
     );
 }
 
-export function createApollo(httpLink: HttpLink, nhostService: NHostService) {
+export function createApollo(httpLink: HttpLink, nhostService: NhostService) {
   const basic = setContext((operation, context) => ({
     headers: {
-      Accept: 'charset=utf-8',
-    },
+      Accept: 'charset=utf-8'
+    }
   }));
 
   const auth = setContext((operation, context) => {
@@ -55,8 +55,8 @@ export function createApollo(httpLink: HttpLink, nhostService: NHostService) {
       const accessToken = nhostService.auth.getAccessToken();
       return {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+          Authorization: `Bearer ${accessToken}`
+        }
       };
     }
   });
@@ -65,14 +65,14 @@ export function createApollo(httpLink: HttpLink, nhostService: NHostService) {
     basic,
     auth,
     httpLink.create({
-      uri: nhostService.graphql.getUrl(),
-    }),
+      uri: nhostService.graphql.getUrl()
+    })
   ]);
   const cache = new InMemoryCache();
 
   return {
     link,
-    cache,
+    cache
   };
 }
 
@@ -83,36 +83,37 @@ export function createApollo(httpLink: HttpLink, nhostService: NHostService) {
     BrowserAnimationsModule,
     HttpClientModule,
     RouterModule.forRoot(APP_ROUTES, {
-      initialNavigation: 'enabledBlocking',
+      initialNavigation: 'enabledBlocking'
     }),
     BreadcrumbsModule.forRoot({
       postProcess: null,
-      applyDistinctOn: 'text',
+      applyDistinctOn: 'text'
     }),
     NzMessageModule,
     GoogleMapsModule,
     FontAwesomeModule,
     NgxsModule.forRoot(APP_STATES, {
-      developmentMode: !environment.production,
+      developmentMode: !environment.production
     }),
     environment.production ? [] : NgxsReduxDevtoolsPluginModule.forRoot(),
     DefaultLayoutModule,
-    ApolloModule,
+    ApolloModule
   ],
   providers: [
     {
       provide: APP_INITIALIZER,
       useFactory: initializeAppFactory,
-      deps: [NHostService, Store],
-      multi: true,
+      deps: [NhostService, Store],
+      multi: true
     },
     { provide: NZ_I18N, useValue: en_US },
     {
       provide: APOLLO_OPTIONS,
       useFactory: createApollo,
-      deps: [HttpLink, NHostService],
-    },
+      deps: [HttpLink, NhostService]
+    }
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

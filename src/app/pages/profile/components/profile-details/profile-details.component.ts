@@ -5,7 +5,7 @@ import { differenceInYears, format } from 'date-fns';
 import { Observable } from 'rxjs';
 
 import { User, UserProfile } from '@/app/store/models';
-import { ProfileState, UserState } from '@/app/store/state';
+import { ProfileState, UserState } from '@/app/store';
 import { isNullOrUndefined } from '@/app/utils';
 import { Genders_Enum } from '@/app/graphql';
 
@@ -13,7 +13,7 @@ import { Genders_Enum } from '@/app/graphql';
 @Component({
   selector: 'app-profile-details',
   templateUrl: './profile-details.component.html',
-  styleUrls: ['./profile-details.component.scss'],
+  styleUrls: ['./profile-details.component.scss']
 })
 export class ProfileDetailsComponent implements OnInit {
   @Select(UserState.user) user$!: Observable<User | null>;

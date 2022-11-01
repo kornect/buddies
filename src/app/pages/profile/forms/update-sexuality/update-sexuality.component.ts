@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { BaseFormComponent } from '@/app/common/forms';
 import { Select, Store } from '@ngxs/store';
-import { LookupsState, ProfileState, UpdateProfileSexualityAction } from '@/app/store/state';
+import { LookupsState, ProfileState, UpdateProfileSexualityAction } from '@/app/store';
 import { Observable, tap } from 'rxjs';
 import { Lookup } from '@/app/store/models';
 import { UntypedFormBuilder, Validators } from '@angular/forms';

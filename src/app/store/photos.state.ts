@@ -6,18 +6,18 @@ import { addMinutes } from 'date-fns';
 import { map, of, switchMap } from 'rxjs';
 
 
-import { NHostService } from '@/app/common/nhost';
+import { NhostService } from '@/app/common/nhost';
 import { Uuid_Comparison_Exp } from '@/app/graphql';
 import { GetPhotosGQL } from '@/app/graphql/photos';
 import { UserPhoto } from '@/app/store/models';
-import { BaseState } from '@/app/store/state/base.state';
+import { BaseState } from '@/app/store/base.state';
 import {
   GetAvatarAction,
   GetPhotosAction,
   UploadAvatarAction,
   UploadPhotoAction
-} from '@/app/store/state/photos.actions';
-import { UpdatePhotoUrlAction } from '@/app/store/state/user.actions';
+} from '@/app/store/photos.actions';
+import { UpdatePhotoUrlAction } from '@/app/store/user.actions';
 import { defaultAvatar, isNullOrEmpty } from '@/app/utils';
 
 export interface PhotosStateModel {
@@ -37,7 +37,7 @@ const defaults = {
 @UntilDestroy()
 @Injectable()
 export class PhotosState extends BaseState {
-  constructor(private getPhotosGQL: GetPhotosGQL, private hostService: NHostService, private store: Store) {
+  constructor(private getPhotosGQL: GetPhotosGQL, private hostService: NhostService, private store: Store) {
     super(hostService);
 
     this.authStateChanged

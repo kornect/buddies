@@ -5,13 +5,13 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
 import { User } from '@/app/store/models';
-import { PhotosState, ProfileState, SignOutAction, UserState } from '@/app/store/state';
+import { PhotosState, ProfileState, SignOutAction, UserState } from '@/app/store';
 
 
 @Component({
   selector: 'app-complete-profile',
   templateUrl: './complete-profile.component.html',
-  styleUrls: ['./complete-profile.component.scss'],
+  styleUrls: ['./complete-profile.component.scss']
 })
 export class CompleteProfileComponent implements OnInit {
   @Select(UserState.user) user$!: Observable<User>;
@@ -19,13 +19,14 @@ export class CompleteProfileComponent implements OnInit {
     { title: 'Verify Email', subtitle: 'Verify your account' },
     { title: 'Profile Details', subtitle: 'Add profile details' },
     { title: 'Upload Photos', subtitle: 'Upload profile photos' },
-    { title: 'Set Location', subtitle: 'Set your location' },
+    { title: 'Set Location', subtitle: 'Set your location' }
   ] as Array<{ title: string; subtitle: string }>;
 
   activeStep = -1;
   loading = false;
 
-  constructor(private router: Router, private route: ActivatedRoute, private store: Store) {}
+  constructor(private router: Router, private route: ActivatedRoute, private store: Store) {
+  }
 
   ngOnInit(): void {
     this.nextStep();

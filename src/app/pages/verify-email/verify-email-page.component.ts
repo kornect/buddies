@@ -6,14 +6,14 @@ import { Store } from '@ngxs/store';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { tap } from 'rxjs';
 
-import { SendVerificationLinkAction } from '@/app/store/state';
+import { SendVerificationLinkAction } from '@/app/store';
 
 
 @UntilDestroy()
 @Component({
   selector: 'app-verify-email',
   templateUrl: './verify-email-page.component.html',
-  styleUrls: ['./verify-email-page.component.scss'],
+  styleUrls: ['./verify-email-page.component.scss']
 })
 export class VerifyEmailPageComponent implements OnInit {
   resendConfirmationEmailCompleted: boolean = true;
@@ -24,7 +24,8 @@ export class VerifyEmailPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private message: NzMessageService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.route.queryParams

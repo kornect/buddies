@@ -1,17 +1,17 @@
 .nav-link {
-  @apply px-3 flex flex-col items-center lg:flex-row lg:space-x-2 py-3 hover:bg-gray-900 rounded-md relative
+  @apply px-3 py-3 flex flex-col items-center hover:text-gray-800 hover:bg-gray-100;
 }
 
 .nav-link > svg {
-  @apply w-6 h-6
+  @apply w-7 h-7
 }
 
 .nav-link > span {
-  @apply text-gray-300 text-xxs lg:text-base
+  @apply text-gray-800 text-xxs lg:text-base
 }
 
-.nav-link .active {
-  @apply bg-gray-800
+.nav-link-active {
+  @apply bg-gray-200 hover:bg-gray-300
 }
 
 .nav-link > nz-badge {

@@ -3,7 +3,7 @@
     <h1 class='px-5 py-5'>Delete Account</h1>
   </div>
   <div class='section-body'>
-    <form (ngSubmit)='Submit($event)' [formGroup]='form' class='flex flex-col px-4 py-4'>
+    <form (ngSubmit)='Submit($event)' [formGroup]='form' class='flex flex-col px-4 pt-4'>
       <ui-input-validation *ngIf='hasErrors()' [errors]='submitErrors'></ui-input-validation>
       <div class='py-4 flex flex-col space-y-2'>
         <p>
@@ -14,6 +14,7 @@
         <p> If you only want a break from using the app, you can <a class='text-blue-400'>deactivate your account</a>
           instead. Your account will
           be hidden from other users, but you can reactivate it at any time. Any credits you have will be saved.</p>
+        <p>If you're sure you want to delete your account, please enter your password below.</p>
       </div>
       <div class='flex flex-col space-y-2 py-4'>
         <div>
@@ -28,18 +29,16 @@
         </div>
       </div>
       <div class='flex flex-col space-y-2 py-4'>
-        <h1>If you're sure you want to delete your account, please enter your password below.</h1>
         <div>
           <p class='text-sm'>Password confirmation</p>
         </div>
         <div>
-          <ui-input-password formControlName='confirm'
+          <ui-input-password autocomplete='password' formControlName='password'
                              label='type your password to confirm'></ui-input-password>
           <ui-input-error error='required' formControlName='password'>Please confirm your action</ui-input-error>
         </div>
       </div>
-
-      <div class='py-4 flex space-x-2'>
+      <div class='flex space-x-2'>
         <button [ngClass]="{'loading': formSubmitting}" class='btn'>Delete Account</button>
         <button (click)='Cancel()' class='btn btn-ghost' type='reset'>Cancel</button>
       </div>

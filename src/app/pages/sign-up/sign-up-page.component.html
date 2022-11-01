@@ -20,21 +20,10 @@
           <ui-input-error error='maxlength' formControlName='password'>Maximum of 30 characters required
           </ui-input-error>
         </div>
-        <div class='w-full'>
-          <div class=''>
-            <input
-              class='bg-gray-100 rounded-md px-2 py-2'
-              formControlName='acceptTerms'
-              type='checkbox' /> I agree to the terms and conditions of this site
-          </div>
-          <ui-input-error error='required' formControlName='acceptTerms'>You must accept terms and conditions
-          </ui-input-error>
-        </div>
         <button
           [disabled]='formSubmitting'
-          class='flex items-center justify-center px-4 py-4 font-medium text-center rounded-lg text-gray-50 focus:outline-none bg-gradient-to-r from-red-500 to-pink-400'>
-          <span *ngIf='!formSubmitting'>Sign up</span>
-          <span *ngIf='formSubmitting'>Signing up...</span>
+          [ngClass]="{'loading': formSubmitting}"
+          class='btn'>Sign Up
         </button>
       </form>
     </div>

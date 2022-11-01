@@ -7,14 +7,14 @@ import { combineLatest, Observable, tap } from 'rxjs';
 
 import { AppTheme } from '@/app/common/theme';
 import { User } from '@/app/store/models';
-import { AppState, SignOutAction, ToggleThemeAction, UserState } from '@/app/store/state';
+import { AppState, SignOutAction, ToggleThemeAction, UserState } from '@/app/store';
 
 
 @UntilDestroy()
 @Component({
   selector: 'app-default-layout',
   templateUrl: './default-layout.component.html',
-  styleUrls: ['./default-layout.component.scss'],
+  styleUrls: ['./default-layout.component.scss']
 })
 export class DefaultLayoutComponent implements OnInit {
   user: User | null = null;
@@ -30,7 +30,7 @@ export class DefaultLayoutComponent implements OnInit {
     combineLatest([this.user$, this.theme$]).pipe(untilDestroyed(this)).subscribe(([user, theme]) => {
       this.user = user;
       this.theme = theme;
-    })
+    });
   }
 
   changeTheme() {

@@ -1,12 +1,13 @@
 import { User as NhostUser } from '@nhost/core';
-import { BehaviorSubject, Observable, catchError, finalize, from, tap } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, from, Observable, tap } from 'rxjs';
 
-import { NHostService } from '@/app/common/nhost';
+import { NhostService } from '@/app/common/nhost';
 
-export interface GraphQLError extends Error {}
+export interface GraphQLError extends Error {
+}
 
 export abstract class BaseState {
-  protected constructor(private nHostService: NHostService) {
+  protected constructor(private nHostService: NhostService) {
     this.nHostService.auth.onAuthStateChanged((_, session) => {
       this._authStateChanged.next(session?.user ?? null);
     });

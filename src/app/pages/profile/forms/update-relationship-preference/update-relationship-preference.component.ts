@@ -8,13 +8,13 @@ import { Observable, tap } from 'rxjs';
 
 import { BaseFormComponent } from '@/app/common/forms';
 import { Lookup } from '@/app/store/models';
-import { LookupsState, ProfileState, UpdateProfileRelationshipAction } from '@/app/store/state';
+import { LookupsState, ProfileState, UpdateProfileRelationshipAction } from '@/app/store';
 
 
 @Component({
   selector: 'app-update-relationship-preference',
   templateUrl: './update-relationship-preference.component.html',
-  styleUrls: ['./update-relationship-preference.component.scss'],
+  styleUrls: ['./update-relationship-preference.component.scss']
 })
 export class UpdateRelationshipPreferenceComponent extends BaseFormComponent implements OnInit {
   @Select(LookupsState.relationships) relationships$!: Observable<Lookup[]>;
@@ -29,7 +29,7 @@ export class UpdateRelationshipPreferenceComponent extends BaseFormComponent imp
   ) {
     super();
     this.form = this.formBuilder.group({
-      seeking_relationship: [null, [Validators.required]],
+      seeking_relationship: [null, [Validators.required]]
     });
   }
 

@@ -6,13 +6,13 @@ import { Store } from '@ngxs/store';
 import { Observable, tap } from 'rxjs';
 
 import { BaseFormComponent } from '@/app/common/forms';
-import { ResetPasswordRequestAction } from '@/app/store/state';
+import { ResetPasswordRequestAction } from '@/app/store';
 
 
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password-page.component.html',
-  styleUrls: ['./forgot-password-page.component.scss'],
+  styleUrls: ['./forgot-password-page.component.scss']
 })
 export class ForgotPasswordPageComponent extends BaseFormComponent implements OnInit {
   resetCompleted = false;
@@ -27,7 +27,7 @@ export class ForgotPasswordPageComponent extends BaseFormComponent implements On
   ) {
     super();
     this.form = this.formBuilder.group({
-      email: [null, [Validators.required, Validators.email]],
+      email: [null, [Validators.required, Validators.email]]
     });
   }
 

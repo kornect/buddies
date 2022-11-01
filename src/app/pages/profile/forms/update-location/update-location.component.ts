@@ -10,7 +10,7 @@ import { catchError, finalize, map, Observable, of, tap } from 'rxjs';
 
 import { ConfigService } from '@/app/common/config';
 import { BaseFormComponent } from '@/app/common/forms';
-import { UpdateLocationAction } from '@/app/store/state';
+import { UpdateLocationAction } from '@/app/store';
 
 
 @Component({

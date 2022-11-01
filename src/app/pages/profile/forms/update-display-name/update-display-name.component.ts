@@ -7,13 +7,13 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable, tap } from 'rxjs';
 
 import { BaseFormComponent } from '@/app/common/forms';
-import { UpdateDisplayNameAction, UserState } from '@/app/store/state';
+import { UpdateDisplayNameAction, UserState } from '@/app/store';
 
 
 @Component({
   selector: 'app-update-display-name',
   templateUrl: './update-display-name.component.html',
-  styleUrls: ['./update-display-name.component.scss'],
+  styleUrls: ['./update-display-name.component.scss']
 })
 export class UpdateDisplayNameComponent extends BaseFormComponent implements OnInit {
   constructor(
@@ -24,13 +24,13 @@ export class UpdateDisplayNameComponent extends BaseFormComponent implements OnI
   ) {
     super();
     this.form = this.formBuilder.group({
-      displayName: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(60)]],
+      displayName: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(60)]]
     });
   }
 
   ngOnInit(): void {
     this.form.patchValue({
-      displayName: this.store.selectSnapshot(UserState.user)?.displayName,
+      displayName: this.store.selectSnapshot(UserState.user)?.displayName
     });
   }
 

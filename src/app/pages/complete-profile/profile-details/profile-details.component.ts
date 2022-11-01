@@ -7,18 +7,18 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable, tap } from 'rxjs';
 
 import { BaseFormComponent, mustBeYearsOld } from '@/app/common/forms';
-import { GetLookupsAction, UpdateProfileAction } from '@/app/store/state';
+import { GetLookupsAction, UpdateProfileAction } from '@/app/store';
 
 
 @Component({
   selector: 'app-profile-details',
   templateUrl: './profile-details.component.html',
-  styleUrls: ['./profile-details.component.scss'],
+  styleUrls: ['./profile-details.component.scss']
 })
 export class ProfileDetailsComponent extends BaseFormComponent implements OnInit {
   genders = [
     { label: 'Man', value: 'man' },
-    { label: 'Woman', value: 'woman' },
+    { label: 'Woman', value: 'woman' }
   ];
 
   @Output() onSaved = new EventEmitter();
@@ -30,7 +30,7 @@ export class ProfileDetailsComponent extends BaseFormComponent implements OnInit
       displayName: [null, [Validators.required]],
       gender: [null, [Validators.required]],
       seekingGender: [null, [Validators.required]],
-      bio: [null, [Validators.required]],
+      bio: [null, [Validators.required]]
     });
   }
 

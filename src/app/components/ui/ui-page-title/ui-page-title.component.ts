@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { AppState } from '@/app/store/state';
+import { AppState } from '@/app/store';
 import { Breadcrumb } from '@exalif/ngx-breadcrumbs';
 
 @UntilDestroy()

@@ -7,14 +7,14 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Observable, tap } from 'rxjs';
 
 import { BaseFormComponent } from '@/app/common/forms';
-import { UploadAvatarAction } from '@/app/store/state';
+import { UploadAvatarAction } from '@/app/store';
 import { base64ToFile, uniqueID } from '@/app/utils';
 
 
 @Component({
   selector: 'app-profile-photos',
   templateUrl: './profile-photos.component.html',
-  styleUrls: ['./profile-photos.component.scss'],
+  styleUrls: ['./profile-photos.component.scss']
 })
 export class ProfilePhotosComponent extends BaseFormComponent implements OnInit {
   @Output() onSaved = new EventEmitter();
@@ -29,17 +29,18 @@ export class ProfilePhotosComponent extends BaseFormComponent implements OnInit 
     super();
     this.form = this.formBuilder.group({
       photo: [null, [Validators.required]],
-      cropped: [null, [Validators.required]],
+      cropped: [null, [Validators.required]]
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   Save(formValues: any): Observable<any> {
     return this.store
       .dispatch(
         new UploadAvatarAction({
-          file: formValues.cropped,
+          file: formValues.cropped
         })
       )
       .pipe(
@@ -58,7 +59,7 @@ export class ProfilePhotosComponent extends BaseFormComponent implements OnInit 
       const id = uniqueID();
       const file = base64ToFile(event.base64, `${id}.jpg`);
       this.form.patchValue({
-        cropped: file,
+        cropped: file
       });
     }
   }

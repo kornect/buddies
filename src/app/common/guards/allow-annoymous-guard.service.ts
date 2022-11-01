@@ -10,13 +10,13 @@ import {
 
 import { from, of, switchMap } from 'rxjs';
 
-import { NHostService } from '@/app/common/nhost';
+import { NhostService } from '@/app/common/nhost';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AnonymousGuard implements CanActivate, CanActivateChild {
-  constructor(private router: Router, private route: ActivatedRoute, private nhostService: NHostService) {
+  constructor(private router: Router, private route: ActivatedRoute, private nhostService: NhostService) {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {

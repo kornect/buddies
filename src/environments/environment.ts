@@ -4,11 +4,11 @@
 
 export const environment = {
   production: false,
-  subdomain: 'wbmiydopgwxkofkxgvgd',
+  subdomain: 'rflylrjhjdmxmnlixltr',
   region: 'eu-west-2',
   appName: 'Lusty',
   appVersion: '0.0.1',
-  googleMapsApi: 'AIzaSyDmHQ92_uccNXydj7lvy50_eYLUYY5LyXc',
+  googleMapsApi: 'AIzaSyDmHQ92_uccNXydj7lvy50_eYLUYY5LyXc'
 };
 
 /*

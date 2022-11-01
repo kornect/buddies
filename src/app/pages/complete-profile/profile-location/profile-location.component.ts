@@ -9,13 +9,13 @@ import { Observable, catchError, finalize, map, of, tap } from 'rxjs';
 
 import { ConfigService } from '@/app/common/config';
 import { BaseFormComponent } from '@/app/common/forms';
-import { UpdateLocationAction } from '@/app/store/state';
+import { UpdateLocationAction } from '@/app/store';
 
 
 @Component({
   selector: 'app-profile-location',
   templateUrl: './profile-location.component.html',
-  styleUrls: ['./profile-location.component.scss'],
+  styleUrls: ['./profile-location.component.scss']
 })
 export class ProfileLocationComponent extends BaseFormComponent implements OnInit, AfterViewInit {
   mapsApiLoaded!: Observable<boolean>;
@@ -33,7 +33,7 @@ export class ProfileLocationComponent extends BaseFormComponent implements OnIni
     disableDefaultUI: true,
     fullscreenControl: true,
     disableDoubleClickZoom: true,
-    mapTypeId: 'roadmap',
+    mapTypeId: 'roadmap'
     // maxZoom:this.maxZoom,
     // minZoom:this.minZoom,
   };
@@ -56,7 +56,7 @@ export class ProfileLocationComponent extends BaseFormComponent implements OnIni
       province: [null, [Validators.required]],
       country: [null, [Validators.required]],
       latitude: [null, [Validators.required]],
-      longitude: [null, [Validators.required]],
+      longitude: [null, [Validators.required]]
     });
   }
 
@@ -64,7 +64,7 @@ export class ProfileLocationComponent extends BaseFormComponent implements OnIni
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
         lat: position.coords.latitude,
-        lng: position.coords.longitude,
+        lng: position.coords.longitude
       };
     });
   }
@@ -94,9 +94,9 @@ export class ProfileLocationComponent extends BaseFormComponent implements OnIni
     // Binding autocomplete to search input control
     let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
       componentRestrictions: {
-        country: ['za'],
+        country: ['za']
       },
-      fields: ['address_components', 'geometry', 'formatted_address'],
+      fields: ['address_components', 'geometry', 'formatted_address']
     });
 
     autocomplete.addListener('place_changed', () => {
@@ -114,7 +114,7 @@ export class ProfileLocationComponent extends BaseFormComponent implements OnIni
         this.longitude = place.geometry.location?.lng();
         this.center = {
           lat: this.latitude,
-          lng: this.longitude,
+          lng: this.longitude
         };
 
         this.setFormValues(place);

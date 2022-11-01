@@ -20,6 +20,10 @@ export class ConfigService {
     };
   }
 
+  isProd(): boolean {
+    return environment.production;
+  }
+
   getGoogleMapsApiKey(): string {
     return environment.googleMapsApi;
   }

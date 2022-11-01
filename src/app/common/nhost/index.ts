@@ -1,1 +1,1 @@
-export * from './n-host.service';
+export * from './nhost.service';
