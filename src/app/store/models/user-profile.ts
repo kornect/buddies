@@ -1,5 +1,3 @@
-import * as Types from '@/app/graphql/types';
-
 export interface UserProfile {
   area: string | null;
   bio: string | null;
@@ -7,12 +5,12 @@ export interface UserProfile {
   country: string | null;
   created_at: Date;
   date_of_birth: any;
-  gender: Types.Genders_Enum;
+  gender: any;
   id: string;
-  interested_in_gender: Types.Genders_Enum;
+  interested_in_gender: any;
   location: Location | null;
   province: string | null;
   seeking_relationship: string | null;
-  sexuality: Types.Sexuality_Enum | null;
+  sexuality: any | null;
   updated_at: Date;
 }

@@ -2,11 +2,29 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { AuthImports } from '@/app/pages/common-imports';
-import { SignUpPageComponent } from '@/app/pages/sign-up/sign-up-page.component';
+import { SignUpPageComponent } from './sign-up-page.component';
+import { SignUpVerificationComponent } from './sign-up-verification/sign-up-verification.component';
+import { SignUpService } from './sign-up.service';
+import { SignUpFormComponent } from './sign-up-form/sign-up-form.component';
+import { NgOtpInputModule } from 'ng-otp-input';
 
 
 @NgModule({
-  declarations: [SignUpPageComponent],
-  imports: [RouterModule.forChild([{ path: '', component: SignUpPageComponent }]), ...AuthImports],
+  declarations: [
+    SignUpPageComponent,
+    SignUpFormComponent,
+    SignUpVerificationComponent
+  ],
+  imports: [
+    NgOtpInputModule,
+    RouterModule.forChild([{
+      path: '', component: SignUpPageComponent,
+      children: [
+        { path: '', component: SignUpFormComponent },
+        { path: 'verify-account', component: SignUpVerificationComponent }
+      ]
+    }]), ...AuthImports],
+  providers: [SignUpService]
 })
-export class SignUpModule {}
+export class SignUpModule {
+}

@@ -4,11 +4,11 @@
 
 export const environment = {
   production: false,
-  subdomain: 'rflylrjhjdmxmnlixltr',
-  region: 'eu-west-2',
   appName: 'Lusty',
   appVersion: '0.0.1',
-  googleMapsApi: 'AIzaSyDmHQ92_uccNXydj7lvy50_eYLUYY5LyXc'
+  googleMapsApi: 'AIzaSyDmHQ92_uccNXydj7lvy50_eYLUYY5LyXc',
+  domain: 'http://localhost:3000',
+  hasura: 'http://localhost:8080/v1/graphql'
 };
 
 /*

@@ -1,34 +1,9 @@
-import { User as NhostUser } from '@nhost/core';
-import { BehaviorSubject, catchError, finalize, from, Observable, tap } from 'rxjs';
-
-import { NhostService } from '@/app/common/nhost';
+import { catchError, finalize, from, Observable, tap } from 'rxjs';
 
 export interface GraphQLError extends Error {
 }
 
 export abstract class BaseState {
-  protected constructor(private nHostService: NhostService) {
-    this.nHostService.auth.onAuthStateChanged((_, session) => {
-      this._authStateChanged.next(session?.user ?? null);
-    });
-
-    this._authStateChanged.next(this.getUser());
-  }
-
-  private _authStateChanged = new BehaviorSubject<NhostUser | null>(null);
-
-  get authStateChanged(): Observable<NhostUser | null> {
-    return this._authStateChanged.asObservable();
-  }
-
-  getUser(): NhostUser | null {
-    return this.nHostService.auth.getUser();
-  }
-
-  getUserId() {
-    return this.getUser()?.id;
-  }
-
   /**
    * runs callback as observable
    * @param callback

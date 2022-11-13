@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 import { User, UserProfile } from '@/app/store/models';
 import { ProfileState, UserState } from '@/app/store';
 import { isNullOrUndefined } from '@/app/utils';
-import { Genders_Enum } from '@/app/graphql';
 
 
 @Component({
@@ -35,7 +34,7 @@ export class ProfileDetailsComponent implements OnInit {
   }
 
   getGender(profile: UserProfile | undefined | null) {
-    return profile?.gender === Genders_Enum.Man ? 'Male' : 'Female';
+    return profile?.gender === 'male' ? 'Male' : 'Female';
   }
 
   getDateOfBirth(dateOfBirth: Date | undefined) {

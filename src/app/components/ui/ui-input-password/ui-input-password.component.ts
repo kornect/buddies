@@ -1,12 +1,6 @@
 import { Component, Input, Optional, Self } from '@angular/core';
 import { ControlContainer, FormGroupDirective, NgControl } from '@angular/forms';
 
-
-
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-
-
-
 import { NOOP_VALUE_ACCESSOR } from '@/app/components/ui/noop-value-accessor';
 
 
@@ -20,9 +14,9 @@ import { NOOP_VALUE_ACCESSOR } from '@/app/components/ui/noop-value-accessor';
   viewProviders: [
     {
       provide: ControlContainer,
-      useExisting: FormGroupDirective,
-    },
-  ],
+      useExisting: FormGroupDirective
+    }
+  ]
 })
 export class UiInputPasswordComponent {
   @Input() autocomplete = 'new-password';
@@ -32,8 +26,6 @@ export class UiInputPasswordComponent {
   @Input() minlength!: number;
   @Input() placeholder = ' ';
   showPassword = false;
-  faEye = faEye;
-  faEyeSlash = faEyeSlash;
 
   constructor(@Self() @Optional() public ngControl: NgControl) {
     if (this.ngControl) {

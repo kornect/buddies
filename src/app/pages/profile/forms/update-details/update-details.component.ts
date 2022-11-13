@@ -8,7 +8,6 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable, tap } from 'rxjs';
 
 import { BaseFormComponent, mustBeYearsOld } from '@/app/common/forms';
-import { Genders_Enum } from '@/app/graphql';
 import { InsertProfileAction, ProfileState } from '@/app/store';
 
 
@@ -19,8 +18,8 @@ import { InsertProfileAction, ProfileState } from '@/app/store';
 })
 export class UpdateDetailsComponent extends BaseFormComponent implements OnInit {
   genders = [
-    { label: 'Man', value: Genders_Enum.Man },
-    { label: 'Woman', value: Genders_Enum.Woman }
+    { label: 'Man', value: 'male' },
+    { label: 'Woman', value: 'female' }
   ];
 
   @Output() onSaved = new EventEmitter();

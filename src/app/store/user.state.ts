@@ -1,16 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
-import { from, switchMap, tap } from 'rxjs';
-
-import { NhostService } from '@/app/common/nhost';
-import {
-  GetUserGQL,
-  UpdateUserAvatarUrlGQL,
-  UpdateUserDisplayNameGQL
-} from '@/app/graphql/accounts/accounts.generated';
+import { UntilDestroy } from '@ngneat/until-destroy';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { switchMap, tap } from 'rxjs';
 import { User } from '@/app/store/models/user';
 import { BaseState } from '@/app/store/base.state';
 import { PhotosState } from '@/app/store/photos.state';
@@ -19,19 +11,17 @@ import { ProfileState } from '@/app/store/profile.state';
 import {
   ChangeEmailAction,
   ChangePasswordAction,
-  DeleteAccountAction,
   GetUserAction,
-  ReloadUserSessionAction,
   ResetPasswordAction,
   ResetPasswordRequestAction,
-  SendVerificationLinkAction,
+  SendSignUpToken,
   SetUserAction,
   SignInAction,
   SignOutAction,
-  SignUpAction,
-  UpdateDisplayNameAction,
-  UpdatePhotoUrlAction
+  SignUpAction
 } from './user.actions';
+import { AuthService } from '@/app/auth';
+import { GetUserGQL, SendSignupOtpGQL, SignUpGQL } from '@/app/graphql/user/user.generated';
 
 export interface UserStateModel {
   user: User | null;
@@ -50,26 +40,12 @@ const defaults = {
 @Injectable()
 export class UserState extends BaseState {
   constructor(
-    private updateUserDisplayNameGQL: UpdateUserDisplayNameGQL,
-    private updateUserAvatarUrlGQL: UpdateUserAvatarUrlGQL,
     private getUserGQL: GetUserGQL,
-    private hostService: NhostService,
-    private store: Store,
-    private router: Router
+    private signUpGQL: SignUpGQL,
+    private sendSignupOtpGQL: SendSignupOtpGQL,
+    private authService: AuthService
   ) {
-    super(hostService);
-
-    this.authStateChanged
-      .pipe(
-        untilDestroyed(this),
-        switchMap((user) => {
-          if (user) {
-            return this.store.dispatch([new GetUserAction(), new SetUserAction(user)]);
-          }
-          return this.store.dispatch(new SetUserAction(null));
-        })
-      )
-      .subscribe();
+    super();
   }
 
   @Selector()
@@ -84,9 +60,9 @@ export class UserState extends BaseState {
 
   @Action(GetUserAction)
   getUserAction({ dispatch }: StateContext<UserStateModel>) {
-    return this.getUserGQL.fetch({ id: this.getUserId() }).pipe(
+    return this.getUserGQL.fetch({ uuid: this.authService.getUser()?.id }).pipe(
       switchMap(({ data }) => {
-        return dispatch(new SetUserAction(data.user));
+        return dispatch(new SetUserAction(data.users_by_pk));
       })
     );
   }
@@ -94,7 +70,7 @@ export class UserState extends BaseState {
   @Action(SetUserAction)
   setUserAction({ getState, patchState, dispatch }: StateContext<UserStateModel>, { payload }: SetUserAction) {
     if (payload) {
-      const user = Object.assign({}, this.getUser(), payload);
+      const user = Object.assign({}, this.authService.getUser(), payload);
       patchState({
         user: Object.assign({}, user, {
           displayName: user?.displayName === user?.email ? null : user?.displayName || null,
@@ -108,163 +84,55 @@ export class UserState extends BaseState {
 
   @Action(SignInAction)
   signInAction({ setState }: StateContext<UserStateModel>, { payload }: SignInAction) {
-    return this.withObservable(async () => {
-      const { error } = await this.hostService.auth.signIn(payload);
-
-      if (error) {
-        throw new Error(error.message);
-      }
-    });
+    return this.authService.signIn(payload);
   }
 
   @Action(SignOutAction)
   signOutAction({ setState }: StateContext<UserStateModel>) {
-    return this.withObservable(async () => {
-      const { error } = await this.hostService.auth.signOut();
-      if (error) {
-        throw new Error(error.message);
-      }
-
+    return this.authService.logOut().pipe(tap(() => {
       setState({ user: null });
-
-      this.router.navigate(['']).then();
-    });
-  }
-
-  @Action(ReloadUserSessionAction)
-  reloadUserSessionAction({}: StateContext<UserStateModel>) {
-    return from(this.hostService.auth.refreshSession()).pipe(
-      switchMap(() => this.store.dispatch(new SetUserAction(this.getUser())))
-    );
+    }));
   }
 
   @Action(SignUpAction)
   signUpAction({ setState }: StateContext<UserStateModel>, { payload }: SignUpAction) {
-    return this.withObservable(async () => {
-      const { error } = await this.hostService.auth.signUp({
-        email: payload.email,
-        password: payload.password,
-        options: {
-          redirectTo: `${window.location.origin}/auth/verify-email`,
-          metadata: {
-            acceptedTerms: payload.acceptedTerms
-          }
-        }
-      });
-
-      if (error) {
-        this.handleError(error, 'Sign up failed');
-      }
+    return this.signUpGQL.mutate({
+      email: payload.email,
+      password: payload.password,
+      confirmToken: payload.confirmToken
     });
-  }
-
-
-  @Action(UpdateDisplayNameAction)
-  updateDisplayNameAction(
-    { dispatch, patchState, getState }: StateContext<UserStateModel>,
-    { payload }: UpdateDisplayNameAction
-  ) {
-    return this.updateUserDisplayNameGQL
-      .mutate({
-        id: this.getUserId(),
-        displayName: payload.displayName
-      })
-      .pipe(
-        tap(({ data }) => {
-          patchState({
-            user: Object.assign({}, getState().user, {
-              displayName: data?.updateUser?.displayName
-            })
-          });
-        }),
-        switchMap(() => dispatch(new ReloadUserSessionAction()))
-      );
   }
 
   @Action(ChangeEmailAction)
   changeEmailAction({ dispatch }: StateContext<UserStateModel>, { payload }: ChangeEmailAction) {
-    return this.withObservable(async () => {
-      const { error } = await this.hostService.auth.changeEmail({
-        newEmail: payload.email
-      });
-
-      if (error) {
-        this.handleError(error, 'Failure changing email');
-      }
-
-      dispatch(new ReloadUserSessionAction());
-    });
+    return this.authService.changeEmail(payload);
   }
 
   @Action(ChangePasswordAction)
   changePasswordAction({ dispatch }: StateContext<UserStateModel>, { payload }: ChangePasswordAction) {
-    return this.withObservable(async () => {
-      const { error } = await this.hostService.auth.changePassword({
-        newPassword: payload.password
-      });
-
-      if (error) {
-        this.handleError(error, 'Failure to change password');
-      }
-    });
+    return this.authService.changePassword(payload);
   }
 
   @Action(ResetPasswordRequestAction)
   resetPasswordRequestAction({ dispatch }: StateContext<UserStateModel>, { payload }: ResetPasswordRequestAction) {
-    return this.withObservable(async () => {
-      const { error } = await this.hostService.auth.resetPassword({
-        email: payload.email,
-        options: {
-          redirectTo: `${window.location.origin}/auth/reset-password`
-        }
-      });
-
-      if (error) {
-        this.handleError(error, 'Failure resetting password');
+    return this.authService.sendResetPasswordEmail({
+      email: payload.email,
+      options: {
+        redirectTo: `${window.location.origin}/auth/reset-password`
       }
     });
   }
 
-  @Action(UpdatePhotoUrlAction)
-  updatePhotoUrlAction({ dispatch }: StateContext<UserStateModel>, { payload }: UpdatePhotoUrlAction) {
-    return this.updateUserAvatarUrlGQL
-      .mutate({
-        id: this.getUserId(),
-        avatarUrl: payload.photoUrl
-      })
-      .pipe(switchMap(() => dispatch(new ReloadUserSessionAction())));
-  }
-
-  @Action(SendVerificationLinkAction)
-  sendVerificationLinkAction({ dispatch }: StateContext<UserStateModel>, { payload }: SendVerificationLinkAction) {
-    return this.withObservable(async () => {
-      const { error } = await this.hostService.auth.sendVerificationEmail({
-        email: payload.email
-      });
-
-      if (error) {
-        this.handleError(error, 'Failure sending verification email\'');
-      }
-    });
+  @Action(SendSignUpToken)
+  sendVerificationLinkAction({ dispatch }: StateContext<UserStateModel>, { payload }: SendSignUpToken) {
+    return this.sendSignupOtpGQL.mutate({ email: payload.email });
   }
 
   @Action(ResetPasswordAction)
   resetPasswordAction({ dispatch }: StateContext<UserStateModel>, { payload }: ResetPasswordAction) {
-    return this.withObservable(async () => {
-      const { error } = await this.hostService.auth.changePassword({
-        ticket: payload.token,
-        newPassword: payload.password
-      });
-
-      if (error) {
-        this.handleError(error, 'Failure confirming password');
-      }
+    return this.authService.resetPassword({
+      ticket: payload.token,
+      newPassword: payload.password
     });
-  }
-
-  @Action(DeleteAccountAction)
-  deleteAccountAction({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteAccountAction) {
-    return this.hostService.func.post('delete-user', payload).pipe(
-      switchMap(() => dispatch(new SignOutAction())));
   }
 }

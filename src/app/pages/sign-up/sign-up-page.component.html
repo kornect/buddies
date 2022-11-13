@@ -1,37 +1,5 @@
 <app-auth-layout>
-  <div class='flex flex-col text-gray-500'>
-    <div class='pt-10'>
-      <div class='pb-5'>
-        <h2 class='text-2xl font-semibold'>Sign up</h2>
-        <p>Enter your details to create an account</p>
-      </div>
-      <form (ngSubmit)='Submit($event)' [formGroup]='form' class='flex flex-col space-y-8'>
-        <ui-input-validation *ngIf='hasErrors()' [errors]='submitErrors'></ui-input-validation>
-        <div class='w-full'>
-          <ui-input-email autocomplete='new-email' formControlName='email'></ui-input-email>
-          <ui-input-error error='required' formControlName='email'>Email is required</ui-input-error>
-          <ui-input-error error='email' formControlName='email'>Enter a valid email address</ui-input-error>
-        </div>
-        <div class='w-full'>
-          <ui-input-password [showStrength]='true' autocomplete='new-password'
-                             formControlName='password'></ui-input-password>
-          <ui-input-error error='required' formControlName='password'>Password is required</ui-input-error>
-          <ui-input-error error='minlength' formControlName='password'>Minimum of 8 characters required</ui-input-error>
-          <ui-input-error error='maxlength' formControlName='password'>Maximum of 30 characters required
-          </ui-input-error>
-        </div>
-        <button
-          [disabled]='formSubmitting'
-          [ngClass]="{'loading': formSubmitting}"
-          class='btn'>Sign Up
-        </button>
-      </form>
-    </div>
-    <div class='flex items-center justify-center py-4 space-x-2 pt-10'>
-      <p>Already a member?</p>
-      <a [routerLink]="['../sign-in']" class='font-semibold'>Sign in</a>
-    </div>
-  </div>
+  <router-outlet></router-outlet>
 </app-auth-layout>
 
 

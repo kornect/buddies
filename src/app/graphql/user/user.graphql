@@ -1,0 +1,27 @@
+mutation sendSignupOtp($email: String!) {
+  sendRegistrationToken(email: $email) {
+    success
+  }
+}
+
+mutation signUp($confirmToken: String!, $email: String!, $password: String!) {
+  registerUser(registerUser: {confirmToken: $confirmToken, email: $email, password: $password}) {
+    uuid
+  }
+}
+
+query GetUser($uuid: uuid!) {
+  users_by_pk(uuid: $uuid) {
+    email
+    email_confirmed
+    last_login_at
+    phone_number
+    phone_number_confirmed
+    roles
+    two_factor_enabled
+    uuid
+    created_at
+    updated_at
+  }
+}
+

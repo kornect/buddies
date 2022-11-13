@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
-import { AppLandingComponent } from '@/app/app-landing.component';
-import { AnonymousGuard, AuthorizeGuard, CompleteProfileGuard } from '@/app/common/guards';
+import { AppLandingComponent } from '@/app/components/app-landing.component';
+import { AnonymousGuard, AuthorizeGuard } from '@/app/auth/guards';
 import { DefaultLayoutComponent } from '@/app/components/layouts/default-layout/default-layout.component';
 
 
@@ -40,7 +40,6 @@ export const APP_ROUTES: Routes = [
       {
         path: 'home',
         data: { breadcrumbs: 'Home' },
-        canActivate: [CompleteProfileGuard],
         loadChildren: async () => (await import('./pages/home')).HomeModule
       },
       {

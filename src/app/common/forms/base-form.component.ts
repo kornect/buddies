@@ -1,6 +1,6 @@
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
-import { Observable, catchError, finalize, tap } from 'rxjs';
+import { catchError, finalize, Observable, tap } from 'rxjs';
 
 export interface ValidationMessage {
   message: string;
@@ -102,7 +102,11 @@ export abstract class BaseFormComponent {
         });
       } else if (formResponse.error.error_description) {
         messages.push({
-          message: formResponse.error.error_description,
+          message: formResponse.error.error_description
+        });
+      } else if (formResponse.error.message) {
+        messages.push({
+          message: formResponse.error.message
         });
       }
     } else {

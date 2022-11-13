@@ -3,7 +3,7 @@ import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Store } from '@ngxs/store';
-import { Observable, catchError, tap, throwError } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { BaseFormComponent } from '@/app/common/forms';
 import { SignInAction } from '@/app/store';
@@ -39,20 +39,6 @@ export class SignInPageComponent extends BaseFormComponent implements OnInit {
             replaceUrl: true
           })
           .then();
-      }),
-      catchError((error) => {
-        if (error.message === 'Email needs verification') {
-          this.router
-            .navigate(['../verify-email'], {
-              queryParams: {
-                email: formValues.email
-              },
-              relativeTo: this.route
-            })
-            .then();
-        }
-
-        return throwError(error);
       })
     );
   }

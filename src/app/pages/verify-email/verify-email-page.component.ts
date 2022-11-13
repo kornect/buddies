@@ -6,7 +6,7 @@ import { Store } from '@ngxs/store';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { tap } from 'rxjs';
 
-import { SendVerificationLinkAction } from '@/app/store';
+import { SendSignUpToken } from '@/app/store';
 
 
 @UntilDestroy()
@@ -47,7 +47,7 @@ export class VerifyEmailPageComponent implements OnInit {
       if (this.email) {
         this.resendConfirmationEmailCompleted = false;
         this.store
-          .dispatch(new SendVerificationLinkAction({ email: this.email }))
+          .dispatch(new SendSignUpToken({ email: this.email }))
           .pipe(
             tap(() => {
               this.message.success('Verification email sent');

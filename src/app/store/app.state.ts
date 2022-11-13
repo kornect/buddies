@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
-
-import { NhostService } from '@/app/common/nhost';
 import { AppTheme, ThemeService } from '@/app/common/theme';
 import { BaseState } from '@/app/store/base.state';
 
@@ -10,6 +8,7 @@ import { InitThemeAction, SetBreadcrumbsAction, SetThemeAction, ToggleThemeActio
 import { Breadcrumb, BreadcrumbsService } from '@exalif/ngx-breadcrumbs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { tap } from 'rxjs';
+import { AuthService } from '@/app/auth';
 
 export interface AppStateModel {
   theme: AppTheme;
@@ -29,12 +28,12 @@ const defaults = {
 @Injectable()
 export class AppState extends BaseState {
   constructor(
-    private hostService: NhostService,
+    private authService: AuthService,
     private themeService: ThemeService,
     private breadcrumbsService: BreadcrumbsService,
     private store: Store
   ) {
-    super(hostService);
+    super();
 
     this.breadcrumbsService.crumbs$.pipe(
       untilDestroyed(this),

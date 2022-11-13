@@ -8,15 +8,14 @@ import {
   RouterStateSnapshot
 } from '@angular/router';
 
-import { from, of, switchMap } from 'rxjs';
-
-import { NhostService } from '@/app/common/nhost';
+import { of, switchMap } from 'rxjs';
+import { AuthService } from '@/app/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AnonymousGuard implements CanActivate, CanActivateChild {
-  constructor(private router: Router, private route: ActivatedRoute, private nhostService: NhostService) {
+  constructor(private router: Router, private route: ActivatedRoute, private authService: AuthService) {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -28,7 +27,7 @@ export class AnonymousGuard implements CanActivate, CanActivateChild {
   }
 
   private redirectIfLoggedIn(_: ActivatedRouteSnapshot, __: RouterStateSnapshot) {
-    return from(this.nhostService.auth.isAuthenticatedAsync()).pipe(
+    return this.authService.isAuthenticatedAsync().pipe(
       switchMap((isAuthenticated) => {
         if (isAuthenticated) {
           this.router.navigate(['home']).then();

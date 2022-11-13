@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
@@ -23,8 +22,8 @@ import { DefaultLayoutComponent } from './default-layout.component';
     NzDropDownModule,
     UiThemeSwitcherModule,
     UiLogoModule,
-    UiCurrentUserModule,
-    FontAwesomeModule,
-  ],
+    UiCurrentUserModule
+  ]
 })
-export class DefaultLayoutModule {}
+export class DefaultLayoutModule {
+}

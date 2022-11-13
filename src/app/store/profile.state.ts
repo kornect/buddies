@@ -1,29 +1,13 @@
 import { Injectable } from '@angular/core';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
-import { catchError, map, of, switchMap } from 'rxjs';
-
-import { NhostService } from '@/app/common/nhost';
-import {
-  GetProfileGQL,
-  InsertProfileGQL,
-  UpdateProfileBioGQL,
-  UpdateProfileLocationGQL,
-  UpdateProfileRelationPreferenceGQL,
-  UpdateSexualityGQL
-} from '@/app/graphql/profiles';
+import { Selector, State, Store } from '@ngxs/store';
+import { of, switchMap } from 'rxjs';
 import { UserProfile } from '@/app/store/models';
 import { BaseState } from '@/app/store/base.state';
 
-import {
-  GetProfileAction,
-  InsertProfileAction,
-  UpdateLocationAction,
-  UpdateProfileBioAction,
-  UpdateProfileRelationshipAction,
-  UpdateProfileSexualityAction
-} from './profile.actions';
+import { GetProfileAction } from './profile.actions';
+import { AuthService } from '@/app/auth';
 
 export interface ProfileStateModel {
   profile: UserProfile | null;
@@ -41,22 +25,16 @@ const defaults = {
 @Injectable()
 export class ProfileState extends BaseState {
   constructor(
-    private getProfileGQL: GetProfileGQL,
-    private insertProfileGQL: InsertProfileGQL,
-    private updateProfileBioGQL: UpdateProfileBioGQL,
-    private updateProfileLocationGQL: UpdateProfileLocationGQL,
-    private updateProfileRelationPreferenceGQL: UpdateProfileRelationPreferenceGQL,
-    private updateSexualityGQL: UpdateSexualityGQL,
-    private hostService: NhostService,
+    private authService: AuthService,
     private store: Store
   ) {
-    super(hostService);
+    super();
 
-    this.authStateChanged
+    this.authService.authStateChanged
       .pipe(
         untilDestroyed(this),
-        switchMap((user) => {
-          if (user) {
+        switchMap((event) => {
+          if (event.session) {
             return this.store.dispatch(new GetProfileAction());
           } else {
             return of({});
@@ -76,9 +54,11 @@ export class ProfileState extends BaseState {
     return state.profile?.date_of_birth && state?.profile?.location;
   }
 
+  /*
+
   @Action(GetProfileAction)
   getProfileAction({ patchState }: StateContext<ProfileStateModel>) {
-    return this.getProfileGQL.fetch({ id: this.getUserId() }).pipe(
+    return this.getProfileGQL.fetch({ id: this.authService.getUser()?.id }).pipe(
       map(({ data, error }) => {
         if (error) {
           throw this.getGraphQLError(error);
@@ -109,7 +89,7 @@ export class ProfileState extends BaseState {
   ) {
     return this.updateProfileRelationPreferenceGQL
       .mutate({
-        id: this.getUserId(),
+        id: this.authService.getUser()?.id,
         seeking_relationship: payload.seeking_relationship
       })
       .pipe(
@@ -124,7 +104,7 @@ export class ProfileState extends BaseState {
   @Action(UpdateProfileSexualityAction)
   updateProfileSexualityAction({ getState, patchState }: StateContext<ProfileStateModel>,
                                { payload }: UpdateProfileSexualityAction) {
-    return this.updateSexualityGQL.mutate({ id: this.getUserId(), ...payload }).pipe(
+    return this.updateSexualityGQL.mutate({ id: this.authService.getUser()?.id, ...payload }).pipe(
       map(({ data }) => {
         patchState({
           profile: Object.assign({}, getState().profile, data?.update_profiles_by_pk)
@@ -141,7 +121,7 @@ export class ProfileState extends BaseState {
     { getState, patchState }: StateContext<ProfileStateModel>,
     { payload }: UpdateProfileBioAction
   ) {
-    return this.updateProfileBioGQL.mutate({ id: this.getUserId(), ...payload }).pipe(
+    return this.updateProfileBioGQL.mutate({ id: this.authService.getUser()?.id, ...payload }).pipe(
       map(({ data }) => {
         patchState({
           profile: Object.assign({}, getState().profile, data?.update_profiles_by_pk?.bio)
@@ -172,7 +152,7 @@ export class ProfileState extends BaseState {
 
     return this.updateProfileLocationGQL
       .mutate({
-        id: this.getUserId(),
+        id: this.authService.getUser()?.id,
         area: payload.area,
         city: payload.city,
         country: payload.country,
@@ -193,4 +173,6 @@ export class ProfileState extends BaseState {
         })
       );
   }
+  */
+
 }

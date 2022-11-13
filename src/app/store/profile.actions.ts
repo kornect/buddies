@@ -1,6 +1,3 @@
-import * as Types from '@/app/graphql/types';
-import { Sexuality_Enum } from '@/app/graphql/types';
-
 export class ProfileAction {
   static readonly type = '[Profile] Add item';
 
@@ -32,7 +29,7 @@ export class InsertProfileAction {
   static readonly type = '[InsertProfile] insert profile';
 
   constructor(
-    public payload: { date_of_birth: Date; gender: Types.Genders_Enum; interested_in_gender: Types.Genders_Enum }
+    public payload: any
   ) {
   }
 }
@@ -55,6 +52,6 @@ export class UpdateProfileRelationshipAction {
 export class UpdateProfileSexualityAction {
   static readonly type = '[UpdateProfileSexuality] update profile sexuality';
 
-  constructor(public payload: { sexuality: Sexuality_Enum }) {
+  constructor(public payload: { sexuality: any }) {
   }
 }

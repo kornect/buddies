@@ -2,15 +2,14 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 
 import { from, of, switchMap } from 'rxjs';
-
-import { NhostService } from '@/app/common/nhost';
+import { AuthService } from '@/app/auth';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizeGuard implements CanActivate {
-  constructor(private nhostService: NhostService, private router: Router, private route: ActivatedRoute) {
+  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -22,7 +21,7 @@ export class AuthorizeGuard implements CanActivate {
   }
 
   private redirectIfLoggedIn(_: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return from(this.nhostService.auth.isAuthenticatedAsync()).pipe(
+    return from(this.authService.isAuthenticatedAsync()).pipe(
       switchMap((isAuthenticated) => {
         if (!isAuthenticated) {
           this.router

@@ -5,7 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { tap } from 'rxjs';
 
 import { User } from '@/app/store/models';
-import { SendVerificationLinkAction } from '@/app/store';
+import { SendSignUpToken } from '@/app/store';
 
 
 @Component({
@@ -30,7 +30,7 @@ export class VerifyEmailComponent implements OnInit {
         this.resendConfirmationEmailCompleted = false;
         this.store
           .dispatch(
-            new SendVerificationLinkAction({
+            new SendSignUpToken({
               email: this.user.email
             })
           )
