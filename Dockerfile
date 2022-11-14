@@ -19,7 +19,7 @@ WORKDIR "/app"
 
 # copy application files
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY --from=builder /app/dist/nex-billing /usr/share/nginx/html
+COPY --from=builder /app/dist/lusty /usr/share/nginx/html
 
 #expose docker port
 EXPOSE 80
