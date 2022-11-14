@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "codegen": "graphql-codegen --config codegen.yml -r dotenv/config"
+    "codegen": "graphql-codegen --config codegen.yml -r dotenv/config",
+    "set-variables": "cross-env NODE_ENV=production node ./replace-env.build.js"
   },
   "private": true,
   "dependencies": {
@@ -55,6 +56,7 @@
     "@types/jasmine": "~3.10.0",
     "@types/node": "^18.11.2",
     "autoprefixer": "^10.4.7",
+    "cross-env": "^7.0.3",
     "daisyui": "^2.31.0",
     "dotenv": "^16.0.3",
     "jasmine-core": "~4.0.0",

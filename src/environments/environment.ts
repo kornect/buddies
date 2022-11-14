@@ -6,16 +6,11 @@
 export const environment = {
   production: false,
   name: 'Lusty',
-  // @ts-ignore
-  debug: window['env']['debug'] || 'true',
-  // @ts-ignore
-  version: window['env']['version'] || '0.0.1',
-  // @ts-ignore
-  googleMapsApi: window['env']['googleMapsApi'] || '0.0.1',
-  // @ts-ignore
-  apiUrl: window['env']['apiUrl'] || 'http://localhost:3000',
-  // @ts-ignore
-  graphqlUrl: window['env']['graphqlUrl'] || 'http://localhost:8080/v1/graphql'
+  debug: 'true',
+  version: '0.0.1',
+  googleMapsApi: '0.0.1',
+  apiUrl: 'http://localhost:3000',
+  graphqlUrl: 'http://localhost:8080/v1/graphql'
 };
 
 /*
