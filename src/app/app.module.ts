@@ -56,7 +56,7 @@ export function createApollo(httpLink: HttpLink, authService: AuthService, graph
     basic,
     auth,
     httpLink.create({
-      uri: environment.hasura
+      uri: environment.graphqlUrl
     })
   ]);
   const cache = new InMemoryCache();
@@ -100,7 +100,7 @@ export function createApollo(httpLink: HttpLink, authService: AuthService, graph
     { provide: NZ_I18N, useValue: en_US },
     {
       provide: APOLLO_OPTIONS,
-      useFactory: (httpLink: HttpLink, authService: AuthService) => createApollo(httpLink, authService, environment.hasura),
+      useFactory: (httpLink: HttpLink, authService: AuthService) => createApollo(httpLink, authService, environment.graphqlUrl),
       deps: [HttpLink, AuthService]
     }
   ],

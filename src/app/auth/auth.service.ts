@@ -213,7 +213,7 @@ export class AuthService {
   }
 
   private baseApi() {
-    return environment.domain;
+    return environment.apiUrl;
   }
 
   private saveTokens(authResponse: AuthResponse) {

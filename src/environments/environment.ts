@@ -2,13 +2,20 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+// @ts-ignore
 export const environment = {
   production: false,
-  appName: 'Lusty',
-  appVersion: '0.0.1',
-  googleMapsApi: 'AIzaSyDmHQ92_uccNXydj7lvy50_eYLUYY5LyXc',
-  domain: 'http://localhost:3000',
-  hasura: 'http://localhost:8080/v1/graphql'
+  name: 'Lusty',
+  // @ts-ignore
+  debug: window['env']['debug'] || 'true',
+  // @ts-ignore
+  version: window['env']['version'] || '0.0.1',
+  // @ts-ignore
+  googleMapsApi: window['env']['googleMapsApi'] || '0.0.1',
+  // @ts-ignore
+  apiUrl: window['env']['apiUrl'] || 'http://localhost:3000',
+  // @ts-ignore
+  graphqlUrl: window['env']['graphqlUrl'] || 'http://localhost:8080/v1/graphql'
 };
 
 /*
