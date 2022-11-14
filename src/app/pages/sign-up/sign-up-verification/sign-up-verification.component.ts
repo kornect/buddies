@@ -3,10 +3,11 @@ import { BaseFormComponent } from '@/app/common/forms';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { Observable, switchMap, tap } from 'rxjs';
-import { SendSignUpToken, SignInAction, SignUpAction } from '@/app/store';
+import { catchError, Observable, switchMap, tap } from 'rxjs';
+import { SendSignUpToken, SignInAction, SignUpAction, VerifySignUpToken } from '@/app/store';
 import { SignUpService } from '@/app/pages/sign-up/sign-up.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { FormValidators } from '@/app/pages/sign-up/validators/sign-up-validators';
 
 @Component({
   selector: 'app-sign-up-verification',
@@ -14,20 +15,34 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   styleUrls: ['./sign-up-verification.component.scss']
 })
 export class SignUpVerificationComponent extends BaseFormComponent implements OnInit {
+  isValidToken = false;
+  verifyingToken = false;
+
   constructor(
     private formBuilder: UntypedFormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private store: Store,
     private signUpService: SignUpService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private validators: FormValidators
   ) {
     super();
     this.form = this.formBuilder.group({
-      email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required, Validators.minLength(8), Validators.maxLength(30)]],
-      confirmToken: [null, [Validators.required, Validators.minLength(6), Validators.maxLength(6)]]
-    });
+        email: [null, [Validators.required, Validators.email]],
+        password: [null, [Validators.required, Validators.minLength(8), Validators.maxLength(30)]],
+        confirmToken: [null, [
+          Validators.required,
+          Validators.minLength(6)],
+          this.validators.validSignUpToken((isValid) => {
+            setTimeout(() => {
+              this.message.success('Token verified successfully');
+              this.isValidToken = isValid;
+            }, 200);
+          })
+        ]
+      }
+    );
   }
 
   get email() {
@@ -36,22 +51,46 @@ export class SignUpVerificationComponent extends BaseFormComponent implements On
 
   onOtpChange(otp: string) {
     this.form.patchValue({ confirmToken: otp });
+    this.form.updateValueAndValidity();
   }
 
   ngOnInit(): void {
-    this.form.patchValue({
-      email: this.signUpService.email,
-      password: this.signUpService.password
-    });
-
-    if (this.signUpService.email && this.signUpService.password) {
-      this.form.markAsDirty();
-      this.store.dispatch(new SendSignUpToken({ email: this.signUpService.email })).subscribe();
+    if (this.signUpService.email) {
+      this.form.patchValue({
+        email: this.signUpService.email
+      });
+      this.form.updateValueAndValidity();
+    } else {
+      this.router.navigate(['../'], { relativeTo: this.route }).then();
     }
   }
 
   ResendToken() {
-    this.store.dispatch(new SendSignUpToken({ email: this.email })).subscribe();
+    this.store.dispatch(new SendSignUpToken({ email: this.email }))
+      .pipe(tap(() => {
+        this.message.success('Token sent successfully');
+      }))
+      .subscribe();
+  }
+
+  VerifyCode() {
+    if (this.form.get('confirmToken')?.value) {
+      this.verifyingToken = true;
+      this.store.dispatch(new VerifySignUpToken({
+        email: this.email,
+        token: this.form.get('confirmToken')?.value
+      }))
+        .pipe(
+          tap(() => {
+            this.isValidToken = true;
+            this.verifyingToken = false;
+          }),
+          catchError(() => {
+            this.isValidToken = false;
+            this.verifyingToken = false;
+            return [];
+          })).subscribe();
+    }
   }
 
   GoBack() {

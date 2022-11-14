@@ -93,6 +93,20 @@ export class SendSignUpToken {
   }
 }
 
+export class CheckUsernameAction {
+  static readonly type = '[CheckUsername] check username';
+
+  constructor(public payload: { email: string }) {
+  }
+}
+
+export class VerifySignUpToken {
+  static readonly type = '[VerifySignUpToken] verify verification link';
+
+  constructor(public payload: { email: string; token: string }) {
+  }
+}
+
 // delete account action
 export class DeleteAccountAction {
   static readonly type = '[DeleteAccount] delete account';

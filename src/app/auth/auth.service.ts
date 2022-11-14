@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, catchError, EMPTY, finalize, map, of, switchMap, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, EMPTY, finalize, map, Observable, of, tap } from 'rxjs';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { StorageService } from '@/app/common/storage';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -102,15 +102,24 @@ export class AuthService {
    * Checks if user session has valid access token and attempts to refresh it if it doesn't
    */
   isAuthenticatedAsync() {
-    return of(this.hasValidAccessToken()).pipe(switchMap((validAccess) => {
-      if (validAccess) {
-        return of(validAccess);
-      } else if (!this.hasValidRefreshToken()) {
-        return of(false);
+    return new Observable<boolean>((observer) => {
+      if (this.hasValidAccessToken()) {
+        observer.next(true);
+        observer.complete();
+      } else if (this.hasValidRefreshToken()) {
+        this.refreshTokens().pipe(map((session) => {
+          observer.next(true);
+          observer.complete();
+        }), catchError((_) => {
+          observer.next(false);
+          observer.complete();
+          return of(EMPTY);
+        })).subscribe();
       } else {
-        return this.refreshTokens().pipe(map(() => true), catchError(() => of(false)));
+        observer.next(false);
+        observer.complete();
       }
-    }));
+    });
   }
 
   /**
@@ -124,36 +133,37 @@ export class AuthService {
    * Refresh access token and return new session
    */
   refreshTokens() {
-    return of(this.hasValidRefreshToken()).pipe(
-      switchMap((isValidToken) => {
-        if (!isValidToken) {
-          return throwError(() => new Error(`all tokens have expired, log in again`));
-        } else {
-          const refreshToken = this.getSession()?.refreshToken;
-
-          return this.http.post(this.baseApi() + '/connect/refresh', {
-            refreshToken
-          }).pipe(map((results) => {
-            this.saveTokens(results as AuthResponse);
-
+    return new Observable<Session>((observer) => {
+      if (!this.hasValidRefreshToken()) {
+        observer.error('Invalid refresh token');
+        observer.complete();
+      } else {
+        this.http.post<AuthResponse>(this.baseApi() + '/connect/token', {
+          grant_type: 'refresh_token',
+          refresh_token: this.getRefreshToken()
+        }).pipe(
+          tap((response) => {
+            this.saveTokens(response);
             this._authStateChanged.next({
               event: 'profile_loaded',
               session: this.getSession()
             });
-
-            return this.getSession() as Session;
-          }));
-        }
-      }),
-      catchError((error) => {
-        this.clearTokens();
-        this._authStateChanged.next({
-          event: 'expired',
-          session: null
-        });
-
-        throw error;
-      }));
+            observer.next(this.getSession() as Session);
+            observer.complete();
+          }),
+          catchError((error) => {
+            this.clearTokens();
+            this._authStateChanged.next({
+              event: 'expired',
+              session: null
+            });
+            observer.error(error);
+            observer.complete();
+            return of(EMPTY);
+          })
+        ).subscribe();
+      }
+    });
   }
 
   /**

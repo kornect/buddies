@@ -4,7 +4,6 @@ import { AppLandingComponent } from '@/app/components/app-landing.component';
 import { AnonymousGuard, AuthorizeGuard } from '@/app/auth/guards';
 import { DefaultLayoutComponent } from '@/app/components/layouts/default-layout/default-layout.component';
 
-
 export const APP_ROUTES: Routes = [
   {
     path: '',

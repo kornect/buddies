@@ -8,7 +8,7 @@ export type SendSignupOtpMutationVariables = Types.Exact<{
 }>;
 
 
-export type SendSignupOtpMutation = { sendRegistrationToken: { success: boolean } };
+export type SendSignupOtpMutation = { users_send_registration_token: { success: boolean } };
 
 export type SignUpMutationVariables = Types.Exact<{
   confirmToken: Types.Scalars['String'];
@@ -17,7 +17,22 @@ export type SignUpMutationVariables = Types.Exact<{
 }>;
 
 
-export type SignUpMutation = { registerUser: { uuid: string } };
+export type SignUpMutation = { users_register_user: { uuid: string } };
+
+export type EmailExistsMutationVariables = Types.Exact<{
+  email: Types.Scalars['String'];
+}>;
+
+
+export type EmailExistsMutation = { users_check_for_email_exists: { exists: boolean } };
+
+export type SignUpTokenValidMutationVariables = Types.Exact<{
+  email: Types.Scalars['String'];
+  token: Types.Scalars['String'];
+}>;
+
+
+export type SignUpTokenValidMutation = { users_validate_sign_up_token: { valid: boolean } };
 
 export type GetUserQueryVariables = Types.Exact<{
   uuid: Types.Scalars['uuid'];
@@ -28,7 +43,7 @@ export type GetUserQuery = { users_by_pk: { email: string, email_confirmed: bool
 
 export const SendSignupOtpDocument = /*#__PURE__*/ gql`
     mutation sendSignupOtp($email: String!) {
-  sendRegistrationToken(email: $email) {
+  users_send_registration_token(email: $email) {
     success
   }
 }
@@ -46,7 +61,7 @@ export const SendSignupOtpDocument = /*#__PURE__*/ gql`
   }
 export const SignUpDocument = /*#__PURE__*/ gql`
     mutation signUp($confirmToken: String!, $email: String!, $password: String!) {
-  registerUser(
+  users_register_user(
     registerUser: {confirmToken: $confirmToken, email: $email, password: $password}
   ) {
     uuid
@@ -59,6 +74,42 @@ export const SignUpDocument = /*#__PURE__*/ gql`
   })
   export class SignUpGQL extends Apollo.Mutation<SignUpMutation, SignUpMutationVariables> {
     override document = SignUpDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EmailExistsDocument = /*#__PURE__*/ gql`
+    mutation emailExists($email: String!) {
+  users_check_for_email_exists(email: $email) {
+    exists
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EmailExistsGQL extends Apollo.Mutation<EmailExistsMutation, EmailExistsMutationVariables> {
+    override document = EmailExistsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const SignUpTokenValidDocument = /*#__PURE__*/ gql`
+    mutation signUpTokenValid($email: String!, $token: String!) {
+  users_validate_sign_up_token(email: $email, token: $token) {
+    valid
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SignUpTokenValidGQL extends Apollo.Mutation<SignUpTokenValidMutation, SignUpTokenValidMutationVariables> {
+    override document = SignUpTokenValidDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

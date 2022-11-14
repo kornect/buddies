@@ -3,7 +3,15 @@
 @tailwind utilities;
 
 html, body {
-  @apply h-full bg-gray-50;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  @apply bg-white text-gray-800;
 }
 
 // Input forms
@@ -51,7 +59,7 @@ html, body {
 }
 
 .section {
-  @apply bg-white rounded-lg shadow-lg py-4;
+  @apply bg-white py-4;
 }
 
 .section-header {
@@ -81,4 +89,3 @@ html, body {
 .block-link {
   @apply flex items-center px-4 py-4 hover:text-gray-800 hover:bg-gray-100;
 }
-

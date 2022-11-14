@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { switchMap, tap } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs';
 import { User } from '@/app/store/models/user';
 import { BaseState } from '@/app/store/base.state';
 import { PhotosState } from '@/app/store/photos.state';
@@ -11,6 +11,7 @@ import { ProfileState } from '@/app/store/profile.state';
 import {
   ChangeEmailAction,
   ChangePasswordAction,
+  CheckUsernameAction,
   GetUserAction,
   ResetPasswordAction,
   ResetPasswordRequestAction,
@@ -18,10 +19,17 @@ import {
   SetUserAction,
   SignInAction,
   SignOutAction,
-  SignUpAction
+  SignUpAction,
+  VerifySignUpToken
 } from './user.actions';
 import { AuthService } from '@/app/auth';
-import { GetUserGQL, SendSignupOtpGQL, SignUpGQL } from '@/app/graphql/user/user.generated';
+import {
+  EmailExistsGQL,
+  GetUserGQL,
+  SendSignupOtpGQL,
+  SignUpGQL,
+  SignUpTokenValidGQL
+} from '@/app/graphql/user/user.generated';
 
 export interface UserStateModel {
   user: User | null;
@@ -43,6 +51,8 @@ export class UserState extends BaseState {
     private getUserGQL: GetUserGQL,
     private signUpGQL: SignUpGQL,
     private sendSignupOtpGQL: SendSignupOtpGQL,
+    private checkForEmailExistsGQL: EmailExistsGQL,
+    private verifySignUpTokenGQL: SignUpTokenValidGQL,
     private authService: AuthService
   ) {
     super();
@@ -56,6 +66,22 @@ export class UserState extends BaseState {
   @Selector()
   static isComplete(state: UserStateModel) {
     return state.user?.displayName !== state.user?.email;
+  }
+
+  @Action(CheckUsernameAction)
+  checkUsernameAction({ dispatch }: StateContext<UserStateModel>, { payload }: CheckUsernameAction) {
+    return this.checkForEmailExistsGQL.mutate({ email: payload.email }).pipe(
+      map(({ data }) => data?.users_check_for_email_exists?.exists)
+    );
+  }
+
+
+  @Action(VerifySignUpToken)
+  verifySignUpTokenAction({ dispatch }: StateContext<UserStateModel>, { payload }: VerifySignUpToken) {
+    return this.verifySignUpTokenGQL.mutate({
+      email: payload.email,
+      token: payload.token
+    }).pipe(map(({ data }) => data?.users_validate_sign_up_token?.valid));
   }
 
   @Action(GetUserAction)

@@ -6,9 +6,8 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @UntilDestroy()
 @Component({
-  selector: 'app-root, [app-root]',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: 'root, [root]',
+  template: '<router-outlet></router-outlet>'
 })
 export class AppComponent implements OnInit {
   showMessage = false;

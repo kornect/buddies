@@ -123,12 +123,21 @@
     "ora" "5.4.1"
     "rxjs" "6.6.7"
 
-"@angular/animations@^14.1.0", "@angular/animations@^14.2.5", "@angular/animations@>= 13.0.0", "@angular/animations@14.2.7":
+"@angular/animations@^13.0.0 || ^14.0.0-0", "@angular/animations@^14.1.0", "@angular/animations@^14.2.5", "@angular/animations@>= 13.0.0", "@angular/animations@14.2.7":
   "integrity" "sha512-4vI22Pa56FkE7ydxZwEd7RHwIjfyE5MnbgB2fWEQ3obnul8GnQT7OHWiPgzV57SDqOCWZyWdLm9xuOnZVdypxQ=="
   "resolved" "https://registry.npmjs.org/@angular/animations/-/animations-14.2.7.tgz"
   "version" "14.2.7"
   dependencies:
     "tslib" "^2.3.0"
+
+"@angular/cdk@^13.3.9", "@angular/cdk@13.3.9":
+  "integrity" "sha512-XCuCbeuxWFyo3EYrgEYx7eHzwl76vaWcxtWXl00ka8d+WAOtMQ6Tf1D98ybYT5uwF9889fFpXAPw98mVnlo3MA=="
+  "resolved" "https://registry.npmjs.org/@angular/cdk/-/cdk-13.3.9.tgz"
+  "version" "13.3.9"
+  dependencies:
+    "tslib" "^2.3.0"
+  optionalDependencies:
+    "parse5" "^5.0.0"
 
 "@angular/cdk@^14.1.0":
   "integrity" "sha512-kKneb9Z/2E+EXMsHuH8MWy8aygKhdFlKXYltEG7r4W/B6FJC012kJfe+Euj8X0O26akOVW9Q0X7nczCqHqU4tQ=="
@@ -202,7 +211,7 @@
   dependencies:
     "tslib" "^2.3.0"
 
-"@angular/forms@^14.1.0", "@angular/forms@^14.2.5":
+"@angular/forms@^13.0.0 || ^14.0.0-0", "@angular/forms@^14.1.0", "@angular/forms@^14.2.5":
   "integrity" "sha512-tEhCIE4mzlD2S0bYE+4e4RG7lOIeRZjjcKw0nlpwE0AneM03gzFlQvbHLDi3qeu8Kc7XkF6C3FJQI/Q7nMiARg=="
   "resolved" "https://registry.npmjs.org/@angular/forms/-/forms-14.2.7.tgz"
   "version" "14.2.7"
@@ -217,6 +226,13 @@
     "@types/google.maps" "^3.45.6"
     "tslib" "^2.3.0"
 
+"@angular/material@^13.3.9":
+  "integrity" "sha512-FU8lcMgo+AL8ckd27B4V097ZPoIZNRHiCe3wpgkImT1qC0YwcyXZVn0MqQTTFSdC9a/aI8wPm3AbTClJEVw5Vw=="
+  "resolved" "https://registry.npmjs.org/@angular/material/-/material-13.3.9.tgz"
+  "version" "13.3.9"
+  dependencies:
+    "tslib" "^2.3.0"
+
 "@angular/platform-browser-dynamic@^14.2.5":
   "integrity" "sha512-P3c4fXH0+RDlL9uzuU5Xea5OQ3ozmoWawFtf4faH7fD3deHlNmrwROBXAlHkYRjbGcAiuxpEx6NjBGdmYWPaKg=="
   "resolved" "https://registry.npmjs.org/@angular/platform-browser-dynamic/-/platform-browser-dynamic-14.2.7.tgz"
@@ -224,7 +240,7 @@
   dependencies:
     "tslib" "^2.3.0"
 
-"@angular/platform-browser@^14.1.0", "@angular/platform-browser@^14.2.5", "@angular/platform-browser@14.2.7":
+"@angular/platform-browser@^13.0.0 || ^14.0.0-0", "@angular/platform-browser@^14.1.0", "@angular/platform-browser@^14.2.5", "@angular/platform-browser@14.2.7":
   "integrity" "sha512-Hcn64kppozH5WlX/rkZoCGZyFFkLs0a4+rWen6uaZVxDWbas/PqR/a2LQerdS0Rn65/x+0l0w23u8TN0PnQPVA=="
   "resolved" "https://registry.npmjs.org/@angular/platform-browser/-/platform-browser-14.2.7.tgz"
   "version" "14.2.7"

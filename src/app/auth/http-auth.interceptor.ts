@@ -13,20 +13,33 @@ export class HttpAuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {
   }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return this.authService.isAuthenticatedAsync().pipe(switchMap((isAuthenticated) => {
-      if (isAuthenticated) {
-        req = this.addToken(req, this.authService.getAccessToken());
-      }
+  ignoresUrl(url: string): boolean {
+    const ignoredUrls = [
+      '/connect/token'
+    ];
 
-      return next.handle(req).pipe(catchError((error) => {
-        if (error instanceof HttpErrorResponse && error.status === 401) {
-          return this.handle401Error(req, next);
-        } else {
-          return throwError(error);
+    return ignoredUrls.some((ignoredUrl) => url.endsWith(ignoredUrl));
+  }
+
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // ignore if url is in ignoredUrls
+    if (this.ignoresUrl(req.url)) {
+      return next.handle(req);
+    } else {
+      return this.authService.isAuthenticatedAsync().pipe(switchMap((isAuthenticated) => {
+        if (isAuthenticated) {
+          req = this.addToken(req, this.authService.getAccessToken());
         }
+
+        return next.handle(req).pipe(catchError((error) => {
+          if (error instanceof HttpErrorResponse && error.status === 401) {
+            return this.handle401Error(req, next);
+          } else {
+            return throwError(error);
+          }
+        }));
       }));
-    }));
+    }
   }
 
   private addToken(req: HttpRequest<any>, token: string): HttpRequest<any> {

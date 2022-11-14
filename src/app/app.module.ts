@@ -16,7 +16,7 @@ import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { NzMessageModule } from 'ng-zorro-antd/message';
-import { Observable } from 'rxjs';
+import { Observable, of, switchMap } from 'rxjs';
 import { DefaultLayoutModule } from '@/app/components/layouts/default-layout';
 import { APP_ROUTES } from '@/app/routes';
 import { APP_STATES } from '@/app/store';
@@ -29,7 +29,7 @@ import { AuthService, HttpAuthInterceptor } from '@/app/auth';
 registerLocaleData(en);
 
 function initializeAppFactory(authService: AuthService): () => Observable<any> {
-  return () => authService.isAuthenticatedAsync();
+  return () => authService.isAuthenticatedAsync().pipe(switchMap(() => of(true)));
 }
 
 export function createApollo(httpLink: HttpLink, authService: AuthService, graphqlUrl: string) {

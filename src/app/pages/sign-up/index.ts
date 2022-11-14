@@ -7,6 +7,7 @@ import { SignUpVerificationComponent } from './sign-up-verification/sign-up-veri
 import { SignUpService } from './sign-up.service';
 import { SignUpFormComponent } from './sign-up-form/sign-up-form.component';
 import { NgOtpInputModule } from 'ng-otp-input';
+import { FormValidators } from '@/app/pages/sign-up/validators/sign-up-validators';
 
 
 @NgModule({
@@ -24,7 +25,7 @@ import { NgOtpInputModule } from 'ng-otp-input';
         { path: 'verify-account', component: SignUpVerificationComponent }
       ]
     }]), ...AuthImports],
-  providers: [SignUpService]
+  providers: [SignUpService, FormValidators]
 })
 export class SignUpModule {
 }

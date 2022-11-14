@@ -1,12 +1,24 @@
 mutation sendSignupOtp($email: String!) {
-  sendRegistrationToken(email: $email) {
+  users_send_registration_token(email: $email) {
     success
   }
 }
 
 mutation signUp($confirmToken: String!, $email: String!, $password: String!) {
-  registerUser(registerUser: {confirmToken: $confirmToken, email: $email, password: $password}) {
+  users_register_user(registerUser: {confirmToken: $confirmToken, email: $email, password: $password}) {
     uuid
+  }
+}
+
+mutation emailExists($email: String!) {
+  users_check_for_email_exists(email: $email) {
+    exists
+  }
+}
+
+mutation signUpTokenValid($email: String!, $token: String!) {
+  users_validate_sign_up_token(email: $email, token: $token) {
+    valid
   }
 }
 

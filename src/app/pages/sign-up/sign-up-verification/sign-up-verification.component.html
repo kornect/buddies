@@ -1,34 +1,53 @@
 <div class='flex flex-col text-gray-500'>
-  <div class='pt-10 text-center'>
-    <h2 class='text-2xl font-semibold'>Verify your Account!</h2>
-    <p class='py-2'>Check your email for a verification pin <span *ngIf='email' class='font-medium'>{{ email }}</span>
-    </p>
-  </div>
-  <div class='pt-10 w-full'>
-    <form (ngSubmit)='Submit($event)' [formGroup]='form' class='flex flex-col space-y-8'>
+  <form (ngSubmit)='Submit($event)' [formGroup]='form' class='flex flex-col space-y-8 pt-10'>
+    <div *ngIf='isValidToken; else verifyToken'>
+      <div class='pt-10 text-center'>
+        <h2 class='text-2xl font-semibold'>Account password!</h2>
+        <p class='py-2'>Enter your account password to continue</p>
+      </div>
       <ui-input-validation *ngIf='hasErrors()' [errors]='submitErrors'></ui-input-validation>
       <div class='w-full'>
-        <ng-otp-input (onInputChange)='onOtpChange($event)' [config]='{length:6}' class='w-full'></ng-otp-input>
-        <ui-input-error error='required' formControlName='confirmToken'>Enter verification OTP</ui-input-error>
-        <ui-input-error error='min' formControlName='confirmToken'>6 chars expected</ui-input-error>
+        <ui-input-password [showStrength]='true' autocomplete='new-password'
+                           formControlName='password'></ui-input-password>
+        <ui-input-error error='required' formControlName='password'>Password is required</ui-input-error>
+        <ui-input-error error='minlength' formControlName='password'>Minimum of 8 characters required</ui-input-error>
+        <ui-input-error error='maxlength' formControlName='password'>Maximum of 30 characters required
+        </ui-input-error>
       </div>
       <button
         [disabled]='formSubmitting'
         [ngClass]="{'loading': formSubmitting}"
-        class='btn'>Verify email
+        class='btn'>Create Account
       </button>
-    </form>
-  </div>
-  <div class='py-4 flex flex-col space-y-1 items-center'>
-    <div class='flex items-center justify-center space-x-2 pt-10'>
-      <p>Didn't receive an email?</p>
-      <a (click)='ResendToken()' class='font-semibold'>Re-Send</a>
-
     </div>
-    <p class='text-xs'>Please check your spam folder as well if you can't see our email</p>
-  </div>
 
-  <div class='text-center'>
-    <a (click)='GoBack()' class='font-semibold'>Cancel</a>
-  </div>
+    <ng-template #verifyToken>
+      <div class='pt-10 text-center'>
+        <h2 class='text-2xl font-semibold'>Verify your Account!</h2>
+        <p class='py-2'>Check your email for a verification pin <span *ngIf='email'
+                                                                      class='font-medium'>{{ email }}</span>
+        </p>
+      </div>
+      <ui-input-validation *ngIf='hasErrors()' [errors]='submitErrors'></ui-input-validation>
+      <div class='w-full'>
+        <div class='flex justify-center'>
+          <ng-otp-input (onInputChange)='onOtpChange($event)' [config]='{length:6}'></ng-otp-input>
+        </div>
+        <ui-input-error error='required' formControlName='confirmToken'>Verification code is required</ui-input-error>
+        <ui-input-error error='token' formControlName='confirmToken'>Code is invalid or has expired
+        </ui-input-error>
+      </div>
+      <a
+        [ngClass]="{'loading': isValidating('confirmToken')}"
+        class='btn'>Verify
+      </a>
+      <div class='py-4 flex flex-col space-y-1 items-center'>
+        <p>Didn't receive an email or expired OTP? <a (click)='ResendToken()'>Re-Send</a></p>
+        <p class='text-xs'>Please check your spam folder as well if you can't see our email</p>
+      </div>
+      <div class='text-center'>
+        <a (click)='GoBack()' class='font-semibold'>Cancel Sign Up</a>
+      </div>
+    </ng-template>
+  </form>
 </div>
